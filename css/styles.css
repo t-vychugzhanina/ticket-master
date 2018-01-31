@@ -1,0 +1,495 @@
+.search-bar__input-text::-webkit-input-placeholder {color:white;}
+.search-bar__input-text::-moz-placeholder          {color:white;}/* Firefox 19+ */
+.search-bar__input-text:-moz-placeholder           {color:white;}/* Firefox 18- */
+.search-bar__input-text:-ms-input-placeholder      {color:white;}
+
+@charset "utf-8";
+
+html {
+    background: #1c0721;
+    color: #222;
+    font-size: 1em;
+    line-height: 1.4;
+    min-height: 100%;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+}
+body {
+    margin: 0;
+    background: #1c0721;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+    font-size: 10px;
+    width: 100%;
+}
+
+h2 {
+    font-size: 3em;
+    margin:0 auto;
+    text-align: center;
+    color: #eeeeee;
+    width: 100%;
+}
+
+.header {
+    position: fixed;
+    width: 100%;
+    background: rgba(203, 31, 172, 0.3) url("https://hometechenergy.com/wp-content/themes/options/images/skins/headers/full_width/header-purpleHaze.jpg");
+    background: url("../img/header2.jpg");
+
+}
+
+.header-content{
+    max-width: 1260px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.header__logo {
+    color: transparent;
+    background: url(../img/log.png) no-repeat;
+    padding: 1.6rem 5rem;
+}
+
+.search-bar{
+    min-width: 500px;
+    display: flex;
+    align-items: center;
+    font-size: 1em;
+}
+
+.search-bar__input-text, .search-button {
+    border: none;
+    outline: none;
+    border-radius: 3px;
+}
+.search-bar__input-text {
+    width: 100%;
+    color: white;
+    font-size: 140%;
+    background: rgba(249, 0, 224, 0.35);
+    border:  rgba(255, 255, 255, 0.22) 1px solid;
+    padding: 10px 0 10px 30px;
+}
+
+.search-button{
+    width: 20px;
+    height: 20px;
+    float:left;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.submit {
+    background: url("../img/lup3.png");
+    background-size:cover;
+    margin-left: -40px;
+}
+
+.setting {
+    background: url("../img/points.png");
+    background-size:cover;
+    display: none;
+}
+
+.menu {
+    display: -webkit-flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-user {
+    display: flex;
+    max-width: 40px;
+}
+
+.menu-itm {
+    padding: 0 5px;
+    display: -webkit-flex;
+    display: flex;
+    font-size: 2em;
+    color: #eee;
+    text-decoration: none;
+}
+
+.my-acc{
+    padding-left: 35px;
+    background: url("../img/user.png") no-repeat;
+    background-size: contain;
+}
+
+.navigation {
+    flex-wrap: wrap;
+    width: 100%;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.nav-itm {
+    padding: 5px 10px;
+    font-size: 200%;
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+}
+
+.content {
+     padding: 120px 10px 10px;
+     max-width: 1260px;
+     min-width: 600px;
+     width: 85%;
+     margin: 0 auto;
+     flex: 1 0 auto;
+     display: flex;
+     flex-wrap: nowrap;
+     box-sizing: border-box;
+     border-radius: 10px;
+ }
+
+.content-events {
+    max-width: 960px;
+    width: 60%;
+    color: #380032;
+    flex: auto;
+    border-radius: 5px;
+    display: -webkit-flex;
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+}
+.content__aside {
+    margin-right: 3%;
+    width: 30%;
+    height: auto;
+    max-width: 250px;
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    flex: 0 0 auto;
+    flex-direction: column;
+    box-sizing: border-box;
+    font-size: 650%;
+    border-radius: 5px;
+}
+
+
+.aside__title {
+    font-size: 30%;
+    margin: 0;
+    text-align: center;
+    width: 100%;
+}
+
+.location-form{
+    border-radius: 5px;
+    background: #f8f8f8;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 3%;
+}
+
+.location-form__itm, .location-form__submit {
+    display: flex;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+}
+.location-form__itm {
+    width: 100%;
+    color: black;
+    font-size: 20%;
+    border: #5d1862 1px solid;
+    background: transparent;
+    padding: 3%;
+    margin-bottom: 2%;
+    box-sizing: border-box;
+}
+
+.input-date {
+    width: 75%;
+}
+
+.location-form__submit {
+    background: #5d1862 url("../img/lup3.png") no-repeat;
+    background-size: contain;
+    padding-left:30px;
+    cursor: pointer;
+    color: white;
+    font-size: 0.3em;
+    font-weight: 500;
+    margin: 0 auto;
+}
+
+.location-form span {
+    width: 25%;
+    padding-right: 2px;
+    font-size: 25%;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    box-sizing: border-box;
+}
+
+
+.footer{
+    position: fixed;
+    width: 100%;
+    background: rgba(60, 0, 54, 0.81);
+    bottom: 0;
+}
+
+.event {
+    border-radius: 10px;
+    background: #F8F8F8;
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+    align-items: center;
+}
+
+.event__foto {
+    width: 30%;
+}
+
+
+.event__preview {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    word-wrap: break-word;
+
+}
+
+.foto__image{
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.event__title{
+    flex: 0 0 auto;
+    text-transform: uppercase;
+    font-size: 1.5em;
+}
+
+.event__text{
+    font-size: 1.5em;
+    flex: 1 0 auto;
+}
+
+h4{
+    font-size: 1.4em;
+}
+
+.event__text p,h4{
+    margin: 0;
+}
+
+.event__data{
+    font-size: 1.2em;
+    flex: 0 0 auto;
+}
+
+.happening_soon, .categories{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+.hs-event, .category-event {
+    width: 49%;
+    margin-right: 1%;
+    box-sizing: border-box;
+}
+
+.category{
+    font-size: 2.2em;
+    margin: 0 auto;
+    font-weight: 700;
+}
+
+.category__preview{
+    width: 100%;
+}
+
+.burger-icon{
+    padding: 2px;
+    display: none;
+    top:0;
+    height: 24px;
+    width: 30px;
+}
+
+.burger-line{
+    top:0;
+    content: "";
+    width: 24px;
+    height: 5px;
+    background: white;
+    border-radius: 2px;
+}
+
+.burger-menu{
+    padding: 10px 20px;
+    z-index: 100;
+    display: none;
+    list-style-type: none;
+    position: absolute;
+    top: 35px;
+    right: 10px;
+    opacity: 0;
+    line-height: 30px;
+    background: rgba(61, 12, 63, 0.87);
+    border: white 1px solid;
+    border-radius: 10px;
+    transition: all 1s;
+}
+
+.burger-menu li a{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    font-size: 20px;
+    text-decoration: none;
+    color: white;
+}
+
+
+.burger-menu_opened{
+     display: block;
+     opacity: 1;
+ }
+
+
+
+@media screen and (max-width: 900px) {
+
+    .hs-event .event__foto, .hs-event .event__title, .hs-event .event__preview{
+        width: 100%;
+    }
+
+    .search-bar{
+        flex: 1 0 auto;
+        min-width: 230px;
+    }
+
+}
+
+@media screen and (max-width: 600px) {
+
+    body{
+        font-size: 60%;
+    }
+
+    h2{
+        font-size: 2.5em;
+    }
+
+    .header{
+        padding: 5px;
+    }
+
+    .content-header{
+        justify-content: space-between;
+    }
+
+    .header__logo{
+        background-size: contain;
+        padding: 1rem 3rem;
+    }
+
+    .search-bar {
+        font-size: 1.1em;
+        padding: 2px 10px;
+    }
+
+    .submit {
+        margin-left: -55px;
+    }
+
+    .search-bar__input-text {
+        padding: 5px 0 5px 10px;
+        font-size: 120%;
+    }
+    .burger-icon{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        flex: 0 0 auto;
+        justify-content: space-around;
+    }
+
+    .navigation, .content__aside, .menu{
+        display: none;
+    }
+
+    .content {
+        min-width: 280px;
+        max-width: 600px;
+        width: 96%;
+        margin: 0 auto;
+        flex-wrap: wrap;
+        padding-top: 50px;
+    }
+
+    .content-events {
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .hs-event .event__foto {
+        width: 35%;
+    }
+
+    .hs-event .event__preview {
+        width: 65%;
+    }
+
+
+    .nav-itm {
+        padding: 0 5px;
+        margin: 0 0;
+    }
+
+
+    .hs-event {
+        width: 100%;
+    }
+
+    .submit{
+        margin-left: -50px;
+    }
+
+    .setting{
+        margin-left: 5px;
+        display: block;
+    }
+
+    h4{
+        font-size: 1em;
+    }
+
+
+    .content__aside_opened{
+        display: block;
+        width: 70%;
+        margin: 0 auto;
+    }
+
+}
