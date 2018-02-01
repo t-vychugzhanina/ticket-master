@@ -11,56 +11,58 @@
     </head>
     <body>
     <div class="header">
-        <div class="header-content">
-        <a class="header__logo" href="index.html"></a>
-        <form class="search-bar" method="get">
-            <input class="search-bar__input-text" name="search" type="search" placeholder="What are you looking for?">
-            <button class="search-button submit" type="submit"></button>
-            <button class="search-button setting" type="button"></button>
-        </form>
-        <nav class="menu">
-            <a href="#" class="menu-itm my-acc">My Acc</a>
-            <a href="#" class="menu-itm">Help</a>
-        </nav>
-        <div class="burger-icon">
-            <div class="burger-line"></div>
-            <div class="burger-line"></div>
-            <div class="burger-line"></div>
+        <div class="content">
+            <div class="header__top">
+                <a class="header__logo" href="index.html"></a>
+                <form class="search-bar" method="get">
+                    <input class="search-bar__input-text" name="search" type="search" placeholder="Search...">
+                    <button class="search-button submit" type="submit"></button>
+                    <button class="search-button setting" type="button"></button>
+                </form>
+                <nav class="menu">
+                    <a href="#" class="menu-itm my-acc">My Acc</a>
+                    <a href="#" class="menu-itm">Help</a>
+                </nav>
+                <div class="burger-icon">
+                    <div class="burger-line"></div>
+                    <div class="burger-line"></div>
+                    <div class="burger-line"></div>
+                </div>
+                <ul class="burger-menu">
+                    <li>
+                        <a href="#">Home</a>
+                    </li>
+                    <li>
+                        <a href="#">Messages</a>
+                    </li>
+                    <li>
+                        <a href="#">Bookmarks</a>
+                    </li>
+                    <li>
+                        <a href="#">Settings</a>
+                    </li>
+                    <li>
+                        <a href="#">Help</a>
+                    </li>
+                    <hr>
+                    <li>
+                        <a href="#">Log out</a>
+                    </li>
+                </ul>
+            </div>
+            <nav class="header__navigation">
+                <a href="#" class="nav-itm">Music</a>
+                <a href="#" class="nav-itm">Sport</a>
+                <a href="#" class="nav-itm">Arts & Theater</a>
+                <a href="#" class="nav-itm">Family</a>
+                <a href="#" class="nav-itm">VIP</a>
+                <a href="#" class="nav-itm">Deals</a>
+            </nav>
         </div>
-        <ul class="burger-menu">
-            <li>
-                <a href="#">Home</a>
-            </li>
-            <li>
-                <a href="#">Messages</a>
-            </li>
-            <li>
-                <a href="#">Bookmarks</a>
-            </li>
-            <li>
-                <a href="#">Settings</a>
-            </li>
-            <li>
-                <a href="#">Help</a>
-            </li>
-            <hr>
-            <li>
-                <a href="#">Log out</a>
-            </li>
-        </ul>
-        </div>
-        <nav class="navigation">
-            <a href="#" class="nav-itm">Music</a>
-            <a href="#" class="nav-itm">Sport</a>
-            <a href="#" class="nav-itm">Arts & Theater</a>
-            <a href="#" class="nav-itm">Family</a>
-            <a href="#" class="nav-itm">VIP</a>
-            <a href="#" class="nav-itm">Deals</a>
-        </nav>
     </div>
-    <div class="content">
+    <div class="content main">
         <aside class="content__aside">
-                <form class="location-form" method="get">
+            <form class="location-form" method="get">
                 <h3 class="aside__title">Your location</h3>
                     <input class="location-form__itm" name="city" type="text" placeholder="Enter city">
                 <h3 class="aside__title">Shop for Events</h3>
@@ -91,24 +93,24 @@
                     <button class="location-form__submit" type="submit">OK</button>
                 </form>
         </aside>
-        <main class="content-events">
+        <main class="content__events">
             <section class="just_announced">
-                <h2>Just Announced</h2>
+                <h2 class="section__title">Just Announced</h2>
                 <article class="event">
-                        <div class="event__foto">
+                    <div class="event__foto">
                             <img class="foto__image" src="https://s1.ticketm.net/tm/en-us/dam/a/12f/9ddad6da-104d-4b7a-bedb-698a9087012f_614581_CUSTOM.jpg">
                         </div>
                         <div class="event__preview">
                             <div class="event__title">
                                 <h4>New music concert</h4>
                             </div>
-                            <div class="event__text">
+                            <div class="event__descrip">
                                 <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
                             </div>
                             <div class="event__data">
                                 <span>19 февраля 2017, 12:00.</span>
-                            </div>
                         </div>
+                    </div>
                 </article>
                 <article class="event">
                     <div class="event__foto">
@@ -118,7 +120,7 @@
                         <div class="event__title">
                             <h4>New music concert</h4>
                         </div>
-                        <div class="event__text">
+                        <div class="event__descrip">
                             <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
                         </div>
                         <div class="event__data">
@@ -134,7 +136,7 @@
                         <div class="event__title">
                             <h4>New music concert</h4>
                         </div>
-                        <div class="event__text">
+                        <div class="event__descrip">
                             <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
                         </div>
                         <div class="event__data">
@@ -150,7 +152,7 @@
                         <div class="event__title">
                             <h4>New music concert</h4>
                         </div>
-                        <div class="event__text">
+                        <div class="event__descrip">
                             <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
                         </div>
                         <div class="event__data">
@@ -160,7 +162,7 @@
                 </article>
             </section>
             <section class="happening_soon">
-                <h2>Happening Soon</h2>
+                <h2 class="section__title">Happening Soon</h2>
                 <article class="event hs-event">
                     <div class="event__foto">
                         <img class="foto__image" src="https://s1.ticketm.net/tm/en-us/dam/a/12f/9ddad6da-104d-4b7a-bedb-698a9087012f_614581_CUSTOM.jpg">
@@ -169,7 +171,7 @@
                         <div class="event__title">
                             <h4>New music concert</h4>
                         </div>
-                        <div class="event__text">
+                        <div class="event__descrip">
                             <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
                         </div>
                         <div class="event__data">
@@ -185,7 +187,7 @@
                         <div class="event__title">
                             <h4>New music concert</h4>
                         </div>
-                        <div class="event__text">
+                        <div class="event__descrip">
                             <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
                         </div>
                         <div class="event__data">
@@ -201,7 +203,7 @@
                         <div class="event__title">
                             <h4>New music concert</h4>
                         </div>
-                        <div class="event__text">
+                        <div class="event__descrip">
                             <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
                         </div>
                         <div class="event__data">
@@ -217,7 +219,7 @@
                         <div class="event__title">
                             <h4>New music concert</h4>
                         </div>
-                        <div class="event__text">
+                        <div class="event__descrip">
                             <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
                         </div>
                         <div class="event__data">
@@ -233,7 +235,7 @@
                                 <div class="event__title">
                                     <h4>New music concert</h4>
                                 </div>
-                                <div class="event__text">
+                                <div class="event__descrip">
                                     <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
                                 </div>
                                 <div class="event__data">
@@ -244,7 +246,7 @@
                             <div class="event__title">
                                 <h4>New music concert</h4>
                             </div>
-                            <div class="event__text">
+                            <div class="event__descrip">
                                 <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
                             </div>
                             <div class="event__data">
@@ -258,7 +260,7 @@
                         <div class="event__title">
                             <h4>New music concert</h4>
                         </div>
-                        <div class="event__text">
+                        <div class="event__descrip">
                             <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
                         </div>
                         <div class="event__data">
@@ -269,7 +271,7 @@
                             <div class="event__title">
                                 <h4>New music concert</h4>
                             </div>
-                            <div class="event__text">
+                            <div class="event__descrip">
                                 <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
                             </div>
                             <div class="event__data">
@@ -281,7 +283,7 @@
         </main>
     </div>
     <footer class="footer">
-        <div class="content-foo">
+        <div class="content">
             #Footer
         </div>
     </footer>
