@@ -270,9 +270,14 @@ h4{
 }
 
 
-.hs-event .event__foto, .hs-event .event__preview, .hs-event .event__foto .foto__image{
+.hs-event .event__foto, .hs-event .event__preview {
     width: 100%;
     margin: 0;
+}
+
+.hs-event .event__foto .foto__image{
+    margin: 0 auto 10px;
+    display: block;
 }
 
 .category{
