@@ -4,17 +4,17 @@
         <meta charset="utf-8">
         <title>Ticketmaster</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
-        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.8.3.js"></script>
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
         <link rel="stylesheet" href="css/styles.css">
         <script src="js/scripts.js" type="text/javascript"></script>
     </head>
     <body>
     <div class="header">
         <div class="header-content">
-        <a class="header__logo" href="index.html">Site</a>
+        <a class="header__logo" href="index.html"></a>
         <form class="search-bar" method="get">
-            <input class="search-bar__input-text" name="search-bar__input-text" type="search" placeholder="What are you looking for?">
+            <input class="search-bar__input-text" name="search" type="search" placeholder="What are you looking for?">
             <button class="search-button submit" type="submit"></button>
             <button class="search-button setting" type="button"></button>
         </form>
@@ -62,9 +62,9 @@
         <aside class="content__aside">
                 <form class="location-form" method="get">
                 <h3 class="aside__title">Your location</h3>
-                    <input class="location-form__itm" name="location-form__city" type="text" placeholder="Enter city">
+                    <input class="location-form__itm" name="city" type="text" placeholder="Enter city">
                 <h3 class="aside__title">Shop for Events</h3>
-                    <select name="location-form__category" class="location-form__itm">
+                    <select name="category" class="location-form__itm">
                         <option selected disabled>Select category</option>
                         <option>Music</option>
                         <option>Sport</option>
@@ -74,7 +74,7 @@
                         <option>Family</option>
                         <option>Deals</option>
                     </select>
-                    <select name="location-form__sub-category" class="location-form__itm">
+                    <select name="sub-category" class="location-form__itm">
                         <option selected disabled>Select sub category</option>
                         <option>Music</option>
                         <option>Sport</option>
@@ -227,9 +227,20 @@
                 </article>
             </section>
             <section class="categories">
-                <article class="event category-event">
-                        <h3 class="category"> Music </h3>
-                        <div class="event__preview category__preview">
+                    <section class="event category-event">
+                            <h3 class="category"> Music </h3>
+                            <article class="event__preview category__preview">
+                                <div class="event__title">
+                                    <h4>New music concert</h4>
+                                </div>
+                                <div class="event__text">
+                                    <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
+                                </div>
+                                <div class="event__data">
+                                    <span>19 февраля 2017, 12:00.</span>
+                                </div>
+                            </article>
+                            <article class="event__preview category__preview">
                             <div class="event__title">
                                 <h4>New music concert</h4>
                             </div>
@@ -239,11 +250,11 @@
                             <div class="event__data">
                                 <span>19 февраля 2017, 12:00.</span>
                             </div>
-                        </div>
-                    </article>
-                <article class="event category-event">
-                    <h3 class="category"> Sport </h3>
-                    <div class="event__preview category__preview">
+                        </article>
+                    </section>
+                    <section class="event category-event">
+                        <h3 class="category"> Sport </h3>
+                        <article class="event__preview category__preview">
                         <div class="event__title">
                             <h4>New music concert</h4>
                         </div>
@@ -253,8 +264,19 @@
                         <div class="event__data">
                             <span>19 февраля 2017, 12:00.</span>
                         </div>
-                    </div>
-                </article>
+                    </article>
+                        <article class="event__preview category__preview">
+                            <div class="event__title">
+                                <h4>New music concert</h4>
+                            </div>
+                            <div class="event__text">
+                                <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
+                            </div>
+                            <div class="event__data">
+                                <span>19 февраля 2017, 12:00.</span>
+                            </div>
+                        </article>
+                    </section>
             </section>
         </main>
     </div>
