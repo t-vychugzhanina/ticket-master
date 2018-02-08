@@ -1,100 +1,7 @@
-<!doctype html>
-<html lang="">
-    <head>
-        <meta charset="utf-8">
-        <title>Ticketmaster</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <script src="https://cdn.jsdelivr.net/webshim/1.12.4/extras/modernizr-custom.js"></script>
-        <script src="https://cdn.jsdelivr.net/webshim/1.12.4/polyfiller.js"></script>
-        <!--<link rel="stylesheet" href="css/styles.css">-->
-        <link rel="stylesheet" href="css/container.css">
-        <link rel="stylesheet" href="css/сomponents.css">
-        <script src="js/scripts.js" type="text/javascript"></script>
-    </head>
-    <body>
-    <div class="header">
-        <div class="content">
-            <div class="header__top">
-                <a class="header__logo" href="index.html"> Logo-Ticketmaster </a>
-                <form class="header__search-bar" method="get">
-                    <input class="search-bar__input-text" name="search" type="search" placeholder="Search...">
-                    <button class="search-bar__button submit" type="submit">Search</button>
-                    <button class="search-bar__button setting" type="button">Search settings</button>
-                </form>
-                <nav class="header__menu">
-                    <a href="#" class="menu__item my-acc">My Acc</a>
-                    <a href="#" class="menu__item">Help</a>
-                </nav>
-                <div class="header__burger">
-                <div class="burger-icon">
-                    <div class="burger-line"></div>
-                    <div class="burger-line"></div>
-                    <div class="burger-line"></div>
-                </div>
-                <ul class="burger-menu">
-                    <li>
-                        <a href="#">My Acc</a>
-                    </li>
-                    <li>
-                        <a href="#">Bookmarks</a>
-                    </li>
-                    <li>
-                        <a href="#">Help</a>
-                    </li>
-                    <li>
-                        <a href="#">Log out</a>
-                    </li>
-                </ul>
-                </div>
-            </div>
-            <nav class="header__navigation">
-                <a href="#music" class="navigation__item">Music</a>
-                <a href="#sport" class="navigation__item">Sport</a>
-                <a href="#art" class="navigation__item">Arts & Theater</a>
-                <a href="#family" class="navigation__item">Family</a>
-                <a href="#vip" class="navigation__item">VIP</a>
-                <a href="#deals" class="navigation__item">Deals</a>
-            </nav>
-        </div>
-    </div>
-    <div class="content">
-    <div class="main-container">
-        <aside class="content__aside">
-            <form class="aside__location-form" method="get">
-                <h3 class="aside__title">Your location</h3>
-                    <input class="location-form__item" name="city" type="text" placeholder="Enter city">
-                <h3 class="aside__title">Shop for Events</h3>
-                    <select name="category" class="location-form__item">
-                        <option selected disabled>Select category</option>
-                        <option>Music</option>
-                        <option>Sport</option>
-                        <option>Arts & Theater</option>
-                        <option>Family</option>
-                        <option>VIP</option>
-                        <option>Family</option>
-                        <option>Deals</option>
-                    </select>
-                    <select name="sub-category" class="location-form__item">
-                        <option selected disabled>Select sub category</option>
-                        <option>Music</option>
-                        <option>Sport</option>
-                        <option>Arts & Theater</option>
-                        <option>Family</option>
-                        <option>VIP</option>
-                        <option>Family</option>
-                        <option>Deals</option>
-                    </select>
-                    <span class="aside__text">From:</span>
-                    <input class="location-form__item input-date" name="date-start" id="datePicker" type="date" placeholder="Select start data">
-                    <span class="aside__text">To:</span>
-                    <input class="location-form__item input-date" name="date-end" id="datePicker2" type="date" placeholder="Select end data">
-                    <button class="location-form__submit" type="submit">Apply</button>
-                </form>
-        </aside>
-        <main class="content__events">
+var EventGroupComponent = (function(){
+    return {
+
+        template:`<event-group class="content__events">
             <section class="events__just-announced">
                 <h2 class="events__title">Just Announced</h2>
                 <article class="event">
@@ -421,13 +328,19 @@
                      </article>
                 </section>
             </section>
-        </main>
-    </div>
-    </div>
-    <footer class="footer">
-        <div class="content">
-            #Footer
-        </div>
-    </footer>
-    </body>
-</html>
+        </event-group>`,
+        init: function(){
+            alert(template);
+        },
+
+        getData: function(url){
+            /*
+            * Тут будет код ajax запроса на сервер, который в случае успеха сохранит результат в переменную res
+            */
+
+            //Отрисуем наши данные
+            this.render(res);
+        }
+
+    }
+})();
