@@ -1,10 +1,13 @@
-var SearchComponent = (function(){
-    return {
+import {AppModule} from "../js/app.module";
 
-        template:`<search class="header">
+export class HeaderComponent {
+
+        constructor() {
+            this.selector = 'header';
+            this.template = `<header class="header">
             <div class="content">
                 <div class="header__top">
-                    <a class="header__logo" href="index.html"> Logo-Ticketmaster </a>
+                    <a class="header__logo" href=#> Logo-Ticketmaster </a>
                     <form class="header__search-bar" method="get">
                         <input class="search-bar__input-text" name="search" type="search" placeholder="Search...">
                         <button class="search-bar__button submit" type="submit">Search</button>
@@ -45,20 +48,49 @@ var SearchComponent = (function(){
                     <a href="#deals" class="navigation__item">Deals</a>
                 </nav>
             </div>
-        </search>`,
+            </header>`;
+            this.init();
+        };
 
-        init: function(){
-            alert(template);
-        },
+        init(){
+            var all = document.getElementsByTagName(this.selector);
+            for (var r = 0; r < all.length; r++) {
+                all[r].outerHTML = this.template;
+            };
+            this.makeChildren();
+            this.burgerMenuFunctions();
+        };
 
-        getData: function(url){
-            /*
-            * Тут будет код ajax запроса на сервер, который в случае успеха сохранит результат в переменную res
-            */
+        makeChildren(){
+            let tempTemplate = this.template;
+            let tempSelector = this.selector;
+            let module = new AppModule();
+            let tags = module.FILES;
+            tags.forEach(function (value, key, mapObj) {
+                if ((tempTemplate.indexOf('<'+key)!=-1)&(key!=tempSelector)) {
+                    value();
+                }
+            });
+        };
 
-            //Отрисуем наши данные
-            this.render(res);
+        burgerMenuFunctions() {
+            $('.burger-icon').click(function(){
+                $('.burger-menu').toggleClass('burger-menu_opened');
+                $('.content__aside').removeClass('content__aside_opened');
+            });
+
+            $('.setting').click(function(){
+                $('.content__aside').toggleClass('content__aside_opened');
+                $('.burger-menu').removeClass('burger-menu_opened');
+            });
+            $(document).click(function(event) {
+                if ($(event.target).closest(".burger-menu").length) return;
+                if ($(event.target).closest(".burger-icon").length) return;
+                if ($(event.target).closest(".content__aside").length) return;
+                if ($(event.target).closest(".setting").length) return;
+                $('.burger-menu').removeClass('burger-menu_opened');
+                $('.content__aside').removeClass('content__aside_opened');
+                event.stopPropagation();
+            });
         }
-
-    }
-})();
+}

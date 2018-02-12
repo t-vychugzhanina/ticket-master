@@ -1,0 +1,134 @@
+@import url("../header.component/header.component.css");
+@import url("../event-group.component/event-group.component.css");
+@import url("../add-options.component/add-options.component.css");
+@import url("../events.component/events.component.css");
+@import url("../just-announced.component/just-announced.component.css");
+@import url("../happening-soon.component/happening-soon.component.css");
+@import url("../categories.component/categories.component.css");
+@charset "utf-8";
+
+html {
+    font-size: 65%;
+}
+body {
+    margin: 0;
+    background: #1c0721;
+}
+
+a{
+    color: black;
+    text-decoration: none;
+}
+
+.content{
+    max-width: 1260px;
+    margin: 0 auto;
+}
+
+.main-container {
+    padding: 130px 10px 10px;
+    min-width: 600px;
+    flex: 1 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+
+.footer{
+    position: fixed;
+    width: 100%;
+    background: rgba(60, 0, 54, 0.81);
+    bottom: 0;
+}
+
+@media screen and (max-width: 950px) {
+
+    .header__logo{
+        padding: 2.0rem 3.8rem;
+    }
+
+    .header__search-bar{
+        flex: 1;
+        min-width: 50px;
+    }
+
+    .content__events{
+        padding: 0 1rem;
+    }
+
+    .header__top{
+        padding: 0 0.5em;
+    }
+
+}
+
+@media screen and (max-width: 600px) {
+    .header{
+        padding: 5px;
+    }
+
+    .header__logo{
+        padding: 1.7rem 4rem;
+    }
+
+    .search-bar__input-text {
+        padding: 5px 75px 5px 5px;
+    }
+
+    .burger-icon{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        flex: 0 0 auto;
+        justify-content: space-around;
+    }
+
+    .header__navigation, .content__aside, .header__menu{
+        display: none;
+    }
+
+    .main-container {
+        width: 100%;
+        min-width: 280px;
+        padding-top: 50px;
+    }
+
+    .event-link{
+        align-items: center;
+    }
+
+    .hs-event, .category-event {
+        width: 100%;
+        flex-direction: row;
+        margin-right: 0;
+    }
+
+    .hs-event .event__foto {
+        width: 29%;
+        margin-right: 1%;
+    }
+
+    .hs-event .event__preview {
+        width: 70%;
+    }
+
+    .submit{
+        right: 45px;
+    }
+
+    .setting{
+        display: block;
+    }
+
+    .content__aside_opened{
+        display: block;
+        position: fixed;
+        right: 0;
+        width: 100%;
+        border: #5d1862 3px solid;
+        border-radius: 10px;
+    }
+
+}

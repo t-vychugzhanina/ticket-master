@@ -1,0 +1,106 @@
+.content__aside {
+    max-width: 250px;
+    margin-right: 3%;
+    width: 30%;
+}
+
+.aside__title {
+    font-size: 2rem;
+    margin: 0 0 5px 0;
+    text-align: center;
+    width: 100%;
+}
+
+.aside__location-form{
+    border-radius: 5px;
+    background: #f8f8f8;
+    padding: 1rem;
+}
+
+.location-form__item, .location-form__submit {
+    margin: 0;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+}
+
+.location-form__item {
+    width: 100%;
+    margin-bottom: 5px;
+    color: black;
+    border: #5d1862 1px solid;
+    background: transparent;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.aside__text {
+    width: 30%;
+    font-size: 1.7rem;
+    font-weight: 500;
+    float: left;
+    text-align: right;
+    padding: 10px 5px 10px 0;
+    box-sizing: border-box;
+}
+
+.input-date {
+    width: 70%;
+}
+
+.location-form__submit {
+    padding: 10px;
+    background: #5d1862;
+    cursor: pointer;
+    color: white;
+    font-weight: 500;
+    width: 100%;
+    font-size: 1.7rem;
+}
+
+.burger-icon{
+    padding: 2px;
+    display: none;
+    top:0;
+    height: 24px;
+    width: 30px;
+}
+
+.burger-line{
+    top:0;
+    content: "";
+    width: 24px;
+    height: 5px;
+    background: white;
+    border-radius: 2px;
+}
+
+.burger-menu{
+    padding: 1rem 2rem;
+    display: none;
+    list-style-type: none;
+    position: absolute;
+    top: 3.5rem;
+    right: 1.5rem;
+    line-height: 30px;
+    background: rgba(61, 12, 63, 0.87);
+    border: white 1px solid;
+    border-radius: 10px;
+
+}
+
+.burger-menu li a{
+    display: flex;
+    justify-content: center;
+    font-size: 2rem;
+    text-decoration: none;
+    color: white;
+}
+
+.burger-menu :last-child a{
+    border-top: white 1px solid;
+}
+
+.burger-menu_opened{
+    display: block;
+}

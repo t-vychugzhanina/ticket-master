@@ -1,12 +1,18 @@
-function include(url) {
-    var script = document.createElement('script');
-    script.src = url;
-    document.getElementsByTagName('head')[0].appendChild(script);
-}
+import {AppComponent} from '../app.component/app.component';
 
-include("js/app.component.js");
+let App = new AppComponent();
 
-window.onload = function() {
-    document.body.innerHTML = AppComponent.template;
-    AppComponent.init();
-};
+
+let anchorHeight = (function() {
+    var headerHeight = $('.header').outerHeight();
+    $('a').on('click', function(e) {
+        var $anchor = $(this);
+        $('html, body').stop().animate({
+            scrollTop: $($anchor.attr('href')).offset().top - headerHeight
+        }, 900, 'easeInOutExpo');
+        event.preventDefault();
+        history.pushState({}, "", this.href);})
+});
+
+window.onload = anchorHeight();
+window.onresize = anchorHeight();

@@ -1,7 +1,10 @@
-var AdvOptionsComponent = (function(){
-    return {
+import {AppModule} from "../js/app.module";
 
-        template:`<add-options class="content__aside">
+export class AddOptionsComponent{
+
+        constructor() {
+            this.selector = 'add-options';
+            this.template = `<add-options class="content__aside">
             <form class="aside__location-form" method="get">
                 <h3 class="aside__title">Your location</h3>
                     <input class="location-form__item" name="city" type="text" placeholder="Enter city">
@@ -32,20 +35,46 @@ var AdvOptionsComponent = (function(){
                     <input class="location-form__item input-date" name="date-end" id="datePicker2" type="date" placeholder="Select end data">
                     <button class="location-form__submit" type="submit">Apply</button>
                 </form>
-        </add-options>`,
+        </add-options>`;
+            this.init();
+        };
 
-        init: function(){
-            alert(template);
-        },
+        init() {
+            var all = document.getElementsByTagName(this.selector);
+            for (var r = 0; r < all.length; r++) {
+                all[r].outerHTML = this.template;
+            };
+            this.makeChildren();
+            this.DataWork();
+        };
 
-        getData: function(url){
-            /*
-            * Тут будет код ajax запроса на сервер, который в случае успеха сохранит результат в переменную res
-            */
+        makeChildren(){
+            let tempTemplate = this.template;
+            let tempSelector = this.selector;
+            let module = new AppModule();
+            let tags = module.FILES;
+            tags.forEach(function (value, key, mapObj) {
+                if ((tempTemplate.indexOf('<'+key)!=-1)&(key!=tempSelector)) {
+                    (value)();
+                }
+            });
+        };
 
-            //Отрисуем наши данные
-            this.render(res);
+        DataWork() {
+            webshims.setOptions('waitReady', false);
+            webshims.setOptions('forms-ext', {types: 'date'});
+            webshims.polyfill('forms forms-ext');
+
+            Date.prototype.addDays = (function(days) {
+                var dat = new Date(this.valueOf());
+                dat.setDate(dat.getDate() + days);
+                return dat;
+            });
+
+            document.getElementById('datePicker').valueAsDate = new Date();
+            var inWeek = new Date();
+            inWeek = inWeek.addDays(1);
+            document.getElementById('datePicker2').valueAsDate = inWeek;
         }
 
-    }
-})();
+};
