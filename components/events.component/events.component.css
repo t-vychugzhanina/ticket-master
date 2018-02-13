@@ -16,7 +16,6 @@
 .event-link{
     display: flex;
     flex-wrap: wrap;
-    align-self: stretch;
 }
 
 .event__foto {
@@ -73,4 +72,11 @@
     box-sizing: border-box;
     flex-direction: column;
     align-items: center;
+    align-self: stretch
+}
+
+
+.hs-event .event-link{
+    height: 100%;
+    flex-direction: column;
 }

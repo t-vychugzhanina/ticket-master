@@ -15,3 +15,4 @@ let anchorHeight = (function() {
 
 window.onload = anchorHeight();
 window.onresize = anchorHeight();
+

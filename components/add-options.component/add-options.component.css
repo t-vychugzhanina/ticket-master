@@ -1,3 +1,9 @@
+option{
+    background-color: #5d1862;
+    color: white;
+    font-size: 1.3rem;
+}
+
 .content__aside {
     max-width: 250px;
     margin-right: 3%;
@@ -32,6 +38,10 @@
     background: transparent;
     padding: 10px;
     box-sizing: border-box;
+}
+
+#sub-category{
+   display: none;
 }
 
 .aside__text {

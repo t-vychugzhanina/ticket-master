@@ -89,6 +89,7 @@ export class JustAnnouncedComponent {
             all[r].outerHTML = this.template;
         };
         this.makeChildren();
+        this.getData();
     };
 
     makeChildren(){
@@ -101,5 +102,47 @@ export class JustAnnouncedComponent {
                 (value)();
             }
         });
+    };
+
+    getData(){
+
+        Date.prototype.addDays = (function(days) {
+            let dat = new Date(this.valueOf());
+            dat.setDate(dat.getDate() + days);
+            return dat;
+        });
+
+        let today = new Date();
+        today.setUTCMilliseconds(0);
+        let inWeek = today.addDays(3);
+        today = today.toISOString().substr(0, 19)+'Z';
+        inWeek = inWeek.toISOString().substr(0, 19)+'Z';
+
+        $.ajax({
+            type:"GET",
+            url:"https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&size=4&onsaleStartDateTime="+today+"&onsaleEndDateTime="+inWeek,
+            async:true,
+            dataType: "json",
+            success: function(json) {
+                showEvents(json);
+            },
+            error: function(xhr, status, err) {
+                console.log(err);
+            }
+        });
+
+        function showEvents(json) {
+            var categoryBlock = document.getElementsByClassName('events__just-announced')[0];
+            var categoryEvents = categoryBlock.getElementsByClassName('event');
+            var events = json._embedded.events;
+            console.log(categoryEvents);
+            for (var i = 0; i < categoryEvents.length; i++) {
+                categoryEvents[i].getElementsByClassName('event__title')[0].innerText=events[i].name;
+                categoryEvents[i].getElementsByClassName('event__data')[0].innerText=events[i].dates.start.localDate;
+                categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText=events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+                categoryEvents[i].getElementsByClassName('foto__image')[0].src=events[i].images[0].url;
+            };
+        }
+
     };
 }

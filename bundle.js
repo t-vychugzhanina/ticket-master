@@ -213,12 +213,10 @@ class HeaderComponent {
                     </div>
                 </div>
                 <nav class="header__navigation">
-                    <a href="#music" class="navigation__item">Music</a>
-                    <a href="#sport" class="navigation__item">Sport</a>
-                    <a href="#art" class="navigation__item">Arts & Theater</a>
-                    <a href="#family" class="navigation__item">Family</a>
-                    <a href="#vip" class="navigation__item">VIP</a>
-                    <a href="#deals" class="navigation__item">Deals</a>
+                    <a href="#Music" class="navigation__item">Music</a>
+                    <a href="#Sport" class="navigation__item">Sport</a>
+                    <a href="#Art" class="navigation__item">Arts & Theater</a>
+                    <a href="#Family" class="navigation__item">Family</a>
                 </nav>
             </div>
             </header>`;
@@ -266,6 +264,7 @@ class HeaderComponent {
             event.stopPropagation();
         });
     }
+
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = HeaderComponent;
 
@@ -333,25 +332,15 @@ class AddOptionsComponent {
                 <h3 class="aside__title">Your location</h3>
                     <input class="location-form__item" name="city" type="text" placeholder="Enter city">
                 <h3 class="aside__title">Shop for Events</h3>
-                    <select name="category" class="location-form__item">
+                    <select id="category" name="category" class="location-form__item">
                         <option selected disabled>Select category</option>
                         <option>Music</option>
-                        <option>Sport</option>
-                        <option>Arts & Theater</option>
-                        <option>Family</option>
-                        <option>VIP</option>
-                        <option>Family</option>
-                        <option>Deals</option>
+                        <option>Sports</option>
+                        <option>Arts & Theatre</option>
+                        <option>Film</option>
                     </select>
-                    <select name="sub-category" class="location-form__item">
+                    <select id="sub-category" name="sub-category" class="location-form__item">
                         <option selected disabled>Select sub category</option>
-                        <option>Music</option>
-                        <option>Sport</option>
-                        <option>Arts & Theater</option>
-                        <option>Family</option>
-                        <option>VIP</option>
-                        <option>Family</option>
-                        <option>Deals</option>
                     </select>
                     <span class="aside__text">From:</span>
                     <input class="location-form__item input-date" name="date-start" id="datePicker" type="date" placeholder="Select start data">
@@ -369,7 +358,8 @@ class AddOptionsComponent {
             all[r].outerHTML = this.template;
         };
         this.makeChildren();
-        this.DataWork();
+        this.dateWork();
+        this.getData();
     }
 
     makeChildren() {
@@ -384,21 +374,62 @@ class AddOptionsComponent {
         });
     }
 
-    DataWork() {
+    dateWork() {
         webshims.setOptions('waitReady', false);
         webshims.setOptions('forms-ext', { types: 'date' });
         webshims.polyfill('forms forms-ext');
 
         Date.prototype.addDays = function (days) {
-            var dat = new Date(this.valueOf());
+            let dat = new Date(this.valueOf());
             dat.setDate(dat.getDate() + days);
             return dat;
         };
 
         document.getElementById('datePicker').valueAsDate = new Date();
-        var inWeek = new Date();
+        let inWeek = new Date();
         inWeek = inWeek.addDays(1);
         document.getElementById('datePicker2').valueAsDate = inWeek;
+    }
+
+    getData() {
+
+        $.ajax({
+            type: "GET",
+            url: "https://app.ticketmaster.com/discovery/v2/classifications.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0",
+            async: true,
+            dataType: "json",
+            success: function (json) {
+                showEvents(json);
+            },
+            error: function (xhr, status, err) {
+                console.log(err);
+            }
+        });
+
+        function showEvents(json) {
+            let category = document.getElementsByName('category')[0];
+            let subCategory = document.getElementsByName('sub-category')[0];
+            let categoryAPI = json._embedded.classifications;
+            category.onchange = function () {
+                subCategory.style.display = "block";
+                subCategory.innerHTML = '';
+                let selected = $("#category option:selected").text();
+                for (let i = 0; i < categoryAPI.length; i++) {
+                    try {
+                        if (selected == categoryAPI[i].segment.name) {
+                            let genres = categoryAPI[i].segment._embedded.genres;
+                            for (let j = 0; j < categoryAPI.length; j++) {
+                                let option = document.createElement('option');
+                                option.innerText = genres[j].name;
+                                subCategory.appendChild(option);
+                            };
+                        }
+                    } catch (err) {
+                        console.log(err);
+                    };
+                }
+            };
+        }
     }
 
 }
@@ -501,6 +532,7 @@ class JustAnnouncedComponent {
             all[r].outerHTML = this.template;
         };
         this.makeChildren();
+        this.getData();
     }
 
     makeChildren() {
@@ -513,6 +545,47 @@ class JustAnnouncedComponent {
                 value();
             }
         });
+    }
+
+    getData() {
+
+        Date.prototype.addDays = function (days) {
+            let dat = new Date(this.valueOf());
+            dat.setDate(dat.getDate() + days);
+            return dat;
+        };
+
+        let today = new Date();
+        today.setUTCMilliseconds(0);
+        let inWeek = today.addDays(3);
+        today = today.toISOString().substr(0, 19) + 'Z';
+        inWeek = inWeek.toISOString().substr(0, 19) + 'Z';
+
+        $.ajax({
+            type: "GET",
+            url: "https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&size=4&onsaleStartDateTime=" + today + "&onsaleEndDateTime=" + inWeek,
+            async: true,
+            dataType: "json",
+            success: function (json) {
+                showEvents(json);
+            },
+            error: function (xhr, status, err) {
+                console.log(err);
+            }
+        });
+
+        function showEvents(json) {
+            var categoryBlock = document.getElementsByClassName('events__just-announced')[0];
+            var categoryEvents = categoryBlock.getElementsByClassName('event');
+            var events = json._embedded.events;
+            console.log(categoryEvents);
+            for (var i = 0; i < categoryEvents.length; i++) {
+                categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
+                categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
+                categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+                categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
+            };
+        }
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = JustAnnouncedComponent;
@@ -579,6 +652,7 @@ class HappeningSoonComponent {
                             </div>
                             <div class="event__descrip">
                                 <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
+                                <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
                             </div>
                             <div class="event__data">
                                 <span>19 февраля 2017, 12:00.</span>
@@ -614,6 +688,7 @@ class HappeningSoonComponent {
             all[r].outerHTML = this.template;
         };
         this.makeChildren();
+        this.getData();
     }
 
     makeChildren() {
@@ -626,6 +701,46 @@ class HappeningSoonComponent {
                 value();
             }
         });
+    }
+
+    getData() {
+
+        Date.prototype.addDays = function (days) {
+            let dat = new Date(this.valueOf());
+            dat.setDate(dat.getDate() + days);
+            return dat;
+        };
+
+        let today = new Date();
+        today.setUTCMilliseconds(0);
+        let inWeek = today.addDays(1);
+        today = today.toISOString().substr(0, 19) + 'Z';
+        inWeek = inWeek.toISOString().substr(0, 19) + 'Z';
+
+        $.ajax({
+            type: "GET",
+            url: "https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&startDateTime=" + today + "&endDateTime=" + inWeek + "&size=4",
+            async: true,
+            dataType: "json",
+            success: function (json) {
+                showEvents(json);
+            },
+            error: function (xhr, status, err) {
+                console.log(err);
+            }
+        });
+
+        function showEvents(json) {
+            var categoryBlock = document.getElementsByClassName('events__happening-soon')[0];
+            var categoryEvents = categoryBlock.getElementsByClassName('hs-event');
+            var events = json._embedded.events;
+            for (var i = 0; i < categoryEvents.length; i++) {
+                categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
+                categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
+                categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+                categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
+            };
+        }
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = HappeningSoonComponent;
@@ -644,7 +759,7 @@ class CategoriesComponent {
     constructor() {
         this.selector = 'events-categories';
         this.template = `<events-categories class="categories">
-                 <section class="event category-event" id="music">
+                 <section class="event category-event" id="Music">
                         <h3 class="category"> Music </h3>
                         <article class="event__preview category__preview">
                                 <a href="#">
@@ -673,7 +788,7 @@ class CategoriesComponent {
                          </a>
                      </article>
                  </section>
-                 <section class="event category-event" id="sport">
+                 <section class="event category-event" id="Sport">
                         <h3 class="category"> Sport </h3>
                         <article class="event__preview category__preview">
                          <a href="#">
@@ -702,7 +817,7 @@ class CategoriesComponent {
                          </a>
                      </article>
                     </section>
-                 <section class="event category-event" id="art">
+                 <section class="event category-event" id="Art">
                     <h3 class="category"> Arts & Theater </h3>
                      <article class="event__preview category__preview">
                          <a href="#">
@@ -724,6 +839,7 @@ class CategoriesComponent {
                              </div>
                              <div class="event__descrip">
                                  <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
+                                 <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
                              </div>
                              <div class="event__data">
                                  <span>19 февраля 2017, 12:00.</span>
@@ -731,66 +847,8 @@ class CategoriesComponent {
                          </a>
                      </article>
                 </section>
-                 <section class="event category-event" id="family">
+                 <section class="event category-event" id="Family">
                     <h3 class="category"> Family </h3>
-                     <article class="event__preview category__preview">
-                         <a href="#">
-                             <div class="event__title">
-                                 <h4>New music concert</h4>
-                             </div>
-                             <div class="event__descrip">
-                                 <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
-                             </div>
-                             <div class="event__data">
-                                 <span>19 февраля 2017, 12:00.</span>
-                             </div>
-                         </a>
-                     </article>
-                     <article class="event__preview category__preview">
-                         <a href="#">
-                             <div class="event__title">
-                                 <h4>New music concert</h4>
-                             </div>
-                             <div class="event__descrip">
-                                 <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
-                             </div>
-                             <div class="event__data">
-                                 <span>19 февраля 2017, 12:00.</span>
-                             </div>
-                         </a>
-                     </article>
-                </section>
-                 <section class="event category-event" id="vip">
-                    <h3 class="category"> VIP </h3>
-                     <article class="event__preview category__preview">
-                         <a href="#">
-                             <div class="event__title">
-                                 <h4>New music concert</h4>
-                             </div>
-                             <div class="event__descrip">
-                                 <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
-                             </div>
-                             <div class="event__data">
-                                 <span>19 февраля 2017, 12:00.</span>
-                             </div>
-                         </a>
-                     </article>
-                     <article class="event__preview category__preview">
-                         <a href="#">
-                             <div class="event__title">
-                                 <h4>New music concert</h4>
-                             </div>
-                             <div class="event__descrip">
-                                 <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
-                             </div>
-                             <div class="event__data">
-                                 <span>19 февраля 2017, 12:00.</span>
-                             </div>
-                         </a>
-                     </article>
-                </section>
-                 <section class="event category-event" id="deals">
-                    <h3 class="category"> Deals </h3>
                      <article class="event__preview category__preview">
                          <a href="#">
                              <div class="event__title">
@@ -828,6 +886,7 @@ class CategoriesComponent {
             all[r].outerHTML = this.template;
         };
         this.makeChildren();
+        this.getData();
     }
 
     makeChildren() {
@@ -839,6 +898,44 @@ class CategoriesComponent {
             if (tempTemplate.indexOf('<' + key) != -1 & key != tempSelector) {
                 value();
             }
+        });
+    }
+
+    getData() {
+
+        function getCategoryEvents(categorysearch) {
+
+            $.ajax({
+                type: "GET",
+                url: "https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&size=4&classificationName=" + categorysearch,
+                async: true,
+                dataType: "json",
+                success: function (json) {
+                    getCategoryEvents.json = json;
+                    showEvents(json, categorysearch);
+                },
+                error: function (xhr, status, err) {
+                    console.log(err);
+                }
+            });
+        }
+
+        function showEvents(json, categorysearch) {
+            let categoryBlock = document.getElementById(categorysearch);
+            let categoryEvents = categoryBlock.getElementsByClassName('event__preview');
+            let events = json._embedded.events;
+            for (let i = 0; i < categoryEvents.length; i++) {
+                categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
+                categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
+                categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+            }
+            ;
+        }
+
+        let categorylist = ['Music', 'Sport', 'Art', 'Family'];
+
+        categorylist.forEach(function (category, num, categorylist) {
+            getCategoryEvents(category);
         });
     }
 }

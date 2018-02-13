@@ -9,25 +9,15 @@ export class AddOptionsComponent{
                 <h3 class="aside__title">Your location</h3>
                     <input class="location-form__item" name="city" type="text" placeholder="Enter city">
                 <h3 class="aside__title">Shop for Events</h3>
-                    <select name="category" class="location-form__item">
+                    <select id="category" name="category" class="location-form__item">
                         <option selected disabled>Select category</option>
                         <option>Music</option>
-                        <option>Sport</option>
-                        <option>Arts & Theater</option>
-                        <option>Family</option>
-                        <option>VIP</option>
-                        <option>Family</option>
-                        <option>Deals</option>
+                        <option>Sports</option>
+                        <option>Arts & Theatre</option>
+                        <option>Film</option>
                     </select>
-                    <select name="sub-category" class="location-form__item">
+                    <select id="sub-category" name="sub-category" class="location-form__item">
                         <option selected disabled>Select sub category</option>
-                        <option>Music</option>
-                        <option>Sport</option>
-                        <option>Arts & Theater</option>
-                        <option>Family</option>
-                        <option>VIP</option>
-                        <option>Family</option>
-                        <option>Deals</option>
                     </select>
                     <span class="aside__text">From:</span>
                     <input class="location-form__item input-date" name="date-start" id="datePicker" type="date" placeholder="Select start data">
@@ -45,7 +35,8 @@ export class AddOptionsComponent{
                 all[r].outerHTML = this.template;
             };
             this.makeChildren();
-            this.DataWork();
+            this.dateWork();
+            this.getData();
         };
 
         makeChildren(){
@@ -60,21 +51,62 @@ export class AddOptionsComponent{
             });
         };
 
-        DataWork() {
+        dateWork() {
             webshims.setOptions('waitReady', false);
             webshims.setOptions('forms-ext', {types: 'date'});
             webshims.polyfill('forms forms-ext');
 
             Date.prototype.addDays = (function(days) {
-                var dat = new Date(this.valueOf());
+                let dat = new Date(this.valueOf());
                 dat.setDate(dat.getDate() + days);
                 return dat;
             });
 
             document.getElementById('datePicker').valueAsDate = new Date();
-            var inWeek = new Date();
+            let inWeek = new Date();
             inWeek = inWeek.addDays(1);
             document.getElementById('datePicker2').valueAsDate = inWeek;
-        }
+        };
+
+        getData() {
+
+                $.ajax({
+                    type: "GET",
+                    url: "https://app.ticketmaster.com/discovery/v2/classifications.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0",
+                    async: true,
+                    dataType: "json",
+                    success: function (json) {
+                        showEvents(json);
+                    },
+                    error: function (xhr, status, err) {
+                        console.log(err);
+                    }
+                });
+
+                function showEvents(json) {
+                    let category = document.getElementsByName('category')[0];
+                    let subCategory = document.getElementsByName('sub-category')[0];
+                    let categoryAPI = json._embedded.classifications;
+                    category.onchange = function () {
+                        subCategory.style.display = "block";
+                        subCategory.innerHTML = '';
+                        let selected = $( "#category option:selected" ).text();
+                        for (let i = 0; i < categoryAPI.length; i++) {
+                            try {
+                            if (selected == categoryAPI[i].segment.name) {
+                                let genres = categoryAPI[i].segment._embedded.genres;
+                                for (let j = 0; j < categoryAPI.length; j++) {
+                                    let option = document.createElement('option');
+                                    option.innerText = genres[j].name;
+                                    subCategory.appendChild(option);
+                                }; }
+                            } catch (err) {
+                                console.log(err);
+                            };
+                        }
+                    }
+                }
+
+         }
 
 };

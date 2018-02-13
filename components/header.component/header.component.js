@@ -40,12 +40,10 @@ export class HeaderComponent {
                     </div>
                 </div>
                 <nav class="header__navigation">
-                    <a href="#music" class="navigation__item">Music</a>
-                    <a href="#sport" class="navigation__item">Sport</a>
-                    <a href="#art" class="navigation__item">Arts & Theater</a>
-                    <a href="#family" class="navigation__item">Family</a>
-                    <a href="#vip" class="navigation__item">VIP</a>
-                    <a href="#deals" class="navigation__item">Deals</a>
+                    <a href="#Music" class="navigation__item">Music</a>
+                    <a href="#Sport" class="navigation__item">Sport</a>
+                    <a href="#Art" class="navigation__item">Arts & Theater</a>
+                    <a href="#Family" class="navigation__item">Family</a>
                 </nav>
             </div>
             </header>`;
@@ -93,4 +91,5 @@ export class HeaderComponent {
                 event.stopPropagation();
             });
         }
+
 }
