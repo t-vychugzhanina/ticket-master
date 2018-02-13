@@ -68,12 +68,12 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__header_component_header_component__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_group_component_event_group_component__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__add_options_component_add_options_component__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__just_announced_component_just_announced_component__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__happening_soon_component_happening_soon_component__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__categories_component_categories_component__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_header_component_header_component__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_event_group_component_event_group_component__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_add_options_component_add_options_component__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_just_announced_component_just_announced_component__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_happening_soon_component_happening_soon_component__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_categories_component_categories_component__ = __webpack_require__(8);
 
 
 
@@ -85,12 +85,12 @@ class AppModule {
 
     constructor() {
         this.FILES = new Map();
-        this.FILES.set('header', () => new __WEBPACK_IMPORTED_MODULE_0__header_component_header_component__["a" /* HeaderComponent */]());
-        this.FILES.set('add-options', () => new __WEBPACK_IMPORTED_MODULE_2__add_options_component_add_options_component__["a" /* AddOptionsComponent */]());
-        this.FILES.set('event-group', () => new __WEBPACK_IMPORTED_MODULE_1__event_group_component_event_group_component__["a" /* EventGroupComponent */]());
-        this.FILES.set('events-ja', () => new __WEBPACK_IMPORTED_MODULE_3__just_announced_component_just_announced_component__["a" /* JustAnnouncedComponent */]());
-        this.FILES.set('events-hs', () => new __WEBPACK_IMPORTED_MODULE_4__happening_soon_component_happening_soon_component__["a" /* HappeningSoonComponent */]());
-        this.FILES.set('events-categories', () => new __WEBPACK_IMPORTED_MODULE_5__categories_component_categories_component__["a" /* CategoriesComponent */]());
+        this.FILES.set('header', () => new __WEBPACK_IMPORTED_MODULE_0__components_header_component_header_component__["a" /* HeaderComponent */]());
+        this.FILES.set('add-options', () => new __WEBPACK_IMPORTED_MODULE_2__components_add_options_component_add_options_component__["a" /* AddOptionsComponent */]());
+        this.FILES.set('event-group', () => new __WEBPACK_IMPORTED_MODULE_1__components_event_group_component_event_group_component__["a" /* EventGroupComponent */]());
+        this.FILES.set('events-ja', () => new __WEBPACK_IMPORTED_MODULE_3__components_just_announced_component_just_announced_component__["a" /* JustAnnouncedComponent */]());
+        this.FILES.set('events-hs', () => new __WEBPACK_IMPORTED_MODULE_4__components_happening_soon_component_happening_soon_component__["a" /* HappeningSoonComponent */]());
+        this.FILES.set('events-categories', () => new __WEBPACK_IMPORTED_MODULE_5__components_categories_component_categories_component__["a" /* CategoriesComponent */]());
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = AppModule;
@@ -102,10 +102,10 @@ class AppModule {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_component_app_component__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_app_component_app_component__ = __webpack_require__(2);
 
 
-let App = new __WEBPACK_IMPORTED_MODULE_0__app_component_app_component__["a" /* AppComponent */]();
+let App = new __WEBPACK_IMPORTED_MODULE_0__components_app_component_app_component__["a" /* AppComponent */]();
 
 let anchorHeight = function () {
     var headerHeight = $('.header').outerHeight();
@@ -127,7 +127,7 @@ window.onresize = anchorHeight();
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_app_module__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module__ = __webpack_require__(0);
 
 
 class AppComponent {
@@ -153,7 +153,7 @@ class AppComponent {
 
     makeChildren() {
         let tempTemplate = this.template;
-        let module = new __WEBPACK_IMPORTED_MODULE_0__js_app_module__["a" /* AppModule */]();
+        let module = new __WEBPACK_IMPORTED_MODULE_0__app_module__["a" /* AppModule */]();
         let tags = module.FILES;
         tags.forEach(function (value, key, mapObj) {
             if (tempTemplate.indexOf('<' + key) != -1) {
@@ -166,12 +166,116 @@ class AppComponent {
 ;
 
 /***/ }),
-/* 3 */,
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module__ = __webpack_require__(0);
+
+
+class HeaderComponent {
+
+    constructor() {
+        this.selector = 'header';
+        this.template = `<header class="header">
+            <div class="content">
+                <div class="header__top">
+                    <a class="header__logo" href=#> Logo-Ticketmaster </a>
+                    <form class="header__search-bar" method="get">
+                        <input class="search-bar__input-text" name="search" type="search" placeholder="Search...">
+                        <button class="search-bar__button submit" type="submit">Search</button>
+                        <button class="search-bar__button setting" type="button">Search settings</button>
+                    </form>
+                    <nav class="header__menu">
+                        <a href="#" class="menu__item my-acc">My Acc</a>
+                        <a href="#" class="menu__item">Help</a>
+                    </nav>
+                    <div class="header__burger">
+                    <div class="burger-icon">
+                        <div class="burger-line"></div>
+                        <div class="burger-line"></div>
+                        <div class="burger-line"></div>
+                    </div>
+                    <ul class="burger-menu">
+                        <li>
+                            <a href="#">My Acc</a>
+                        </li>
+                        <li>
+                            <a href="#">Bookmarks</a>
+                        </li>
+                        <li>
+                            <a href="#">Help</a>
+                        </li>
+                        <li>
+                            <a href="#">Log out</a>
+                        </li>
+                    </ul>
+                    </div>
+                </div>
+                <nav class="header__navigation">
+                    <a href="#music" class="navigation__item">Music</a>
+                    <a href="#sport" class="navigation__item">Sport</a>
+                    <a href="#art" class="navigation__item">Arts & Theater</a>
+                    <a href="#family" class="navigation__item">Family</a>
+                    <a href="#vip" class="navigation__item">VIP</a>
+                    <a href="#deals" class="navigation__item">Deals</a>
+                </nav>
+            </div>
+            </header>`;
+        this.init();
+    }
+
+    init() {
+        var all = document.getElementsByTagName(this.selector);
+        for (var r = 0; r < all.length; r++) {
+            all[r].outerHTML = this.template;
+        };
+        this.makeChildren();
+        this.burgerMenuFunctions();
+    }
+
+    makeChildren() {
+        let tempTemplate = this.template;
+        let tempSelector = this.selector;
+        let module = new __WEBPACK_IMPORTED_MODULE_0__app_module__["a" /* AppModule */]();
+        let tags = module.FILES;
+        tags.forEach(function (value, key, mapObj) {
+            if (tempTemplate.indexOf('<' + key) != -1 & key != tempSelector) {
+                value();
+            }
+        });
+    }
+
+    burgerMenuFunctions() {
+        $('.burger-icon').click(function () {
+            $('.burger-menu').toggleClass('burger-menu_opened');
+            $('.content__aside').removeClass('content__aside_opened');
+        });
+
+        $('.setting').click(function () {
+            $('.content__aside').toggleClass('content__aside_opened');
+            $('.burger-menu').removeClass('burger-menu_opened');
+        });
+        $(document).click(function (event) {
+            if ($(event.target).closest(".burger-menu").length) return;
+            if ($(event.target).closest(".burger-icon").length) return;
+            if ($(event.target).closest(".content__aside").length) return;
+            if ($(event.target).closest(".setting").length) return;
+            $('.burger-menu').removeClass('burger-menu_opened');
+            $('.content__aside').removeClass('content__aside_opened');
+            event.stopPropagation();
+        });
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = HeaderComponent;
+
+
+/***/ }),
 /* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_app_module__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module__ = __webpack_require__(0);
 
 
 class EventGroupComponent {
@@ -200,7 +304,7 @@ class EventGroupComponent {
     makeChildren() {
         let tempTemplate = this.template;
         let tempSelector = this.selector;
-        let module = new __WEBPACK_IMPORTED_MODULE_0__js_app_module__["a" /* AppModule */]();
+        let module = new __WEBPACK_IMPORTED_MODULE_0__app_module__["a" /* AppModule */]();
         let tags = module.FILES;
         tags.forEach(function (value, key, mapObj) {
             if (tempTemplate.indexOf('<' + key) != -1 & key != tempSelector) {
@@ -217,7 +321,7 @@ class EventGroupComponent {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_app_module__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module__ = __webpack_require__(0);
 
 
 class AddOptionsComponent {
@@ -271,7 +375,7 @@ class AddOptionsComponent {
     makeChildren() {
         let tempTemplate = this.template;
         let tempSelector = this.selector;
-        let module = new __WEBPACK_IMPORTED_MODULE_0__js_app_module__["a" /* AppModule */]();
+        let module = new __WEBPACK_IMPORTED_MODULE_0__app_module__["a" /* AppModule */]();
         let tags = module.FILES;
         tags.forEach(function (value, key, mapObj) {
             if (tempTemplate.indexOf('<' + key) != -1 & key != tempSelector) {
@@ -306,7 +410,7 @@ class AddOptionsComponent {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_app_module__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module__ = __webpack_require__(0);
 
 
 class JustAnnouncedComponent {
@@ -402,7 +506,7 @@ class JustAnnouncedComponent {
     makeChildren() {
         let tempTemplate = this.template;
         let tempSelector = this.selector;
-        let module = new __WEBPACK_IMPORTED_MODULE_0__js_app_module__["a" /* AppModule */]();
+        let module = new __WEBPACK_IMPORTED_MODULE_0__app_module__["a" /* AppModule */]();
         let tags = module.FILES;
         tags.forEach(function (value, key, mapObj) {
             if (tempTemplate.indexOf('<' + key) != -1 & key != tempSelector) {
@@ -419,7 +523,7 @@ class JustAnnouncedComponent {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_app_module__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module__ = __webpack_require__(0);
 
 
 class HappeningSoonComponent {
@@ -515,7 +619,7 @@ class HappeningSoonComponent {
     makeChildren() {
         let tempTemplate = this.template;
         let tempSelector = this.selector;
-        let module = new __WEBPACK_IMPORTED_MODULE_0__js_app_module__["a" /* AppModule */]();
+        let module = new __WEBPACK_IMPORTED_MODULE_0__app_module__["a" /* AppModule */]();
         let tags = module.FILES;
         tags.forEach(function (value, key, mapObj) {
             if (tempTemplate.indexOf('<' + key) != -1 & key != tempSelector) {
@@ -532,7 +636,7 @@ class HappeningSoonComponent {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_app_module__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module__ = __webpack_require__(0);
 
 
 class CategoriesComponent {
@@ -729,7 +833,7 @@ class CategoriesComponent {
     makeChildren() {
         let tempTemplate = this.template;
         let tempSelector = this.selector;
-        let module = new __WEBPACK_IMPORTED_MODULE_0__js_app_module__["a" /* AppModule */]();
+        let module = new __WEBPACK_IMPORTED_MODULE_0__app_module__["a" /* AppModule */]();
         let tags = module.FILES;
         tags.forEach(function (value, key, mapObj) {
             if (tempTemplate.indexOf('<' + key) != -1 & key != tempSelector) {
@@ -739,112 +843,6 @@ class CategoriesComponent {
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = CategoriesComponent;
-
-
-/***/ }),
-/* 9 */,
-/* 10 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_app_module__ = __webpack_require__(0);
-
-
-class HeaderComponent {
-
-    constructor() {
-        this.selector = 'header';
-        this.template = `<header class="header">
-            <div class="content">
-                <div class="header__top">
-                    <a class="header__logo" href=#> Logo-Ticketmaster </a>
-                    <form class="header__search-bar" method="get">
-                        <input class="search-bar__input-text" name="search" type="search" placeholder="Search...">
-                        <button class="search-bar__button submit" type="submit">Search</button>
-                        <button class="search-bar__button setting" type="button">Search settings</button>
-                    </form>
-                    <nav class="header__menu">
-                        <a href="#" class="menu__item my-acc">My Acc</a>
-                        <a href="#" class="menu__item">Help</a>
-                    </nav>
-                    <div class="header__burger">
-                    <div class="burger-icon">
-                        <div class="burger-line"></div>
-                        <div class="burger-line"></div>
-                        <div class="burger-line"></div>
-                    </div>
-                    <ul class="burger-menu">
-                        <li>
-                            <a href="#">My Acc</a>
-                        </li>
-                        <li>
-                            <a href="#">Bookmarks</a>
-                        </li>
-                        <li>
-                            <a href="#">Help</a>
-                        </li>
-                        <li>
-                            <a href="#">Log out</a>
-                        </li>
-                    </ul>
-                    </div>
-                </div>
-                <nav class="header__navigation">
-                    <a href="#music" class="navigation__item">Music</a>
-                    <a href="#sport" class="navigation__item">Sport</a>
-                    <a href="#art" class="navigation__item">Arts & Theater</a>
-                    <a href="#family" class="navigation__item">Family</a>
-                    <a href="#vip" class="navigation__item">VIP</a>
-                    <a href="#deals" class="navigation__item">Deals</a>
-                </nav>
-            </div>
-            </header>`;
-        this.init();
-    }
-
-    init() {
-        var all = document.getElementsByTagName(this.selector);
-        for (var r = 0; r < all.length; r++) {
-            all[r].outerHTML = this.template;
-        };
-        this.makeChildren();
-        this.burgerMenuFunctions();
-    }
-
-    makeChildren() {
-        let tempTemplate = this.template;
-        let tempSelector = this.selector;
-        let module = new __WEBPACK_IMPORTED_MODULE_0__js_app_module__["a" /* AppModule */]();
-        let tags = module.FILES;
-        tags.forEach(function (value, key, mapObj) {
-            if (tempTemplate.indexOf('<' + key) != -1 & key != tempSelector) {
-                value();
-            }
-        });
-    }
-
-    burgerMenuFunctions() {
-        $('.burger-icon').click(function () {
-            $('.burger-menu').toggleClass('burger-menu_opened');
-            $('.content__aside').removeClass('content__aside_opened');
-        });
-
-        $('.setting').click(function () {
-            $('.content__aside').toggleClass('content__aside_opened');
-            $('.burger-menu').removeClass('burger-menu_opened');
-        });
-        $(document).click(function (event) {
-            if ($(event.target).closest(".burger-menu").length) return;
-            if ($(event.target).closest(".burger-icon").length) return;
-            if ($(event.target).closest(".content__aside").length) return;
-            if ($(event.target).closest(".setting").length) return;
-            $('.burger-menu').removeClass('burger-menu_opened');
-            $('.content__aside').removeClass('content__aside_opened');
-            event.stopPropagation();
-        });
-    }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = HeaderComponent;
 
 
 /***/ })

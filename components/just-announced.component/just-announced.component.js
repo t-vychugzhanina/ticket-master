@@ -1,12 +1,30 @@
-import {AppModule} from "../js/app.module";
+import {AppModule} from "../../app.module";
 
-export class HappeningSoonComponent {
+export class JustAnnouncedComponent {
 
     constructor() {
-        this.selector = 'events-hs';
-        this.template = `<events-hs class="events__happening-soon">
-                <h2 class="events__title">Happening Soon</h2>
-                <article class="event hs-event">
+        this.selector = 'events-ja';
+        this.template = `<events-ja class="events__just-announced">
+                <h2 class="events__title">Just Announced</h2>
+                <article class="event">
+                    <a href="#" class="event-link">
+                        <div class="event__foto">
+                                <img class="foto__image" alt="Elton John" src="https://s1.ticketm.net/tm/en-us/dam/a/12f/9ddad6da-104d-4b7a-bedb-698a9087012f_614581_CUSTOM.jpg">
+                            </div>
+                            <div class="event__preview">
+                                <div class="event__title">
+                                    <h4>New music concert</h4>
+                                </div>
+                                <div class="event__descrip">
+                                    <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
+                                </div>
+                                <div class="event__data">
+                                    <span>19 февраля 2017, 12:00.</span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+                <article class="event">
                     <a href="#" class="event-link">
                         <div class="event__foto">
                             <img class="foto__image" alt="Elton John" src="https://s1.ticketm.net/tm/en-us/dam/a/12f/9ddad6da-104d-4b7a-bedb-698a9087012f_614581_CUSTOM.jpg">
@@ -24,7 +42,7 @@ export class HappeningSoonComponent {
                         </div>
                     </a>
                 </article>
-                <article class="event hs-event">
+                <article class="event">
                     <a href="#" class="event-link">
                         <div class="event__foto">
                             <img class="foto__image" alt="Elton John" src="https://s1.ticketm.net/tm/en-us/dam/a/12f/9ddad6da-104d-4b7a-bedb-698a9087012f_614581_CUSTOM.jpg">
@@ -42,7 +60,7 @@ export class HappeningSoonComponent {
                         </div>
                     </a>
                 </article>
-                <article class="event hs-event">
+                <article class="event">
                     <a href="#" class="event-link">
                         <div class="event__foto">
                             <img class="foto__image" alt="Elton John" src="https://s1.ticketm.net/tm/en-us/dam/a/12f/9ddad6da-104d-4b7a-bedb-698a9087012f_614581_CUSTOM.jpg">
@@ -60,25 +78,7 @@ export class HappeningSoonComponent {
                         </div>
                     </a>
                 </article>
-                <article class="event hs-event">
-                    <a href="#" class="event-link">
-                        <div class="event__foto">
-                            <img class="foto__image" alt="Elton John" src="https://s1.ticketm.net/tm/en-us/dam/a/12f/9ddad6da-104d-4b7a-bedb-698a9087012f_614581_CUSTOM.jpg">
-                        </div>
-                        <div class="event__preview">
-                            <div class="event__title">
-                                <h4>New music concert</h4>
-                            </div>
-                            <div class="event__descrip">
-                                <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
-                            </div>
-                            <div class="event__data">
-                                <span>19 февраля 2017, 12:00.</span>
-                            </div>
-                        </div>
-                    </a>
-                </article>
-            </events-hs>`;
+            </events-ja>`;
         this.init();
     };
 

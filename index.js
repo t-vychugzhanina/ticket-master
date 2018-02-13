@@ -1,7 +1,6 @@
-import {AppComponent} from '../app.component/app.component';
+import {AppComponent} from './components/app.component/app.component';
 
 let App = new AppComponent();
-
 
 let anchorHeight = (function() {
     var headerHeight = $('.header').outerHeight();

@@ -7,7 +7,7 @@
 .header {
     position: fixed;
     width: 100%;
-    background: url("../img/header2.jpg");
+    background: url("../../img/header2.jpg");
 }
 
 .header__top{
@@ -22,7 +22,7 @@
 
 .header__logo {
     color: transparent;
-    background: url(../img/log.png) no-repeat;
+    background: url(../../img/log.png) no-repeat;
     background-size: contain;
     padding: 30px 80px;
     margin-right: 1%;
@@ -62,14 +62,14 @@
 }
 
 .submit {
-    background: url("../img/lup3.png") no-repeat;
+    background: url("../../img/lup3.png") no-repeat;
     background-size: 100%;
     background-position: center;
     text-indent: -9999px;
 }
 
 .setting {
-    background: url("../img/points.png");
+    background: url("../../img/points.png");
     background-size: 100%;
     background-position: center;
     display: none;
@@ -86,7 +86,7 @@
 
 .my-acc{
     padding-left: 35px;
-    background: url("../img/user.png") no-repeat;
+    background: url("../../img/user.png") no-repeat;
     background-size: contain;
 }
 

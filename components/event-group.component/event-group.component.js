@@ -1,4 +1,4 @@
-import {AppModule} from "../js/app.module";
+import {AppModule} from "../../app.module";
 
 export class EventGroupComponent {
 
