@@ -74,6 +74,8 @@
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_just_announced_component_just_announced_component__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_happening_soon_component_happening_soon_component__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_categories_component_categories_component__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_search_events_component_search_events_component__ = __webpack_require__(9);
+
 
 
 
@@ -91,6 +93,7 @@ class AppModule {
         this.FILES.set('events-ja', () => new __WEBPACK_IMPORTED_MODULE_3__components_just_announced_component_just_announced_component__["a" /* JustAnnouncedComponent */]());
         this.FILES.set('events-hs', () => new __WEBPACK_IMPORTED_MODULE_4__components_happening_soon_component_happening_soon_component__["a" /* HappeningSoonComponent */]());
         this.FILES.set('events-categories', () => new __WEBPACK_IMPORTED_MODULE_5__components_categories_component_categories_component__["a" /* CategoriesComponent */]());
+        this.FILES.set('search-events', () => new __WEBPACK_IMPORTED_MODULE_6__components_search_events_component_search_events_component__["a" /* SearchEventsComponent */]());
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = AppModule;
@@ -321,6 +324,8 @@ class EventGroupComponent {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__search_events_component_search_events_component__ = __webpack_require__(9);
+
 
 
 class AddOptionsComponent {
@@ -328,10 +333,9 @@ class AddOptionsComponent {
     constructor() {
         this.selector = 'add-options';
         this.template = `<add-options class="content__aside">
-            <form class="aside__location-form" method="get">
-                <h3 class="aside__title">Your location</h3>
-                    <input class="location-form__item" name="city" type="text" placeholder="Enter city">
+            <form onsubmit="return false" class="aside__location-form" method="get">
                 <h3 class="aside__title">Shop for Events</h3>
+                    <input class="location-form__item" name="city" type="text" autocomplete="on" placeholder="Enter city">
                     <select id="category" name="category" class="location-form__item">
                         <option selected disabled>Select category</option>
                         <option>Music</option>
@@ -343,9 +347,9 @@ class AddOptionsComponent {
                         <option selected disabled>Select sub category</option>
                     </select>
                     <span class="aside__text">From:</span>
-                    <input class="location-form__item input-date" name="date-start" id="datePicker" type="date" placeholder="Select start data">
+                    <input class="location-form__item input-date" name="startDateTime" id="datePicker" type="date" placeholder="Select start data">
                     <span class="aside__text">To:</span>
-                    <input class="location-form__item input-date" name="date-end" id="datePicker2" type="date" placeholder="Select end data">
+                    <input class="location-form__item input-date" name="endDateTime" id="datePicker2" type="date" placeholder="Select end data">
                     <button class="location-form__submit" type="submit">Apply</button>
                 </form>
         </add-options>`;
@@ -359,7 +363,8 @@ class AddOptionsComponent {
         };
         this.makeChildren();
         this.dateWork();
-        this.getData();
+        this.applyWork();
+        //this.getData();
     }
 
     makeChildren() {
@@ -432,6 +437,64 @@ class AddOptionsComponent {
         }
     }
 
+    applyWork() {
+        let applyWork = this;
+        this.createQueryResults = function () {
+            let content = document.getElementsByClassName('content__events')[0];
+            content.innerHTML = '';
+            let QueryResults = document.createElement('search-events');
+            content.appendChild(QueryResults);
+            new __WEBPACK_IMPORTED_MODULE_1__search_events_component_search_events_component__["a" /* SearchEventsComponent */]();
+        };
+
+        this.getSearchData = function (city, category, subCategory, startDateTime, endDateTime) {
+            startDateTime = new Date(startDateTime.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
+            endDateTime = new Date(endDateTime.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
+            startDateTime = startDateTime.toISOString().substr(0, 19) + 'Z';
+            endDateTime = endDateTime.toISOString().substr(0, 19) + 'Z';
+
+            $.ajax({
+                type: "GET",
+                url: "https://app.ticketmaster.com/discovery/v2/events.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0&city=" + city + "&classificationName" + category + "&startDateTime=" + startDateTime + "&endDateTime=" + endDateTime,
+                async: true,
+                dataType: "json",
+                success: function (json) {
+                    showEvents(json);
+                },
+                error: function (xhr, status, err) {
+                    console.log(err);
+                }
+            });
+
+            function showEvents(json) {
+                var categoryBlock = document.getElementsByClassName('search-events')[0];
+                console.log(categoryBlock);
+                var categoryEvents = categoryBlock.getElementsByClassName('event');
+                var events = json._embedded.events;
+                console.log(categoryEvents);
+                for (var i = 0; i < categoryEvents.length; i++) {
+                    categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
+                    categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
+                    categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+                    categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
+                }
+                ;
+            };
+        };
+
+        let applyButton = document.getElementsByClassName('location-form__submit')[0];
+        applyButton.onclick = function () {
+            applyWork.results = this;
+            let city = document.getElementsByName('city')[0].value;
+            let category = document.getElementsByName('category')[0].value;
+            let subCategory = document.getElementsByName('sub-category')[0].value;
+            let startDateTime = document.getElementsByName('startDateTime')[0].value;
+            let endDateTime = document.getElementsByName('endDateTime')[0].value;
+            console.log(city, category, subCategory, startDateTime, endDateTime);
+            applyWork.createQueryResults();
+            applyWork.getSearchData(city, category, subCategory, startDateTime, endDateTime);
+        };
+    }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = AddOptionsComponent;
 ;
@@ -532,7 +595,7 @@ class JustAnnouncedComponent {
             all[r].outerHTML = this.template;
         };
         this.makeChildren();
-        this.getData();
+        //this.getData();
     }
 
     makeChildren() {
@@ -688,7 +751,7 @@ class HappeningSoonComponent {
             all[r].outerHTML = this.template;
         };
         this.makeChildren();
-        this.getData();
+        //this.getData();
     }
 
     makeChildren() {
@@ -886,7 +949,7 @@ class CategoriesComponent {
             all[r].outerHTML = this.template;
         };
         this.makeChildren();
-        this.getData();
+        // this.getData();
     }
 
     makeChildren() {
@@ -940,6 +1003,162 @@ class CategoriesComponent {
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = CategoriesComponent;
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module__ = __webpack_require__(0);
+
+
+class SearchEventsComponent {
+
+    constructor() {
+        this.selector = 'search-events';
+        this.template = `<search-events class="search-events">
+                <h2 class="events__title">Query results</h2>
+                <article class="event">
+                    <a href="#" class="event-link">
+                        <div class="event__foto">
+                                <img class="foto__image" alt="Elton John" src="https://s1.ticketm.net/tm/en-us/dam/a/12f/9ddad6da-104d-4b7a-bedb-698a9087012f_614581_CUSTOM.jpg">
+                            </div>
+                            <div class="event__preview">
+                                <div class="event__title">
+                                    <h4>New music concert</h4>
+                                </div>
+                                <div class="event__descrip">
+                                    <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
+                                </div>
+                                <div class="event__data">
+                                    <span>19 февраля 2017, 12:00.</span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+                <article class="event">
+                    <a href="#" class="event-link">
+                        <div class="event__foto">
+                            <img class="foto__image" alt="Elton John" src="https://s1.ticketm.net/tm/en-us/dam/a/12f/9ddad6da-104d-4b7a-bedb-698a9087012f_614581_CUSTOM.jpg">
+                        </div>
+                        <div class="event__preview">
+                            <div class="event__title">
+                                <h4>New music concert</h4>
+                            </div>
+                            <div class="event__descrip">
+                                <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
+                            </div>
+                            <div class="event__data">
+                                <span>19 февраля 2017, 12:00.</span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+                <article class="event">
+                    <a href="#" class="event-link">
+                        <div class="event__foto">
+                            <img class="foto__image" alt="Elton John" src="https://s1.ticketm.net/tm/en-us/dam/a/12f/9ddad6da-104d-4b7a-bedb-698a9087012f_614581_CUSTOM.jpg">
+                        </div>
+                        <div class="event__preview">
+                            <div class="event__title">
+                                <h4>New music concert</h4>
+                            </div>
+                            <div class="event__descrip">
+                                <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
+                            </div>
+                            <div class="event__data">
+                                <span>19 февраля 2017, 12:00.</span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+                <article class="event">
+                    <a href="#" class="event-link">
+                        <div class="event__foto">
+                            <img class="foto__image" alt="Elton John" src="https://s1.ticketm.net/tm/en-us/dam/a/12f/9ddad6da-104d-4b7a-bedb-698a9087012f_614581_CUSTOM.jpg">
+                        </div>
+                        <div class="event__preview">
+                            <div class="event__title">
+                                <h4>New music concert</h4>
+                            </div>
+                            <div class="event__descrip">
+                                <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
+                            </div>
+                            <div class="event__data">
+                                <span>19 февраля 2017, 12:00.</span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            </search-events>`;
+        this.init();
+    }
+
+    init() {
+        var all = document.getElementsByTagName(this.selector);
+        for (var r = 0; r < all.length; r++) {
+            all[r].outerHTML = this.template;
+        };
+        this.makeChildren();
+        //this.getData();
+    }
+
+    makeChildren() {
+        let tempTemplate = this.template;
+        let tempSelector = this.selector;
+        let module = new __WEBPACK_IMPORTED_MODULE_0__app_module__["a" /* AppModule */]();
+        let tags = module.FILES;
+        tags.forEach(function (value, key, mapObj) {
+            if (tempTemplate.indexOf('<' + key) != -1 & key != tempSelector) {
+                value();
+            }
+        });
+    }
+
+    getData() {
+
+        Date.prototype.addDays = function (days) {
+            let dat = new Date(this.valueOf());
+            dat.setDate(dat.getDate() + days);
+            return dat;
+        };
+
+        let today = new Date();
+        today.setUTCMilliseconds(0);
+        let inWeek = today.addDays(3);
+        today = today.toISOString().substr(0, 19) + 'Z';
+        inWeek = inWeek.toISOString().substr(0, 19) + 'Z';
+
+        $.ajax({
+            type: "GET",
+            url: "https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&size=4&onsaleStartDateTime=" + today + "&onsaleEndDateTime=" + inWeek,
+            async: true,
+            dataType: "json",
+            success: function (json) {
+                showEvents(json);
+            },
+            error: function (xhr, status, err) {
+                console.log(err);
+                alert('Запрос некорректен. Пожалуйста, введите его снова!');
+            }
+        });
+
+        function showEvents(json) {
+            var categoryBlock = document.getElementsByClassName('events__just-announced')[0];
+            var categoryEvents = categoryBlock.getElementsByClassName('event');
+            var events = json._embedded.events;
+            console.log(categoryEvents);
+            for (var i = 0; i < categoryEvents.length; i++) {
+                categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
+                categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
+                categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+                categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
+            };
+        }
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = SearchEventsComponent;
 
 
 /***/ })

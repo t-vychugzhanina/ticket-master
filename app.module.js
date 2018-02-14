@@ -4,6 +4,7 @@ import {AddOptionsComponent} from './components/add-options.component/add-option
 import {JustAnnouncedComponent} from './components/just-announced.component/just-announced.component';
 import {HappeningSoonComponent} from './components/happening-soon.component/happening-soon.component';
 import {CategoriesComponent} from './components/categories.component/categories.component';
+import {SearchEventsComponent} from "./components/search-events.component/search-events.component";
 
 export class AppModule {
 
@@ -15,5 +16,6 @@ export class AppModule {
         this.FILES.set('events-ja', () => new JustAnnouncedComponent());
         this.FILES.set('events-hs', () => new HappeningSoonComponent());
         this.FILES.set('events-categories', () => new CategoriesComponent());
+        this.FILES.set('search-events', () => new SearchEventsComponent());
     };
 };

@@ -1,11 +1,11 @@
 import {AppModule} from "../../app.module";
 
-export class JustAnnouncedComponent {
+export class SearchEventsComponent {
 
     constructor() {
-        this.selector = 'events-ja';
-        this.template = `<events-ja class="events__just-announced">
-                <h2 class="events__title">Just Announced</h2>
+        this.selector = 'search-events';
+        this.template = `<search-events class="search-events">
+                <h2 class="events__title">Query results</h2>
                 <article class="event">
                     <a href="#" class="event-link">
                         <div class="event__foto">
@@ -78,7 +78,7 @@ export class JustAnnouncedComponent {
                         </div>
                     </a>
                 </article>
-            </events-ja>`;
+            </search-events>`;
         this.init();
     };
 
@@ -128,6 +128,7 @@ export class JustAnnouncedComponent {
             },
             error: function(xhr, status, err) {
                 console.log(err);
+                alert('Запрос некорректен. Пожалуйста, введите его снова!');
             }
         });
 
