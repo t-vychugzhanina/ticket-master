@@ -364,7 +364,7 @@ class AddOptionsComponent {
         this.makeChildren();
         this.dateWork();
         this.applyWork();
-        //this.getData();
+        this.getData();
     }
 
     makeChildren() {
@@ -595,7 +595,7 @@ class JustAnnouncedComponent {
             all[r].outerHTML = this.template;
         };
         this.makeChildren();
-        //this.getData();
+        this.getData();
     }
 
     makeChildren() {
@@ -751,7 +751,7 @@ class HappeningSoonComponent {
             all[r].outerHTML = this.template;
         };
         this.makeChildren();
-        //this.getData();
+        this.getData();
     }
 
     makeChildren() {
@@ -949,7 +949,7 @@ class CategoriesComponent {
             all[r].outerHTML = this.template;
         };
         this.makeChildren();
-        // this.getData();
+        this.getData();
     }
 
     makeChildren() {

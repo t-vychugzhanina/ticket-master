@@ -133,7 +133,7 @@ export class CategoriesComponent {
             all[r].outerHTML = this.template;
         };
         this.makeChildren();
-       // this.getData();
+        this.getData();
     };
 
     makeChildren(){

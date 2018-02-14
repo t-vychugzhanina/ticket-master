@@ -37,7 +37,7 @@ export class AddOptionsComponent{
             this.makeChildren();
             this.dateWork();
             this.applyWork();
-            //this.getData();
+            this.getData();
         };
 
         makeChildren(){
