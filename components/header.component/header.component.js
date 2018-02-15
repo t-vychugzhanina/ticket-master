@@ -1,4 +1,5 @@
 import {AppModule} from "../../app.module";
+import {SearchEventsComponent} from "../search-events.component/search-events.component";
 
 export class HeaderComponent {
 
@@ -8,7 +9,7 @@ export class HeaderComponent {
             <div class="content">
                 <div class="header__top">
                     <a class="header__logo" href=#> Logo-Ticketmaster </a>
-                    <form class="header__search-bar" method="get">
+                    <form onsubmit="return false" class="header__search-bar" method="get">
                         <input class="search-bar__input-text" name="search" type="search" placeholder="Search...">
                         <button class="search-bar__button submit" type="submit">Search</button>
                         <button class="search-bar__button setting" type="button">Search settings</button>
@@ -57,6 +58,7 @@ export class HeaderComponent {
             };
             this.makeChildren();
             this.burgerMenuFunctions();
+            this.getData();
         };
 
         makeChildren(){
@@ -90,6 +92,59 @@ export class HeaderComponent {
                 $('.content__aside').removeClass('content__aside_opened');
                 event.stopPropagation();
             });
-        }
+        };
+
+    getData() {
+        let getData = this;
+        this.createQueryResults = function(){
+            let content = document.getElementsByClassName('content__events')[0];
+            content.innerHTML = '';
+            let QueryResults = document.createElement('search-events');
+            content.appendChild(QueryResults);
+            new SearchEventsComponent();
+        };
+
+        this.getSearchData = function(keyword){
+            $.ajax({
+                type: "GET",
+                url: "https://app.ticketmaster.com/discovery/v2/events.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0&keyword="+keyword,
+                async: true,
+                dataType: "json",
+                success: function (json) {
+                    showEvents(json);
+                },
+                error: function (xhr, status, err) {
+                    console.log(err);
+                }
+            });
+
+            function showEvents(json) {
+                let categoryBlock = document.getElementsByClassName('search-events')[0];
+                let categoryEvents = categoryBlock.getElementsByClassName('event');
+                if (json.page.totalPages==0) {
+                    let title = categoryBlock.getElementsByClassName('events__title')[0];
+                    title.innerHTML = 'Запрос некорректен! Введите его заново!';
+                }
+                else {
+                    let events = json._embedded.events;
+                    for (let i = 0; i < categoryEvents.length; i++) {
+                        categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
+                        categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
+                        categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+                        categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
+                    };
+                };
+            };
+        };
+
+        let searchButton = document.getElementsByClassName('search-bar__button submit')[0];
+        searchButton.onclick = function () {
+            let keyword = document.getElementsByName('search')[0].value;
+            getData.createQueryResults();
+            getData.getSearchData(keyword);
+        };
+
+
+    };
 
 }

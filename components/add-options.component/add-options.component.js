@@ -10,14 +10,14 @@ export class AddOptionsComponent{
                 <h3 class="aside__title">Shop for Events</h3>
                     <input class="location-form__item" name="city" type="text" autocomplete="on" placeholder="Enter city">
                     <select id="category" name="category" class="location-form__item">
-                        <option selected disabled>Select category</option>
+                        <option selected>Select category</option>
                         <option>Music</option>
                         <option>Sports</option>
                         <option>Arts & Theatre</option>
                         <option>Film</option>
                     </select>
                     <select id="sub-category" name="sub-category" class="location-form__item">
-                        <option selected disabled>Select sub category</option>
+                        <option selected>Select sub category</option>
                     </select>
                     <span class="aside__text">From:</span>
                     <input class="location-form__item input-date" name="startDateTime" id="datePicker" type="date" placeholder="Select start data">
@@ -90,7 +90,7 @@ export class AddOptionsComponent{
                     let categoryAPI = json._embedded.classifications;
                     category.onchange = function () {
                         subCategory.style.display = "block";
-                        subCategory.innerHTML = '';
+                        subCategory.innerHTML = '<option selected>Select sub category</option>';
                         let selected = $( "#category option:selected" ).text();
                         for (let i = 0; i < categoryAPI.length; i++) {
                             try {
@@ -124,14 +124,18 @@ export class AddOptionsComponent{
                  endDateTime = new Date(endDateTime.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
                  startDateTime = startDateTime.toISOString().substr(0, 19)+'Z';
                  endDateTime = endDateTime.toISOString().substr(0, 19)+'Z';
+                 let urlString = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0&startDateTime="+startDateTime+"&endDateTime="+endDateTime;
+                 if (category!='Select category') {urlString=urlString+"&classificationName="+category};
+                 if (subCategory!='Select sub category') {urlString=urlString+"&keyword="+subCategory};
+                 if (city!='') {urlString=urlString+"&city="+city};
 
                  $.ajax({
                      type: "GET",
-                     url: "https://app.ticketmaster.com/discovery/v2/events.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0&city="+city+"&classificationName"+category+
-                     "&startDateTime="+startDateTime+"&endDateTime="+endDateTime,
+                     url: urlString,
                      async: true,
                      dataType: "json",
                      success: function (json) {
+                         console.log(this.url);
                          showEvents(json);
                      },
                      error: function (xhr, status, err) {
@@ -140,18 +144,22 @@ export class AddOptionsComponent{
                  });
 
                  function showEvents(json) {
-                     var categoryBlock = document.getElementsByClassName('search-events')[0];
-                     console.log(categoryBlock);
-                     var categoryEvents = categoryBlock.getElementsByClassName('event');
-                     var events = json._embedded.events;
-                     console.log(categoryEvents);
-                     for (var i = 0; i < categoryEvents.length; i++) {
-                         categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
-                         categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
-                         categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
-                         categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
+                     let categoryBlock = document.getElementsByClassName('search-events')[0];
+                     let categoryEvents = categoryBlock.getElementsByClassName('event');
+                     if (json.page.totalPages==0) {
+                         let title = categoryBlock.getElementsByClassName('events__title')[0];
+                         title.innerHTML = 'Can\'t find query results! Please, try again!';
                      }
-                     ;
+                     else {
+                         let events = json._embedded.events;
+
+                         for (let i = 0; i < categoryEvents.length; i++) {
+                             categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
+                             categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
+                             categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+                             categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
+                         };
+                     };
                  };
              };
 

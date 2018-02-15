@@ -9,17 +9,17 @@ export class JustAnnouncedComponent {
                 <article class="event">
                     <a href="#" class="event-link">
                         <div class="event__foto">
-                                <img class="foto__image" alt="Elton John" src="https://s1.ticketm.net/tm/en-us/dam/a/12f/9ddad6da-104d-4b7a-bedb-698a9087012f_614581_CUSTOM.jpg">
+                                <img class="foto__image" alt="" src="">
                             </div>
                             <div class="event__preview">
                                 <div class="event__title">
-                                    <h4>New music concert</h4>
+                                    <h4></h4>
                                 </div>
                                 <div class="event__descrip">
-                                    <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
+                                    <p></p>
                                 </div>
                                 <div class="event__data">
-                                    <span>19 февраля 2017, 12:00.</span>
+                                    <span></span>
                             </div>
                         </div>
                     </a>
@@ -27,35 +27,17 @@ export class JustAnnouncedComponent {
                 <article class="event">
                     <a href="#" class="event-link">
                         <div class="event__foto">
-                            <img class="foto__image" alt="Elton John" src="https://s1.ticketm.net/tm/en-us/dam/a/12f/9ddad6da-104d-4b7a-bedb-698a9087012f_614581_CUSTOM.jpg">
-                        </div>
-                        <div class="event__preview">
-                            <div class="event__title">
-                                <h4>New music concert</h4>
+                                <img class="foto__image" alt="" src="">
                             </div>
-                            <div class="event__descrip">
-                                <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
-                            </div>
-                            <div class="event__data">
-                                <span>19 февраля 2017, 12:00.</span>
-                            </div>
-                        </div>
-                    </a>
-                </article>
-                <article class="event">
-                    <a href="#" class="event-link">
-                        <div class="event__foto">
-                            <img class="foto__image" alt="Elton John" src="https://s1.ticketm.net/tm/en-us/dam/a/12f/9ddad6da-104d-4b7a-bedb-698a9087012f_614581_CUSTOM.jpg">
-                        </div>
-                        <div class="event__preview">
-                            <div class="event__title">
-                                <h4>New music concert</h4>
-                            </div>
-                            <div class="event__descrip">
-                                <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
-                            </div>
-                            <div class="event__data">
-                                <span>19 февраля 2017, 12:00.</span>
+                            <div class="event__preview">
+                                <div class="event__title">
+                                    <h4></h4>
+                                </div>
+                                <div class="event__descrip">
+                                    <p></p>
+                                </div>
+                                <div class="event__data">
+                                    <span></span>
                             </div>
                         </div>
                     </a>
@@ -63,17 +45,35 @@ export class JustAnnouncedComponent {
                 <article class="event">
                     <a href="#" class="event-link">
                         <div class="event__foto">
-                            <img class="foto__image" alt="Elton John" src="https://s1.ticketm.net/tm/en-us/dam/a/12f/9ddad6da-104d-4b7a-bedb-698a9087012f_614581_CUSTOM.jpg">
+                                <img class="foto__image" alt="" src="">
+                            </div>
+                            <div class="event__preview">
+                                <div class="event__title">
+                                    <h4></h4>
+                                </div>
+                                <div class="event__descrip">
+                                    <p></p>
+                                </div>
+                                <div class="event__data">
+                                    <span></span>
+                            </div>
                         </div>
-                        <div class="event__preview">
-                            <div class="event__title">
-                                <h4>New music concert</h4>
+                    </a>
+                </article>
+                <article class="event">
+                    <a href="#" class="event-link">
+                        <div class="event__foto">
+                                <img class="foto__image" alt="" src="">
                             </div>
-                            <div class="event__descrip">
-                                <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
-                            </div>
-                            <div class="event__data">
-                                <span>19 февраля 2017, 12:00.</span>
+                            <div class="event__preview">
+                                <div class="event__title">
+                                    <h4></h4>
+                                </div>
+                                <div class="event__descrip">
+                                    <p></p>
+                                </div>
+                                <div class="event__data">
+                                    <span></span>
                             </div>
                         </div>
                     </a>
@@ -135,7 +135,6 @@ export class JustAnnouncedComponent {
             var categoryBlock = document.getElementsByClassName('events__just-announced')[0];
             var categoryEvents = categoryBlock.getElementsByClassName('event');
             var events = json._embedded.events;
-            console.log(categoryEvents);
             for (var i = 0; i < categoryEvents.length; i++) {
                 categoryEvents[i].getElementsByClassName('event__title')[0].innerText=events[i].name;
                 categoryEvents[i].getElementsByClassName('event__data')[0].innerText=events[i].dates.start.localDate;
