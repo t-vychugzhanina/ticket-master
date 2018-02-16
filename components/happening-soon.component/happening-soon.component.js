@@ -1,10 +1,12 @@
-import {AppModule} from "../../app.module";
+import {InitService} from "../../init.service";
+import {AppService} from "../../app.service";
 
 export class HappeningSoonComponent {
 
     constructor() {
         this.selector = 'events-hs';
-        this.template = `<events-hs class="events__happening-soon">
+        this.template = `
+            <events-hs class="events__happening-soon">
                 <h2 class="events__title">Happening Soon</h2>
                 <article class="event hs-event">
                     <a href="#" class="event-link">
@@ -79,32 +81,13 @@ export class HappeningSoonComponent {
                     </a>
                 </article>
             </events-hs>`;
-        this.init();
-    };
 
-    init() {
-        var all = document.getElementsByTagName(this.selector);
-        for (var r = 0; r < all.length; r++) {
-            all[r].outerHTML = this.template;
-        };
-        this.makeChildren();
-        this.getData();
-    };
-
-    makeChildren(){
-        let tempTemplate = this.template;
-        let tempSelector = this.selector;
-        let module = new AppModule();
-        let tags = module.FILES;
-        tags.forEach(function (value, key, mapObj) {
-            if ((tempTemplate.indexOf('<'+key)!=-1)&(key!=tempSelector)) {
-                (value)();
-            }
-        });
+        new InitService(this.template,this.selector);
+        new AppService(this.template,this.selector);
+        //this.getData();
     };
 
     getData(){
-
         Date.prototype.addDays = (function(days) {
             let dat = new Date(this.valueOf());
             dat.setDate(dat.getDate() + days);
@@ -122,26 +105,24 @@ export class HappeningSoonComponent {
             url:"https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&startDateTime="+today+"&endDateTime="+inWeek+"&size=4",
             async:true,
             dataType: "json",
-            success: function(json) {
-                showEvents(json);
+            success: (json) => {
+                this.showEvents(json);
             },
-            error: function(xhr, status, err) {
+            error: (xhr, status, err) => {
                 console.log(err);
             }
         });
-
-        function showEvents(json) {
-            var categoryBlock = document.getElementsByClassName('events__happening-soon')[0];
-            var categoryEvents = categoryBlock.getElementsByClassName('hs-event');
-            var events = json._embedded.events;
-            for (var i = 0; i < categoryEvents.length; i++) {
-                categoryEvents[i].getElementsByClassName('event__title')[0].innerText=events[i].name;
-                categoryEvents[i].getElementsByClassName('event__data')[0].innerText=events[i].dates.start.localDate;
-                categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText=events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
-                categoryEvents[i].getElementsByClassName('foto__image')[0].src=events[i].images[0].url;
-            };
-        }
-
     };
 
+    showEvents(json) {
+        let categoryBlock = document.getElementsByClassName('events__happening-soon')[0];
+        let categoryEvents = categoryBlock.getElementsByClassName('hs-event');
+        let events = json._embedded.events;
+        for (let i = 0; i < categoryEvents.length; i++) {
+            categoryEvents[i].getElementsByClassName('event__title')[0].innerText=events[i].name;
+            categoryEvents[i].getElementsByClassName('event__data')[0].innerText=events[i].dates.start.localDate;
+            categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText=events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+            categoryEvents[i].getElementsByClassName('foto__image')[0].src=events[i].images[0].url;
+        };
+    };
 }

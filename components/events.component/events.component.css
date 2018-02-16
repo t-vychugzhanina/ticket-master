@@ -1,6 +1,6 @@
 .events__title{
     font-size: 3em;
-    margin:0 auto;
+    margin:0.5rem auto;
     text-align: center;
     color: #eeeeee;
     width: 100%;
@@ -11,6 +11,7 @@
     background: #F8F8F8;
     margin-bottom: 10px;
     padding: 10px;
+    display: block;
 }
 
 .event-link{

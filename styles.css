@@ -1,10 +1,13 @@
-@import url("./components/header.component/header.component.css");
+@import url("./components/headline.component/headline.component.css");
 @import url("./components/event-group.component/event-group.component.css");
 @import url("./components/add-options.component/add-options.component.css");
 @import url("./components/events.component/events.component.css");
 @import url("./components/just-announced.component/just-announced.component.css");
 @import url("./components/happening-soon.component/happening-soon.component.css");
 @import url("./components/categories.component/categories.component.css");
+@import url("./components/search-events.component/search-events.component.css");
+@import url("./components/burger-menu.component/burger-menu.component.css");
+@import url("./components/search-bar.component/search-bar.component.css");
 @charset "utf-8";
 
 

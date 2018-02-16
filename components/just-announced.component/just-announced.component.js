@@ -1,7 +1,7 @@
-import {AppModule} from "../../app.module";
+import {AppService} from "../../app.service";
+import {InitService} from "../../init.service";
 
 export class JustAnnouncedComponent {
-
     constructor() {
         this.selector = 'events-ja';
         this.template = `<events-ja class="events__just-announced">
@@ -79,33 +79,12 @@ export class JustAnnouncedComponent {
                     </a>
                 </article>
             </events-ja>`;
-        this.init();
-    };
-
-
-    init() {
-        var all = document.getElementsByTagName(this.selector);
-        for (var r = 0; r < all.length; r++) {
-            all[r].outerHTML = this.template;
-        };
-        this.makeChildren();
-        this.getData();
-    };
-
-    makeChildren(){
-        let tempTemplate = this.template;
-        let tempSelector = this.selector;
-        let module = new AppModule();
-        let tags = module.FILES;
-        tags.forEach(function (value, key, mapObj) {
-            if ((tempTemplate.indexOf('<'+key)!=-1)&(key!=tempSelector)) {
-                (value)();
-            }
-        });
+        new InitService(this.template,this.selector);
+        new AppService(this.template,this.selector);
+        //this.getData();
     };
 
     getData(){
-
         Date.prototype.addDays = (function(days) {
             let dat = new Date(this.valueOf());
             dat.setDate(dat.getDate() + days);
@@ -115,33 +94,47 @@ export class JustAnnouncedComponent {
         let today = new Date();
         today.setUTCMilliseconds(0);
         let inWeek = today.addDays(3);
-        today = today.toISOString().substr(0, 19)+'Z';
-        inWeek = inWeek.toISOString().substr(0, 19)+'Z';
+        this.today = today.toISOString().substr(0, 19)+'Z';
+        this.inWeek = inWeek.toISOString().substr(0, 19)+'Z';
+        this.getEvents(0);
+    };
 
+    getEvents(page) {
         $.ajax({
-            type:"GET",
-            url:"https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&size=4&onsaleStartDateTime="+today+"&onsaleEndDateTime="+inWeek,
-            async:true,
+            type: "GET",
+            url: "https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&size=4&onsaleStartDateTime=" + this.today + "&onsaleEndDateTime=" + this.inWeek + "&page=" + page,
+            async: true,
             dataType: "json",
-            success: function(json) {
-                showEvents(json);
+            success: (json) => {
+                this.showEvents(json);
             },
-            error: function(xhr, status, err) {
+            error: (xhr, status, err) => {
                 console.log(err);
             }
         });
-
-        function showEvents(json) {
-            var categoryBlock = document.getElementsByClassName('events__just-announced')[0];
-            var categoryEvents = categoryBlock.getElementsByClassName('event');
-            var events = json._embedded.events;
-            for (var i = 0; i < categoryEvents.length; i++) {
-                categoryEvents[i].getElementsByClassName('event__title')[0].innerText=events[i].name;
-                categoryEvents[i].getElementsByClassName('event__data')[0].innerText=events[i].dates.start.localDate;
-                categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText=events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
-                categoryEvents[i].getElementsByClassName('foto__image')[0].src=events[i].images[0].url;
-            };
-        }
-
     };
+
+    showEvents(json) {
+        let categoryBlock = document.getElementsByClassName('events__just-announced')[0];
+        let categoryEvents = categoryBlock.getElementsByClassName('event');
+        let events = json._embedded.events;
+        for (let i = 0; i < categoryEvents.length; i++) {
+            categoryEvents[i].getElementsByClassName('event__title')[0].innerText=events[i].name;
+            categoryEvents[i].getElementsByClassName('event__data')[0].innerText=events[i].dates.start.localDate;
+            categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText=events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+            categoryEvents[i].getElementsByClassName('foto__image')[0].src=events[i].images[0].url;
+        };
+        this.changeEvents(json.page.number, json.page.totalPages);
+    };
+
+    changeEvents(page, all) {
+        let changePage = (page,all) => {
+            if (page < 0) { page = 0; };
+            if (page > all-1) {page = 0;};
+            page=page+1;
+            this.getEvents(page);
+        };
+        //setTimeout(changePage, 10000, page,all);
+    };
+
 }

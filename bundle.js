@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -68,13 +68,45 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_header_component_header_component__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_event_group_component_event_group_component__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_add_options_component_add_options_component__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_just_announced_component_just_announced_component__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_happening_soon_component_happening_soon_component__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_categories_component_categories_component__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_search_events_component_search_events_component__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module__ = __webpack_require__(1);
+
+
+class AppService {
+
+    constructor(template, selector) {
+        this.renderChildren(template, selector);
+    }
+
+    renderChildren(template, selector) {
+        const module = new __WEBPACK_IMPORTED_MODULE_0__app_module__["a" /* AppModule */]();
+        module.FILES.forEach((value, key, mapObj) => {
+            if (template.indexOf('<' + key) != -1 & key != selector) {
+                value();
+            };
+        });
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = AppService;
+;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_headline_component_headline_component__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_event_group_component_event_group_component__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_add_options_component_add_options_component__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_just_announced_component_just_announced_component__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_happening_soon_component_happening_soon_component__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_categories_component_categories_component__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_search_events_component_search_events_component__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_events_component_event_component_event_component__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_burger_menu_component_burger_menu_component__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_search_bar_component_search_bar_component__ = __webpack_require__(14);
+
+
+
 
 
 
@@ -87,179 +119,101 @@ class AppModule {
 
     constructor() {
         this.FILES = new Map();
-        this.FILES.set('header', () => new __WEBPACK_IMPORTED_MODULE_0__components_header_component_header_component__["a" /* HeaderComponent */]());
+        this.FILES.set('headline', () => new __WEBPACK_IMPORTED_MODULE_0__components_headline_component_headline_component__["a" /* HeadlineComponent */]());
         this.FILES.set('add-options', () => new __WEBPACK_IMPORTED_MODULE_2__components_add_options_component_add_options_component__["a" /* AddOptionsComponent */]());
         this.FILES.set('event-group', () => new __WEBPACK_IMPORTED_MODULE_1__components_event_group_component_event_group_component__["a" /* EventGroupComponent */]());
         this.FILES.set('events-ja', () => new __WEBPACK_IMPORTED_MODULE_3__components_just_announced_component_just_announced_component__["a" /* JustAnnouncedComponent */]());
         this.FILES.set('events-hs', () => new __WEBPACK_IMPORTED_MODULE_4__components_happening_soon_component_happening_soon_component__["a" /* HappeningSoonComponent */]());
         this.FILES.set('events-categories', () => new __WEBPACK_IMPORTED_MODULE_5__components_categories_component_categories_component__["a" /* CategoriesComponent */]());
         this.FILES.set('search-events', () => new __WEBPACK_IMPORTED_MODULE_6__components_search_events_component_search_events_component__["a" /* SearchEventsComponent */]());
+        this.FILES.set('event', () => new __WEBPACK_IMPORTED_MODULE_7__components_events_component_event_component_event_component__["a" /* EventComponent */]());
+        this.FILES.set('burger-menu', () => new __WEBPACK_IMPORTED_MODULE_8__components_burger_menu_component_burger_menu_component__["a" /* BurgerMenuComponent */]());
+        this.FILES.set('search-bar', () => new __WEBPACK_IMPORTED_MODULE_9__components_search_bar_component_search_bar_component__["a" /* SearchBarComponent */]());
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = AppModule;
 ;
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module__ = __webpack_require__(0);
+class InitService {
+
+    constructor(template, selector) {
+        this.initComponent(template, selector);
+    }
+
+    initComponent(template, selector) {
+        let allTags = document.getElementsByTagName(selector);
+        for (let i = 0; i < allTags.length; i++) {
+            allTags[i].outerHTML = template;
+        };
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = InitService;
+;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_service__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__init_service__ = __webpack_require__(2);
+
 
 
 class SearchEventsComponent {
 
-    constructor() {
+    constructor(quantity) {
+        this.quantity = quantity;
         this.selector = 'search-events';
         this.template = `<search-events class="search-events">
                 <h2 class="events__title">Query results</h2>
-                <article class="event">
-                    <a href="#" class="event-link">
-                        <div class="event__foto">
-                                <img class="foto__image" alt="" src="">
-                            </div>
-                            <div class="event__preview">
-                                <div class="event__title">
-                                    <h4></h4>
-                                </div>
-                                <div class="event__descrip">
-                                    <p></p>
-                                </div>
-                                <div class="event__data">
-                                    <span></span>
-                            </div>
-                        </div>
-                    </a>
-                </article>
-                <article class="event">
-                    <a href="#" class="event-link">
-                        <div class="event__foto">
-                                <img class="foto__image" alt="" src="">
-                            </div>
-                            <div class="event__preview">
-                                <div class="event__title">
-                                    <h4></h4>
-                                </div>
-                                <div class="event__descrip">
-                                    <p></p>
-                                </div>
-                                <div class="event__data">
-                                    <span></span>
-                            </div>
-                        </div>
-                    </a>
-                </article>
-                <article class="event">
-                    <a href="#" class="event-link">
-                        <div class="event__foto">
-                                <img class="foto__image" alt="" src="">
-                            </div>
-                            <div class="event__preview">
-                                <div class="event__title">
-                                    <h4></h4>
-                                </div>
-                                <div class="event__descrip">
-                                    <p></p>
-                                </div>
-                                <div class="event__data">
-                                    <span></span>
-                            </div>
-                        </div>
-                    </a>
-                </article>
-                <article class="event">
-                    <a href="#" class="event-link">
-                        <div class="event__foto">
-                                <img class="foto__image" alt="" src="">
-                            </div>
-                            <div class="event__preview">
-                                <div class="event__title">
-                                    <h4></h4>
-                                </div>
-                                <div class="event__descrip">
-                                    <p></p>
-                                </div>
-                                <div class="event__data">
-                                    <span></span>
-                            </div>
-                        </div>
-                    </a>
-                </article>
+                <button class="page_button previous">previous</button>
+                <button class="page_button next">next</button>
+                <event></event>
+                <button class="page_button previous">previous</button>
+                <button class="page_button next">next</button>
             </search-events>`;
-        this.init();
+
+        new __WEBPACK_IMPORTED_MODULE_1__init_service__["a" /* InitService */](this.template, this.selector);
+        this.renderChildren();
+        this.Buttons();
     }
 
-    init() {
-        var all = document.getElementsByTagName(this.selector);
-        for (var r = 0; r < all.length; r++) {
-            all[r].outerHTML = this.template;
+    renderChildren() {
+        const content = document.getElementsByTagName(this.selector)[0];
+        if (this.quantity > 10) {
+            this.quantity = 10;
         };
-        this.makeChildren();
-        //this.getData();
-    }
-
-    makeChildren() {
-        let tempTemplate = this.template;
-        let tempSelector = this.selector;
-        let module = new __WEBPACK_IMPORTED_MODULE_0__app_module__["a" /* AppModule */]();
-        let tags = module.FILES;
-        tags.forEach(function (value, key, mapObj) {
-            if (tempTemplate.indexOf('<' + key) != -1 & key != tempSelector) {
-                value();
-            }
-        });
-    }
-
-    getData() {
-        Date.prototype.addDays = function (days) {
-            let dat = new Date(this.valueOf());
-            dat.setDate(dat.getDate() + days);
-            return dat;
+        for (let i = 0; i < this.quantity; i++) {
+            let newEvent = document.createElement('event');
+            content.insertBefore(newEvent, content.children[3]);
         };
+        new __WEBPACK_IMPORTED_MODULE_0__app_service__["a" /* AppService */](this.template, this.selector);
+    }
 
-        let today = new Date();
-        today.setUTCMilliseconds(0);
-        let inWeek = today.addDays(3);
-        today = today.toISOString().substr(0, 19) + 'Z';
-        inWeek = inWeek.toISOString().substr(0, 19) + 'Z';
-
-        $.ajax({
-            type: "GET",
-            url: "https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&size=4&onsaleStartDateTime=" + today + "&onsaleEndDateTime=" + inWeek,
-            async: true,
-            dataType: "json",
-            success: function (json) {
-                showEvents(json);
-            },
-            error: function (xhr, status, err) {
-                console.log(err);
-            }
-        });
-
-        function showEvents(json) {
-            var categoryBlock = document.getElementsByClassName('events__just-announced')[0];
-            var categoryEvents = categoryBlock.getElementsByClassName('event');
-            var events = json._embedded.events;
-            console.log(categoryEvents);
-            for (var i = 0; i < categoryEvents.length; i++) {
-                categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
-                categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
-                categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
-                categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
-            };
-        }
+    Buttons() {
+        const nextButtons = document.getElementsByClassName('next');
+        for (let i = 0; i < nextButtons.length; i++) {
+            console.log(nextButtons[i]);
+            nextButtons[i].onclick = function () {};
+        };
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = SearchEventsComponent;
 
 
 /***/ }),
-/* 2 */
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_app_component_app_component__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_app_component_app_component__ = __webpack_require__(5);
 
 
 let App = new __WEBPACK_IMPORTED_MODULE_0__components_app_component_app_component__["a" /* AppComponent */]();
@@ -280,96 +234,65 @@ window.onload = anchorHeight();
 window.onresize = anchorHeight();
 
 /***/ }),
-/* 3 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_service__ = __webpack_require__(0);
+
 
 
 class AppComponent {
 
     constructor() {
         this.selector = 'app';
-        this.template = `<app>
-            <header></header>
-               <div class="content">
-               <div class="main-container">
-               <add-options></add-options>
-               <event-group></event-group>
-               </div>
-               </div> 
-             </app>`;
+        this.template = `
+            <app>
+                <headline></headline>
+                <div class="content">
+                    <div class="main-container">
+                        <add-options></add-options>
+                        <event-group></event-group>
+                    </div>
+                </div> 
+            </app>`;
+
         this.init();
     }
 
     init() {
         document.body.innerHTML = this.template;
-        this.makeChildren();
-    }
-
-    makeChildren() {
-        let tempTemplate = this.template;
-        let module = new __WEBPACK_IMPORTED_MODULE_0__app_module__["a" /* AppModule */]();
-        let tags = module.FILES;
-        tags.forEach(function (value, key, mapObj) {
-            if (tempTemplate.indexOf('<' + key) != -1) {
-                value();
-            }
-        });
+        new __WEBPACK_IMPORTED_MODULE_1__app_service__["a" /* AppService */](this.template, this.selector);
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = AppComponent;
 ;
 
 /***/ }),
-/* 4 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__search_events_component_search_events_component__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_service__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__init_service__ = __webpack_require__(2);
 
 
 
-class HeaderComponent {
-
+class HeadlineComponent {
     constructor() {
-        this.selector = 'header';
-        this.template = `<header class="header">
+        this.selector = 'headline';
+        this.template = `
+        <headline class="header">
             <div class="content">
                 <div class="header__top">
                     <a class="header__logo" href=#> Logo-Ticketmaster </a>
-                    <form onsubmit="return false" class="header__search-bar" method="get">
-                        <input class="search-bar__input-text" name="search" type="search" placeholder="Search...">
-                        <button class="search-bar__button submit" type="submit">Search</button>
-                        <button class="search-bar__button setting" type="button">Search settings</button>
-                    </form>
-                    <nav class="header__menu">
+                    <search-bar></search-bar>
+                    <header-menu class="header__menu">
                         <a href="#" class="menu__item my-acc">My Acc</a>
                         <a href="#" class="menu__item">Help</a>
-                    </nav>
-                    <div class="header__burger">
-                    <div class="burger-icon">
-                        <div class="burger-line"></div>
-                        <div class="burger-line"></div>
-                        <div class="burger-line"></div>
-                    </div>
-                    <ul class="burger-menu">
-                        <li>
-                            <a href="#">My Acc</a>
-                        </li>
-                        <li>
-                            <a href="#">Bookmarks</a>
-                        </li>
-                        <li>
-                            <a href="#">Help</a>
-                        </li>
-                        <li>
-                            <a href="#">Log out</a>
-                        </li>
-                    </ul>
-                    </div>
+                    </header-menu>
+                    <burger-menu></burger-menu>
                 </div>
                 <nav class="header__navigation">
                     <a href="#Music" class="navigation__item">Music</a>
@@ -378,159 +301,53 @@ class HeaderComponent {
                     <a href="#Family" class="navigation__item">Family</a>
                 </nav>
             </div>
-            </header>`;
-        this.init();
-    }
+        </headline>`;
 
-    init() {
-        var all = document.getElementsByTagName(this.selector);
-        for (var r = 0; r < all.length; r++) {
-            all[r].outerHTML = this.template;
-        };
-        this.makeChildren();
-        this.burgerMenuFunctions();
-        this.getData();
-    }
-
-    makeChildren() {
-        let tempTemplate = this.template;
-        let tempSelector = this.selector;
-        let module = new __WEBPACK_IMPORTED_MODULE_0__app_module__["a" /* AppModule */]();
-        let tags = module.FILES;
-        tags.forEach(function (value, key, mapObj) {
-            if (tempTemplate.indexOf('<' + key) != -1 & key != tempSelector) {
-                value();
-            }
-        });
-    }
-
-    burgerMenuFunctions() {
-        $('.burger-icon').click(function () {
-            $('.burger-menu').toggleClass('burger-menu_opened');
-            $('.content__aside').removeClass('content__aside_opened');
-        });
-
-        $('.setting').click(function () {
-            $('.content__aside').toggleClass('content__aside_opened');
-            $('.burger-menu').removeClass('burger-menu_opened');
-        });
-        $(document).click(function (event) {
-            if ($(event.target).closest(".burger-menu").length) return;
-            if ($(event.target).closest(".burger-icon").length) return;
-            if ($(event.target).closest(".content__aside").length) return;
-            if ($(event.target).closest(".setting").length) return;
-            $('.burger-menu').removeClass('burger-menu_opened');
-            $('.content__aside').removeClass('content__aside_opened');
-            event.stopPropagation();
-        });
-    }
-
-    getData() {
-        let getData = this;
-        this.createQueryResults = function () {
-            let content = document.getElementsByClassName('content__events')[0];
-            content.innerHTML = '';
-            let QueryResults = document.createElement('search-events');
-            content.appendChild(QueryResults);
-            new __WEBPACK_IMPORTED_MODULE_1__search_events_component_search_events_component__["a" /* SearchEventsComponent */]();
-        };
-
-        this.getSearchData = function (keyword) {
-            $.ajax({
-                type: "GET",
-                url: "https://app.ticketmaster.com/discovery/v2/events.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0&keyword=" + keyword,
-                async: true,
-                dataType: "json",
-                success: function (json) {
-                    showEvents(json);
-                },
-                error: function (xhr, status, err) {
-                    console.log(err);
-                }
-            });
-
-            function showEvents(json) {
-                let categoryBlock = document.getElementsByClassName('search-events')[0];
-                let categoryEvents = categoryBlock.getElementsByClassName('event');
-                if (json.page.totalPages == 0) {
-                    let title = categoryBlock.getElementsByClassName('events__title')[0];
-                    title.innerHTML = 'Запрос некорректен! Введите его заново!';
-                } else {
-                    let events = json._embedded.events;
-                    for (let i = 0; i < categoryEvents.length; i++) {
-                        categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
-                        categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
-                        categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
-                        categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
-                    };
-                };
-            };
-        };
-
-        let searchButton = document.getElementsByClassName('search-bar__button submit')[0];
-        searchButton.onclick = function () {
-            let keyword = document.getElementsByName('search')[0].value;
-            getData.createQueryResults();
-            getData.getSearchData(keyword);
-        };
+        new __WEBPACK_IMPORTED_MODULE_1__init_service__["a" /* InitService */](this.template, this.selector);
+        new __WEBPACK_IMPORTED_MODULE_0__app_service__["a" /* AppService */](this.template, this.selector);
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["a"] = HeaderComponent;
+/* harmony export (immutable) */ __webpack_exports__["a"] = HeadlineComponent;
 
 
 /***/ }),
-/* 5 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_service__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__init_service__ = __webpack_require__(2);
+
 
 
 class EventGroupComponent {
-
     constructor() {
         this.selector = 'event-group';
-        this.template = `<event-group class="content__events">
-                <events-ja class="events__just-announced">
-                </events-ja>
-                <events-hs class="events__happening-soon">
-                </events-hs>
-                <events-categories class="categories">
-                </events-categories>
+        this.template = `
+            <event-group class="content__events">
+                <events-ja class="events__just-announced"></events-ja>
+                <events-hs class="events__happening-soon"></events-hs>
+                <events-categories class="categories"></events-categories>
             </event-group>`;
-        this.init();
-    }
 
-    init() {
-        var all = document.getElementsByTagName(this.selector);
-        for (var r = 0; r < all.length; r++) {
-            all[r].outerHTML = this.template;
-        };
-        this.makeChildren();
-    }
-
-    makeChildren() {
-        let tempTemplate = this.template;
-        let tempSelector = this.selector;
-        let module = new __WEBPACK_IMPORTED_MODULE_0__app_module__["a" /* AppModule */]();
-        let tags = module.FILES;
-        tags.forEach(function (value, key, mapObj) {
-            if (tempTemplate.indexOf('<' + key) != -1 & key != tempSelector) {
-                value();
-            }
-        });
+        new __WEBPACK_IMPORTED_MODULE_1__init_service__["a" /* InitService */](this.template, this.selector);
+        new __WEBPACK_IMPORTED_MODULE_0__app_service__["a" /* AppService */](this.template, this.selector);
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = EventGroupComponent;
 
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__search_events_component_search_events_component__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__init_service__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_service__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__get_data_service__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_events_component_search_events_component__ = __webpack_require__(3);
+
+
 
 
 
@@ -538,16 +355,13 @@ class AddOptionsComponent {
 
     constructor() {
         this.selector = 'add-options';
-        this.template = `<add-options class="content__aside">
-            <form onsubmit="return false" class="aside__location-form" method="get">
-                <h3 class="aside__title">Shop for Events</h3>
+        this.template = `
+            <add-options class="content__aside">
+                <form onsubmit="return false" class="aside__location-form" method="get">
+                    <h3 class="aside__title">Shop for Events</h3>
                     <input class="location-form__item" name="city" type="text" autocomplete="on" placeholder="Enter city">
                     <select id="category" name="category" class="location-form__item">
                         <option selected>Select category</option>
-                        <option>Music</option>
-                        <option>Sports</option>
-                        <option>Arts & Theatre</option>
-                        <option>Film</option>
                     </select>
                     <select id="sub-category" name="sub-category" class="location-form__item">
                         <option selected>Select sub category</option>
@@ -558,31 +372,13 @@ class AddOptionsComponent {
                     <input class="location-form__item input-date" name="endDateTime" id="datePicker2" type="date" placeholder="Select end data">
                     <button class="location-form__submit" type="submit">Apply</button>
                 </form>
-        </add-options>`;
-        this.init();
-    }
+            </add-options>`;
 
-    init() {
-        var all = document.getElementsByTagName(this.selector);
-        for (var r = 0; r < all.length; r++) {
-            all[r].outerHTML = this.template;
-        };
-        this.makeChildren();
+        new __WEBPACK_IMPORTED_MODULE_0__init_service__["a" /* InitService */](this.template, this.selector);
+        new __WEBPACK_IMPORTED_MODULE_1__app_service__["a" /* AppService */](this.template, this.selector);
         this.dateWork();
-        this.applyWork();
-        this.getData();
-    }
-
-    makeChildren() {
-        let tempTemplate = this.template;
-        let tempSelector = this.selector;
-        let module = new __WEBPACK_IMPORTED_MODULE_0__app_module__["a" /* AppModule */]();
-        let tags = module.FILES;
-        tags.forEach(function (value, key, mapObj) {
-            if (tempTemplate.indexOf('<' + key) != -1 & key != tempSelector) {
-                value();
-            }
-        });
+        this.getCategoriesData();
+        //this.searchData();
     }
 
     dateWork() {
@@ -602,133 +398,123 @@ class AddOptionsComponent {
         document.getElementById('datePicker2').valueAsDate = inWeek;
     }
 
-    getData() {
-
-        $.ajax({
-            type: "GET",
-            url: "https://app.ticketmaster.com/discovery/v2/classifications.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0",
-            async: true,
-            dataType: "json",
-            success: function (json) {
-                showEvents(json);
-            },
-            error: function (xhr, status, err) {
+    getCategoriesData() {
+        this.dataService = new __WEBPACK_IMPORTED_MODULE_2__get_data_service__["a" /* GetDataService */]();
+        this.json = this.dataService.getJSData("https://app.ticketmaster.com/discovery/v2/classifications.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0");
+        console.log(this.json);
+        const category = document.getElementsByName('category')[0];
+        const subCategory = document.getElementsByName('sub-category')[0];
+        let APIdata = this.json._embedded.classifications;
+        for (let i = 0; i < APIdata.length; i++) {
+            try {
+                let segment = APIdata[i].segment.name;
+                let option = document.createElement('option');
+                option.innerText = segment;
+                category.appendChild(option);
+            } catch (err) {
                 console.log(err);
-            }
-        });
-
-        function showEvents(json) {
-            let category = document.getElementsByName('category')[0];
-            let subCategory = document.getElementsByName('sub-category')[0];
-            let categoryAPI = json._embedded.classifications;
-            category.onchange = function () {
-                subCategory.style.display = "block";
-                subCategory.innerHTML = '<option selected>Select sub category</option>';
-                let selected = $("#category option:selected").text();
-                for (let i = 0; i < categoryAPI.length; i++) {
-                    try {
-                        if (selected == categoryAPI[i].segment.name) {
-                            let genres = categoryAPI[i].segment._embedded.genres;
-                            for (let j = 0; j < categoryAPI.length; j++) {
-                                let option = document.createElement('option');
-                                option.innerText = genres[j].name;
-                                subCategory.appendChild(option);
-                            };
-                        }
-                    } catch (err) {
-                        console.log(err);
-                    };
-                }
             };
-        }
-    }
-
-    applyWork() {
-        let applyWork = this;
-        this.createQueryResults = function () {
-            let content = document.getElementsByClassName('content__events')[0];
-            content.innerHTML = '';
-            let QueryResults = document.createElement('search-events');
-            content.appendChild(QueryResults);
-            new __WEBPACK_IMPORTED_MODULE_1__search_events_component_search_events_component__["a" /* SearchEventsComponent */]();
         };
-
-        this.getSearchData = function (city, category, subCategory, startDateTime, endDateTime) {
-            startDateTime = new Date(startDateTime.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
-            endDateTime = new Date(endDateTime.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
-            startDateTime = startDateTime.toISOString().substr(0, 19) + 'Z';
-            endDateTime = endDateTime.toISOString().substr(0, 19) + 'Z';
-            let urlString = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0&startDateTime=" + startDateTime + "&endDateTime=" + endDateTime;
-            if (category != 'Select category') {
-                urlString = urlString + "&classificationName=" + category;
-            };
-            if (subCategory != 'Select sub category') {
-                urlString = urlString + "&keyword=" + subCategory;
-            };
-            if (city != '') {
-                urlString = urlString + "&city=" + city;
-            };
-
-            $.ajax({
-                type: "GET",
-                url: urlString,
-                async: true,
-                dataType: "json",
-                success: function (json) {
-                    console.log(this.url);
-                    showEvents(json);
-                },
-                error: function (xhr, status, err) {
+        category.onchange = function () {
+            subCategory.style.display = "block";
+            subCategory.innerHTML = '<option selected>Select sub category</option>';
+            let selected = $("#category option:selected").text();
+            for (let i = 0; i < APIdata.length; i++) {
+                try {
+                    if (selected == APIdata[i].segment.name) {
+                        let genres = APIdata[i].segment._embedded.genres;
+                        for (let j = 0; j < genres.length; j++) {
+                            let option = document.createElement('option');
+                            option.innerText = genres[j].name;
+                            subCategory.appendChild(option);
+                        };
+                    }
+                } catch (err) {
                     console.log(err);
-                }
-            });
-
-            function showEvents(json) {
-                let categoryBlock = document.getElementsByClassName('search-events')[0];
-                let categoryEvents = categoryBlock.getElementsByClassName('event');
-                if (json.page.totalPages == 0) {
-                    let title = categoryBlock.getElementsByClassName('events__title')[0];
-                    title.innerHTML = 'Can\'t find query results! Please, try again!';
-                } else {
-                    let events = json._embedded.events;
-
-                    for (let i = 0; i < categoryEvents.length; i++) {
-                        categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
-                        categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
-                        categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
-                        categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
-                    };
                 };
             };
         };
+    }
 
-        let applyButton = document.getElementsByClassName('location-form__submit')[0];
-        applyButton.onclick = function () {
-            applyWork.results = this;
+    searchData() {
+        document.getElementsByClassName('location-form__submit')[0].onclick = () => {
             let city = document.getElementsByName('city')[0].value;
             let category = document.getElementsByName('category')[0].value;
             let subCategory = document.getElementsByName('sub-category')[0].value;
             let startDateTime = document.getElementsByName('startDateTime')[0].value;
             let endDateTime = document.getElementsByName('endDateTime')[0].value;
-            console.log(city, category, subCategory, startDateTime, endDateTime);
-            applyWork.createQueryResults();
-            applyWork.getSearchData(city, category, subCategory, startDateTime, endDateTime);
+            this.getSearchData(city, category, subCategory, startDateTime, endDateTime);
         };
+    }
+
+    getSearchData(city, category, subCategory, startDateTime, endDateTime) {
+        startDateTime = new Date(startDateTime.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
+        endDateTime = new Date(endDateTime.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
+        startDateTime = startDateTime.toISOString().substr(0, 19) + 'Z';
+        endDateTime = endDateTime.toISOString().substr(0, 19) + 'Z';
+        let urlString = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0&startDateTime=" + startDateTime + "&endDateTime=" + endDateTime;
+        if (category != 'Select category') {
+            urlString = urlString + "&classificationName=" + category;
+        };
+        if (subCategory != 'Select sub category') {
+            urlString = urlString + "&keyword=" + subCategory;
+        };
+        if (city != '') {
+            urlString = urlString + "&city=" + city;
+        };
+
+        $.ajax({
+            type: "GET",
+            url: urlString,
+            async: true,
+            dataType: "json",
+            success: json => {
+                this.showEvents(json);
+            },
+            error: (xhr, status, err) => {
+                console.log(err);
+            }
+        });
+    }
+
+    showEvents(json) {
+        if (json.page.totalPages == 0) {
+            document.getElementsByClassName('events__title')[0].innerHTML = 'Can\'t find query results! Please, try again!';
+        } else {
+            this.createQueryResults(json.page.totalPages);
+            let categoryBlock = document.getElementsByClassName('search-events')[0];
+            let categoryEvents = categoryBlock.getElementsByClassName('event');
+            let events = json._embedded.events;
+            for (let i = 0; i < categoryEvents.length; i++) {
+                categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
+                categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
+                categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+                categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
+            };
+        };
+    }
+
+    createQueryResults(quantity) {
+        document.getElementsByClassName('content__events')[0].innerHTML = '';
+        let QueryResults = document.createElement('search-events');
+        document.getElementsByClassName('content__events')[0].appendChild(QueryResults);
+        new __WEBPACK_IMPORTED_MODULE_3__search_events_component_search_events_component__["a" /* SearchEventsComponent */](quantity);
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = AddOptionsComponent;
 ;
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_service__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__init_service__ = __webpack_require__(2);
+
 
 
 class JustAnnouncedComponent {
-
     constructor() {
         this.selector = 'events-ja';
         this.template = `<events-ja class="events__just-announced">
@@ -806,32 +592,12 @@ class JustAnnouncedComponent {
                     </a>
                 </article>
             </events-ja>`;
-        this.init();
-    }
-
-    init() {
-        var all = document.getElementsByTagName(this.selector);
-        for (var r = 0; r < all.length; r++) {
-            all[r].outerHTML = this.template;
-        };
-        this.makeChildren();
-        this.getData();
-    }
-
-    makeChildren() {
-        let tempTemplate = this.template;
-        let tempSelector = this.selector;
-        let module = new __WEBPACK_IMPORTED_MODULE_0__app_module__["a" /* AppModule */]();
-        let tags = module.FILES;
-        tags.forEach(function (value, key, mapObj) {
-            if (tempTemplate.indexOf('<' + key) != -1 & key != tempSelector) {
-                value();
-            }
-        });
+        new __WEBPACK_IMPORTED_MODULE_1__init_service__["a" /* InitService */](this.template, this.selector);
+        new __WEBPACK_IMPORTED_MODULE_0__app_service__["a" /* AppService */](this.template, this.selector);
+        //this.getData();
     }
 
     getData() {
-
         Date.prototype.addDays = function (days) {
             let dat = new Date(this.valueOf());
             dat.setDate(dat.getDate() + days);
@@ -841,51 +607,72 @@ class JustAnnouncedComponent {
         let today = new Date();
         today.setUTCMilliseconds(0);
         let inWeek = today.addDays(3);
-        today = today.toISOString().substr(0, 19) + 'Z';
-        inWeek = inWeek.toISOString().substr(0, 19) + 'Z';
+        this.today = today.toISOString().substr(0, 19) + 'Z';
+        this.inWeek = inWeek.toISOString().substr(0, 19) + 'Z';
+        this.getEvents(0);
+    }
 
+    getEvents(page) {
         $.ajax({
             type: "GET",
-            url: "https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&size=4&onsaleStartDateTime=" + today + "&onsaleEndDateTime=" + inWeek,
+            url: "https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&size=4&onsaleStartDateTime=" + this.today + "&onsaleEndDateTime=" + this.inWeek + "&page=" + page,
             async: true,
             dataType: "json",
-            success: function (json) {
-                showEvents(json);
+            success: json => {
+                this.showEvents(json);
             },
-            error: function (xhr, status, err) {
+            error: (xhr, status, err) => {
                 console.log(err);
             }
         });
+    }
 
-        function showEvents(json) {
-            var categoryBlock = document.getElementsByClassName('events__just-announced')[0];
-            var categoryEvents = categoryBlock.getElementsByClassName('event');
-            var events = json._embedded.events;
-            for (var i = 0; i < categoryEvents.length; i++) {
-                categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
-                categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
-                categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
-                categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
+    showEvents(json) {
+        let categoryBlock = document.getElementsByClassName('events__just-announced')[0];
+        let categoryEvents = categoryBlock.getElementsByClassName('event');
+        let events = json._embedded.events;
+        for (let i = 0; i < categoryEvents.length; i++) {
+            categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
+            categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
+            categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+            categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
+        };
+        this.changeEvents(json.page.number, json.page.totalPages);
+    }
+
+    changeEvents(page, all) {
+        let changePage = (page, all) => {
+            if (page < 0) {
+                page = 0;
             };
-        }
+            if (page > all - 1) {
+                page = 0;
+            };
+            page = page + 1;
+            this.getEvents(page);
+        };
+        //setTimeout(changePage, 10000, page,all);
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = JustAnnouncedComponent;
 
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__init_service__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_service__ = __webpack_require__(0);
+
 
 
 class HappeningSoonComponent {
 
     constructor() {
         this.selector = 'events-hs';
-        this.template = `<events-hs class="events__happening-soon">
+        this.template = `
+            <events-hs class="events__happening-soon">
                 <h2 class="events__title">Happening Soon</h2>
                 <article class="event hs-event">
                     <a href="#" class="event-link">
@@ -960,32 +747,13 @@ class HappeningSoonComponent {
                     </a>
                 </article>
             </events-hs>`;
-        this.init();
-    }
 
-    init() {
-        var all = document.getElementsByTagName(this.selector);
-        for (var r = 0; r < all.length; r++) {
-            all[r].outerHTML = this.template;
-        };
-        this.makeChildren();
-        this.getData();
-    }
-
-    makeChildren() {
-        let tempTemplate = this.template;
-        let tempSelector = this.selector;
-        let module = new __WEBPACK_IMPORTED_MODULE_0__app_module__["a" /* AppModule */]();
-        let tags = module.FILES;
-        tags.forEach(function (value, key, mapObj) {
-            if (tempTemplate.indexOf('<' + key) != -1 & key != tempSelector) {
-                value();
-            }
-        });
+        new __WEBPACK_IMPORTED_MODULE_0__init_service__["a" /* InitService */](this.template, this.selector);
+        new __WEBPACK_IMPORTED_MODULE_1__app_service__["a" /* AppService */](this.template, this.selector);
+        //this.getData();
     }
 
     getData() {
-
         Date.prototype.addDays = function (days) {
             let dat = new Date(this.valueOf());
             dat.setDate(dat.getDate() + days);
@@ -1003,36 +771,38 @@ class HappeningSoonComponent {
             url: "https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&startDateTime=" + today + "&endDateTime=" + inWeek + "&size=4",
             async: true,
             dataType: "json",
-            success: function (json) {
-                showEvents(json);
+            success: json => {
+                this.showEvents(json);
             },
-            error: function (xhr, status, err) {
+            error: (xhr, status, err) => {
                 console.log(err);
             }
         });
+    }
 
-        function showEvents(json) {
-            var categoryBlock = document.getElementsByClassName('events__happening-soon')[0];
-            var categoryEvents = categoryBlock.getElementsByClassName('hs-event');
-            var events = json._embedded.events;
-            for (var i = 0; i < categoryEvents.length; i++) {
-                categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
-                categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
-                categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
-                categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
-            };
-        }
+    showEvents(json) {
+        let categoryBlock = document.getElementsByClassName('events__happening-soon')[0];
+        let categoryEvents = categoryBlock.getElementsByClassName('hs-event');
+        let events = json._embedded.events;
+        for (let i = 0; i < categoryEvents.length; i++) {
+            categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
+            categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
+            categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+            categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
+        };
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = HappeningSoonComponent;
 
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_service__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__init_service__ = __webpack_require__(2);
+
 
 
 class CategoriesComponent {
@@ -1106,7 +876,7 @@ class CategoriesComponent {
                                  <h4>New music concert</h4>
                              </div>
                              <div class="event__descrip">
-                                 <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
+                                 <p>В преддверии амбеки, курьёзы и скандалы.</p>
                              </div>
                              <div class="event__data">
                                  <span>19 февраля 2017, 12:00.</span>
@@ -1158,70 +928,282 @@ class CategoriesComponent {
                      </article>
                 </section>
             </events-categories>`;
-        this.init();
+        new __WEBPACK_IMPORTED_MODULE_1__init_service__["a" /* InitService */](this.template, this.selector);
+        new __WEBPACK_IMPORTED_MODULE_0__app_service__["a" /* AppService */](this.template, this.selector);
+        //this.getData();
     }
 
-    init() {
-        var all = document.getElementsByTagName(this.selector);
-        for (var r = 0; r < all.length; r++) {
-            all[r].outerHTML = this.template;
-        };
-        this.makeChildren();
-        this.getData();
+    getData() {
+        let categoryList = ['Music', 'Sport', 'Art', 'Family'];
+        categoryList.forEach((category, num, categorylist) => {
+            this.getCategoryEvents(category);
+        });
     }
 
-    makeChildren() {
-        let tempTemplate = this.template;
-        let tempSelector = this.selector;
-        let module = new __WEBPACK_IMPORTED_MODULE_0__app_module__["a" /* AppModule */]();
-        let tags = module.FILES;
-        tags.forEach(function (value, key, mapObj) {
-            if (tempTemplate.indexOf('<' + key) != -1 & key != tempSelector) {
-                value();
+    getCategoryEvents(categorysearch) {
+        $.ajax({
+            type: "GET",
+            url: "https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&size=4&classificationName=" + categorysearch,
+            async: true,
+            dataType: "json",
+            success: json => {
+                this.showEvents(json, categorysearch);
+            },
+            error: (xhr, status, err) => {
+                console.log(err);
             }
         });
     }
 
-    getData() {
+    showEvents(json, categorysearch) {
+        let categoryBlock = document.getElementById(categorysearch);
+        let categoryEvents = categoryBlock.getElementsByClassName('event__preview');
+        let events = json._embedded.events;
+        for (let i = 0; i < categoryEvents.length; i++) {
+            categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
+            categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
+            categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+        };
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = CategoriesComponent;
 
-        function getCategoryEvents(categorysearch) {
 
-            $.ajax({
-                type: "GET",
-                url: "https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&size=4&classificationName=" + categorysearch,
-                async: true,
-                dataType: "json",
-                success: function (json) {
-                    getCategoryEvents.json = json;
-                    showEvents(json, categorysearch);
-                },
-                error: function (xhr, status, err) {
-                    console.log(err);
-                }
-            });
-        }
+/***/ }),
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-        function showEvents(json, categorysearch) {
-            let categoryBlock = document.getElementById(categorysearch);
-            let categoryEvents = categoryBlock.getElementsByClassName('event__preview');
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__init_service__ = __webpack_require__(2);
+
+
+class EventComponent {
+    constructor() {
+        this.selector = 'event';
+        this.template = `
+            <event class="event">
+                <a href="#" class="event-link">
+                    <div class="event__foto">
+                        <img class="foto__image" alt="" src="">
+                    </div>
+                    <div class="event__preview">
+                        <div class="event__title">
+                            <h4></h4>
+                        </div>
+                        <div class="event__descrip">
+                            <p></p>
+                        </div>
+                        <div class="event__data">
+                            <span></span>
+                        </div>
+                    </div>
+                </a>
+            </event>`;
+
+        new __WEBPACK_IMPORTED_MODULE_0__init_service__["a" /* InitService */](this.template, this.selector);
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = EventComponent;
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__init_service__ = __webpack_require__(2);
+
+
+class BurgerMenuComponent {
+
+    constructor() {
+        this.selector = 'burger-menu';
+        this.template = `
+            <burger-menu class="header__burger">
+                <div class="burger-icon">
+                    <div class="burger-line"></div>
+                    <div class="burger-line"></div>
+                    <div class="burger-line"></div>
+                </div>
+                <ul class="burger-menu">
+                    <li>
+                        <a href="#">My Acc</a>
+                    </li>
+                    <li>
+                        <a href="#">Bookmarks</a>
+                    </li>
+                    <li>
+                        <a href="#">Help</a>
+                    </li>
+                    <li>
+                        <a href="#">Log out</a>
+                    </li>
+                </ul>
+            </burger-menu>`;
+
+        new __WEBPACK_IMPORTED_MODULE_0__init_service__["a" /* InitService */](this.template, this.selector);
+        this.burgerMenuCloseOpen2();
+    }
+
+    burgerMenuCloseOpen() {
+        $('.burger-icon').click(function () {
+            $('.burger-menu').toggleClass('burger-menu_opened');
+            $('.content__aside').removeClass('content__aside_opened');
+        });
+        $(document).click(function (event) {
+            if ($(event.target).closest(".burger-menu").length) return;
+            if ($(event.target).closest(".burger-icon").length) return;
+            $('.burger-menu').removeClass('burger-menu_opened');
+            event.stopPropagation();
+        });
+    }
+
+    burgerMenuCloseOpen2() {
+        document.getElementsByClassName('burger-icon')[0].onclick = () => {
+            document.getElementsByClassName('burger-menu')[0].classList.toggle('burger-menu_opened');
+            document.getElementsByClassName('.content__aside')[0].classList.remove('content__aside_opened');
+        };
+
+        document.onclick = () => {};
+
+        $(document).click(function (event) {
+            if ($(event.target).closest(".burger-menu").length) return;
+            if ($(event.target).closest(".burger-icon").length) return;
+            $('.burger-menu').removeClass('burger-menu_opened');
+            event.stopPropagation();
+        });
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = BurgerMenuComponent;
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__search_events_component_search_events_component__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__init_service__ = __webpack_require__(2);
+
+
+
+class SearchBarComponent {
+
+    constructor(page) {
+        this.selector = 'search-bar';
+        this.template = `
+            <search-bar onsubmit="return false" class="header__search-bar" method="get">
+                <input class="search-bar__input-text" name="search" type="search" autocomplete="on" placeholder="Search...">
+                <button class="search-bar__button submit" type="submit">Search</button>
+                <button class="search-bar__button setting" type="button">Search settings</button>
+            </search-bar>`;
+
+        new __WEBPACK_IMPORTED_MODULE_1__init_service__["a" /* InitService */](this.template, this.selector);
+        this.SearchBarCloseOpen();
+        //this.SearchEvents(page);
+    }
+
+    SearchBarCloseOpen() {
+        $('.setting').click(function () {
+            $('.content__aside').toggleClass('content__aside_opened');
+            $('.burger-menu').removeClass('burger-menu_opened');
+        });
+        $(document).click(function (event) {
+            if ($(event.target).closest(".content__aside").length) return;
+            if ($(event.target).closest(".setting").length) return;
+            $('.content__aside').removeClass('content__aside_opened');
+            event.stopPropagation();
+        });
+    }
+
+    SearchEvents() {
+        const searchButton = document.getElementsByClassName('search-bar__button submit')[0];
+        searchButton.onclick = () => {
+            this.createQueryResults();
+            this.getData(document.getElementsByName('search')[0].value);
+        };
+    }
+
+    getData(keyword) {
+        $.ajax({
+            type: "GET",
+            url: "https://app.ticketmaster.com/discovery/v2/events.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0&keyword=" + keyword,
+            async: true,
+            dataType: "json",
+            success: json => {
+                this.showEvents(json);
+            },
+            error: (xhr, status, err) => {
+                console.log(err);
+            }
+        });
+    }
+
+    showEvents(json) {
+        if (json.page.totalPages == 0) {
+            document.getElementsByClassName('events__title')[0].innerHTML = 'Can\'t find query results! Please, try again!';
+        } else {
+            this.createQueryResults(json.page.totalPages);
+            const categoryBlock = document.getElementsByClassName('search-events')[0];
+            let categoryEvents = categoryBlock.getElementsByClassName('event');
             let events = json._embedded.events;
             for (let i = 0; i < categoryEvents.length; i++) {
                 categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
                 categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
                 categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
-            }
-            ;
-        }
+                categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
+            };
+        };
+    }
 
-        let categorylist = ['Music', 'Sport', 'Art', 'Family'];
-
-        categorylist.forEach(function (category, num, categorylist) {
-            getCategoryEvents(category);
-        });
+    createQueryResults(quantity) {
+        document.getElementsByClassName('content__events')[0].innerHTML = '';
+        let QueryResults = document.createElement('search-events');
+        document.getElementsByClassName('content__events')[0].appendChild(QueryResults);
+        new __WEBPACK_IMPORTED_MODULE_0__search_events_component_search_events_component__["a" /* SearchEventsComponent */](quantity);
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["a"] = CategoriesComponent;
+/* harmony export (immutable) */ __webpack_exports__["a"] = SearchBarComponent;
 
+
+/***/ }),
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class GetDataService {
+
+    constructor() {}
+
+    getData(url) {
+        this.API = $.ajax({
+            type: "GET",
+            url: url,
+            async: true,
+            dataType: "json",
+            success: json => this.data = json,
+            error: (xhr, status, err) => {
+                console.log(err);
+            }
+        });
+    }
+
+    getJSData(url) {
+        let data = '';
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.onload = () => {
+            data = JSON.parse(xhr.responseText);
+        };
+        xhr.onerror = () => {
+            console.log('error ' + this.status);
+        };
+        xhr.send();
+        return data;
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = GetDataService;
+;
 
 /***/ })
 /******/ ]);

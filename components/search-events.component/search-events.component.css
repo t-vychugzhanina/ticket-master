@@ -1,7 +1,21 @@
-.events__title{
-    font-size: 3em;
-    margin:0 auto;
-    text-align: center;
-    color: #eeeeee;
-    width: 100%;
+.page_button{
+    background-size: 100%;
+    cursor: pointer;
+    top: 0;
+    border: none;
+    text-indent: -9999px;
+    padding: 1rem 1.3rem;
+}
+
+.previous {
+    background: url("../../img/row.png") no-repeat;
+    background-size: 100%;
+    background-position: center;
+}
+
+.next {
+    background: url("../../img/row2.png") no-repeat;
+    background-size: 100%;
+    background-position: center;
+    float:right;
 }
