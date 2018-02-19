@@ -99,25 +99,6 @@ a{
         padding-top: 50px;
     }
 
-    .event-link{
-        align-items: center;
-    }
-
-    .hs-event, .category-event {
-        width: 100%;
-        flex-direction: row;
-        margin-right: 0;
-    }
-
-    .hs-event .event__foto {
-        width: 29%;
-        margin-right: 1%;
-    }
-
-    .hs-event .event__preview {
-        width: 70%;
-    }
-
     .submit{
         right: 45px;
     }
@@ -135,4 +116,7 @@ a{
         border-radius: 10px;
     }
 
+    .event__descrip {
+        display: none;
+    }
 }

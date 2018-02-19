@@ -15,7 +15,10 @@ export class CategoriesComponent {
                             </div>
                             <div class="event__preview category__preview">
                                 <div class="event__title">
-                                    <h4 class="event__title_text"></h4>
+                                <h4></h4>
+                                </div>
+                                <div class="event__venues">
+                                    <span></span>
                                 </div>
                                 <div class="event__descrip">
                                     <p></p>
@@ -33,7 +36,10 @@ export class CategoriesComponent {
                             </div>
                             <div class="event__preview category__preview">
                                 <div class="event__title">
-                                    <h4 class="event__title_text"></h4>
+                                <h4></h4>
+                                </div>
+                                <div class="event__venues">
+                                    <span></span>
                                 </div>
                                 <div class="event__descrip">
                                     <p></p>
@@ -54,7 +60,10 @@ export class CategoriesComponent {
                             </div>
                             <div class="event__preview category__preview">
                                 <div class="event__title">
-                                    <h4 class="event__title_text"></h4>
+                                <h4></h4>
+                                </div>
+                                <div class="event__venues">
+                                    <span></span>
                                 </div>
                                 <div class="event__descrip">
                                     <p></p>
@@ -72,7 +81,10 @@ export class CategoriesComponent {
                             </div>
                             <div class="event__preview category__preview">
                                 <div class="event__title">
-                                    <h4 class="event__title_text"></h4>
+                                <h4></h4>
+                                </div>
+                                <div class="event__venues">
+                                    <span></span>
                                 </div>
                                 <div class="event__descrip">
                                     <p></p>
@@ -93,7 +105,10 @@ export class CategoriesComponent {
                             </div>
                             <div class="event__preview category__preview">
                                 <div class="event__title">
-                                    <h4 class="event__title_text"></h4>
+                                <h4></h4>
+                                </div>
+                                <div class="event__venues">
+                                    <span></span>
                                 </div>
                                 <div class="event__descrip">
                                     <p></p>
@@ -111,7 +126,10 @@ export class CategoriesComponent {
                             </div>
                             <div class="event__preview category__preview">
                                 <div class="event__title">
-                                    <h4 class="event__title_text"></h4>
+                                <h4></h4>
+                                </div>
+                                <div class="event__venues">
+                                    <span></span>
                                 </div>
                                 <div class="event__descrip">
                                     <p></p>
@@ -132,7 +150,10 @@ export class CategoriesComponent {
                             </div>
                             <div class="event__preview category__preview">
                                 <div class="event__title">
-                                    <h4 class="event__title_text"></h4>
+                                <h4></h4>
+                                </div>
+                                <div class="event__venues">
+                                    <span></span>
                                 </div>
                                 <div class="event__descrip">
                                     <p></p>
@@ -150,7 +171,10 @@ export class CategoriesComponent {
                             </div>
                             <div class="event__preview category__preview">
                                 <div class="event__title">
-                                    <h4 class="event__title_text"></h4>
+                                <h4></h4>
+                                </div>
+                                <div class="event__venues">
+                                    <span></span>
                                 </div>
                                 <div class="event__descrip">
                                     <p></p>
@@ -193,7 +217,7 @@ export class CategoriesComponent {
         for (let i = 0; i < categoryEvents.length; i++) {
             categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
             categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
-            categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+            categoryEvents[i].getElementsByClassName('event__venues')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
             categoryEvents[i].getElementsByClassName('foto__image')[0].src=events[i].images[0].url;
         };
     };

@@ -7,11 +7,15 @@ export class EventComponent {
             <event class="event">
                 <a href="#" class="event-link">
                     <div class="event__foto">
+                        <span class="foto__data"><span class="date"></span><span class="month"></span></span>
                         <img class="foto__image" alt="" src="">
                     </div>
                     <div class="event__preview">
                         <div class="event__title">
                             <h4></h4>
+                        </div>
+                        <div class="event__venues">
+                            <span></span>
                         </div>
                         <div class="event__descrip">
                             <p></p>

@@ -405,9 +405,7 @@ class AddOptionsComponent {
                             subCategory.appendChild(option);
                         };
                     }
-                } catch (err) {
-                    console.log(err);
-                };
+                } catch (err) {};
             };
         };
     }
@@ -453,8 +451,18 @@ class AddOptionsComponent {
             for (let i = 0; i < categoryEvents.length; i++) {
                 categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
                 categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
-                categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+                categoryEvents[i].getElementsByClassName('event__venues')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
                 categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
+                let month = events[i].dates.start.localDate.substr(5, 2);
+                let date = events[i].dates.start.localDate.substr(8, 2);
+                let mS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+                categoryEvents[i].getElementsByClassName('date')[0].innerText = date;
+                categoryEvents[i].getElementsByClassName('month')[0].innerText = mS[month - 1];
+                if (events[i].info != undefined) {
+                    categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i].info;
+                } else {
+                    categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = '';
+                };
             };
         };
     }
@@ -530,6 +538,9 @@ class JustAnnouncedComponent {
                             <div class="event__title">
                                 <h4></h4>
                             </div>
+                            <div class="event__venues">
+                                <span></span>
+                            </div>
                             <div class="event__descrip">
                                 <p></p>
                             </div>
@@ -542,17 +553,20 @@ class JustAnnouncedComponent {
                 <article class="event">
                     <a href="#" class="event-link">
                         <div class="event__foto">
-                                <img class="foto__image" alt="" src="">
+                            <img class="foto__image" alt="" src="">
+                        </div>
+                        <div class="event__preview">
+                            <div class="event__title">
+                                <h4></h4>
                             </div>
-                            <div class="event__preview">
-                                <div class="event__title">
-                                    <h4></h4>
-                                </div>
-                                <div class="event__descrip">
-                                    <p></p>
-                                </div>
-                                <div class="event__data">
-                                    <span></span>
+                            <div class="event__venues">
+                                <span></span>
+                            </div>
+                            <div class="event__descrip">
+                                <p></p>
+                            </div>
+                            <div class="event__data">
+                                <span></span>
                             </div>
                         </div>
                     </a>
@@ -560,17 +574,20 @@ class JustAnnouncedComponent {
                 <article class="event">
                     <a href="#" class="event-link">
                         <div class="event__foto">
-                                <img class="foto__image" alt="" src="">
+                            <img class="foto__image" alt="" src="">
+                        </div>
+                        <div class="event__preview">
+                            <div class="event__title">
+                                <h4></h4>
                             </div>
-                            <div class="event__preview">
-                                <div class="event__title">
-                                    <h4></h4>
-                                </div>
-                                <div class="event__descrip">
-                                    <p></p>
-                                </div>
-                                <div class="event__data">
-                                    <span></span>
+                            <div class="event__venues">
+                                <span></span>
+                            </div>
+                            <div class="event__descrip">
+                                <p></p>
+                            </div>
+                            <div class="event__data">
+                                <span></span>
                             </div>
                         </div>
                     </a>
@@ -578,17 +595,20 @@ class JustAnnouncedComponent {
                 <article class="event">
                     <a href="#" class="event-link">
                         <div class="event__foto">
-                                <img class="foto__image" alt="" src="">
+                            <img class="foto__image" alt="" src="">
+                        </div>
+                        <div class="event__preview">
+                            <div class="event__title">
+                                <h4></h4>
                             </div>
-                            <div class="event__preview">
-                                <div class="event__title">
-                                    <h4></h4>
-                                </div>
-                                <div class="event__descrip">
-                                    <p></p>
-                                </div>
-                                <div class="event__data">
-                                    <span></span>
+                            <div class="event__venues">
+                                <span></span>
+                            </div>
+                            <div class="event__descrip">
+                                <p></p>
+                            </div>
+                            <div class="event__data">
+                                <span></span>
                             </div>
                         </div>
                     </a>
@@ -622,8 +642,13 @@ class JustAnnouncedComponent {
         for (let i = 0; i < categoryEvents.length; i++) {
             categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
             categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
-            categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+            categoryEvents[i].getElementsByClassName('event__venues')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
             categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
+            if (events[i].info != undefined) {
+                categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i].info;
+            } else {
+                categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = '';
+            };
         };
     }
 }
@@ -650,17 +675,20 @@ class HappeningSoonComponent {
                 <article class="event hs-event">
                     <a href="#" class="event-link">
                         <div class="event__foto">
-                                <img class="foto__image" alt="" src="">
+                            <img class="foto__image" alt="" src="">
+                        </div>
+                        <div class="event__preview">
+                            <div class="event__title">
+                                <h4></h4>
                             </div>
-                            <div class="event__preview">
-                                <div class="event__title">
-                                    <h4></h4>
-                                </div>
-                                <div class="event__descrip">
-                                    <p></p>
-                                </div>
-                                <div class="event__data">
-                                    <span></span>
+                            <div class="event__venues">
+                                <span></span>
+                            </div>
+                            <div class="event__descrip">
+                                <p></p>
+                            </div>
+                            <div class="event__data">
+                                <span></span>
                             </div>
                         </div>
                     </a>
@@ -668,17 +696,20 @@ class HappeningSoonComponent {
                 <article class="event hs-event">
                     <a href="#" class="event-link">
                         <div class="event__foto">
-                                <img class="foto__image" alt="" src="">
+                            <img class="foto__image" alt="" src="">
+                        </div>
+                        <div class="event__preview">
+                            <div class="event__title">
+                                <h4></h4>
                             </div>
-                            <div class="event__preview">
-                                <div class="event__title">
-                                    <h4></h4>
-                                </div>
-                                <div class="event__descrip">
-                                    <p></p>
-                                </div>
-                                <div class="event__data">
-                                    <span></span>
+                            <div class="event__venues">
+                                <span></span>
+                            </div>
+                            <div class="event__descrip">
+                                <p></p>
+                            </div>
+                            <div class="event__data">
+                                <span></span>
                             </div>
                         </div>
                     </a>
@@ -686,17 +717,20 @@ class HappeningSoonComponent {
                 <article class="event hs-event">
                     <a href="#" class="event-link">
                         <div class="event__foto">
-                                <img class="foto__image" alt="" src="">
+                            <img class="foto__image" alt="" src="">
+                        </div>
+                        <div class="event__preview">
+                            <div class="event__title">
+                                <h4></h4>
                             </div>
-                            <div class="event__preview">
-                                <div class="event__title">
-                                    <h4></h4>
-                                </div>
-                                <div class="event__descrip">
-                                    <p></p>
-                                </div>
-                                <div class="event__data">
-                                    <span></span>
+                            <div class="event__venues">
+                                <span></span>
+                            </div>
+                            <div class="event__descrip">
+                                <p></p>
+                            </div>
+                            <div class="event__data">
+                                <span></span>
                             </div>
                         </div>
                     </a>
@@ -704,17 +738,62 @@ class HappeningSoonComponent {
                 <article class="event hs-event">
                     <a href="#" class="event-link">
                         <div class="event__foto">
-                                <img class="foto__image" alt="" src="">
+                            <img class="foto__image" alt="" src="">
+                        </div>
+                        <div class="event__preview">
+                            <div class="event__title">
+                                <h4></h4>
                             </div>
-                            <div class="event__preview">
-                                <div class="event__title">
-                                    <h4></h4>
-                                </div>
-                                <div class="event__descrip">
-                                    <p></p>
-                                </div>
-                                <div class="event__data">
-                                    <span></span>
+                            <div class="event__venues">
+                                <span></span>
+                            </div>
+                            <div class="event__descrip">
+                                <p></p>
+                            </div>
+                            <div class="event__data">
+                                <span></span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+                <article class="event hs-event">
+                    <a href="#" class="event-link">
+                        <div class="event__foto">
+                            <img class="foto__image" alt="" src="">
+                        </div>
+                        <div class="event__preview">
+                            <div class="event__title">
+                                <h4></h4>
+                            </div>
+                            <div class="event__venues">
+                                <span></span>
+                            </div>
+                            <div class="event__descrip">
+                                <p></p>
+                            </div>
+                            <div class="event__data">
+                                <span></span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+                <article class="event hs-event">
+                    <a href="#" class="event-link">
+                        <div class="event__foto">
+                            <img class="foto__image" alt="" src="">
+                        </div>
+                        <div class="event__preview">
+                            <div class="event__title">
+                                <h4></h4>
+                            </div>
+                            <div class="event__venues">
+                                <span></span>
+                            </div>
+                            <div class="event__descrip">
+                                <p></p>
+                            </div>
+                            <div class="event__data">
+                                <span></span>
                             </div>
                         </div>
                     </a>
@@ -735,7 +814,7 @@ class HappeningSoonComponent {
         today = today.toISOString().substr(0, 19) + 'Z';
         inWeek = inWeek.toISOString().substr(0, 19) + 'Z';
 
-        this.dataService.httpGet("https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&startDateTime=" + today + "&endDateTime=" + inWeek + "&size=4&sort=relevance,desc").then(response => this.showEvents(JSON.parse(response)), error => console.log(`Rejected: ${error}`));
+        this.dataService.httpGet("https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&startDateTime=" + today + "&endDateTime=" + inWeek + "&size=6&sort=relevance,desc").then(response => this.showEvents(JSON.parse(response)), error => console.log(`Rejected: ${error}`));
     }
 
     showEvents(json) {
@@ -745,7 +824,7 @@ class HappeningSoonComponent {
         for (let i = 0; i < categoryEvents.length; i++) {
             categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
             categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
-            categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+            categoryEvents[i].getElementsByClassName('event__venues')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
             categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
         };
     }
@@ -777,7 +856,10 @@ class CategoriesComponent {
                             </div>
                             <div class="event__preview category__preview">
                                 <div class="event__title">
-                                    <h4 class="event__title_text"></h4>
+                                <h4></h4>
+                                </div>
+                                <div class="event__venues">
+                                    <span></span>
                                 </div>
                                 <div class="event__descrip">
                                     <p></p>
@@ -795,7 +877,10 @@ class CategoriesComponent {
                             </div>
                             <div class="event__preview category__preview">
                                 <div class="event__title">
-                                    <h4 class="event__title_text"></h4>
+                                <h4></h4>
+                                </div>
+                                <div class="event__venues">
+                                    <span></span>
                                 </div>
                                 <div class="event__descrip">
                                     <p></p>
@@ -816,7 +901,10 @@ class CategoriesComponent {
                             </div>
                             <div class="event__preview category__preview">
                                 <div class="event__title">
-                                    <h4 class="event__title_text"></h4>
+                                <h4></h4>
+                                </div>
+                                <div class="event__venues">
+                                    <span></span>
                                 </div>
                                 <div class="event__descrip">
                                     <p></p>
@@ -834,7 +922,10 @@ class CategoriesComponent {
                             </div>
                             <div class="event__preview category__preview">
                                 <div class="event__title">
-                                    <h4 class="event__title_text"></h4>
+                                <h4></h4>
+                                </div>
+                                <div class="event__venues">
+                                    <span></span>
                                 </div>
                                 <div class="event__descrip">
                                     <p></p>
@@ -855,7 +946,10 @@ class CategoriesComponent {
                             </div>
                             <div class="event__preview category__preview">
                                 <div class="event__title">
-                                    <h4 class="event__title_text"></h4>
+                                <h4></h4>
+                                </div>
+                                <div class="event__venues">
+                                    <span></span>
                                 </div>
                                 <div class="event__descrip">
                                     <p></p>
@@ -873,7 +967,10 @@ class CategoriesComponent {
                             </div>
                             <div class="event__preview category__preview">
                                 <div class="event__title">
-                                    <h4 class="event__title_text"></h4>
+                                <h4></h4>
+                                </div>
+                                <div class="event__venues">
+                                    <span></span>
                                 </div>
                                 <div class="event__descrip">
                                     <p></p>
@@ -894,7 +991,10 @@ class CategoriesComponent {
                             </div>
                             <div class="event__preview category__preview">
                                 <div class="event__title">
-                                    <h4 class="event__title_text"></h4>
+                                <h4></h4>
+                                </div>
+                                <div class="event__venues">
+                                    <span></span>
                                 </div>
                                 <div class="event__descrip">
                                     <p></p>
@@ -912,7 +1012,10 @@ class CategoriesComponent {
                             </div>
                             <div class="event__preview category__preview">
                                 <div class="event__title">
-                                    <h4 class="event__title_text"></h4>
+                                <h4></h4>
+                                </div>
+                                <div class="event__venues">
+                                    <span></span>
                                 </div>
                                 <div class="event__descrip">
                                     <p></p>
@@ -951,7 +1054,7 @@ class CategoriesComponent {
         for (let i = 0; i < categoryEvents.length; i++) {
             categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
             categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
-            categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+            categoryEvents[i].getElementsByClassName('event__venues')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
             categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
         };
     }
@@ -974,11 +1077,15 @@ class EventComponent {
             <event class="event">
                 <a href="#" class="event-link">
                     <div class="event__foto">
+                        <span class="foto__data"><span class="date"></span><span class="month"></span></span>
                         <img class="foto__image" alt="" src="">
                     </div>
                     <div class="event__preview">
                         <div class="event__title">
                             <h4></h4>
+                        </div>
+                        <div class="event__venues">
+                            <span></span>
                         </div>
                         <div class="event__descrip">
                             <p></p>
@@ -1103,6 +1210,13 @@ class SearchBarComponent {
 
     SearchEvents() {
         const searchButton = document.getElementsByClassName('search-bar__button submit')[0];
+        const enterButton = document.getElementsByClassName('search-bar__input-text')[0];
+        enterButton.onkeydown = event => {
+            if (event.keyCode == 13) {
+                this.createQueryResults();
+                this.getData(document.getElementsByName('search')[0].value);
+            }
+        };
         searchButton.onclick = () => {
             this.createQueryResults();
             this.getData(document.getElementsByName('search')[0].value);
@@ -1124,8 +1238,18 @@ class SearchBarComponent {
             for (let i = 0; i < categoryEvents.length; i++) {
                 categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
                 categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
-                categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+                categoryEvents[i].getElementsByClassName('event__venues')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
                 categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
+                let month = events[i].dates.start.localDate.substr(5, 2);
+                let date = events[i].dates.start.localDate.substr(8, 2);
+                let mS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+                categoryEvents[i].getElementsByClassName('date')[0].innerText = date;
+                categoryEvents[i].getElementsByClassName('month')[0].innerText = mS[month - 1];
+                if (events[i].info != undefined) {
+                    categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i].info;
+                } else {
+                    categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = '';
+                };
             };
         };
     }
