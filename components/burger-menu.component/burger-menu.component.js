@@ -1,4 +1,4 @@
-import {InitService} from "../../init.service";
+import {InitComponentService} from "../../init-component.service";
 
 export class BurgerMenuComponent {
 
@@ -27,38 +27,23 @@ export class BurgerMenuComponent {
                 </ul>
             </burger-menu>`;
 
-        new InitService(this.template, this.selector);
-        this.burgerMenuCloseOpen2();
+        this.initService = new InitComponentService();
+        this.initService.initComponent(this.template,this.selector);
+        this.burgerMenuCloseOpen();
     };
 
     burgerMenuCloseOpen() {
-        $('.burger-icon').click(function(){
-            $('.burger-menu').toggleClass('burger-menu_opened');
-            $('.content__aside').removeClass('content__aside_opened');
-        });
-        $(document).click(function(event) {
-            if ($(event.target).closest(".burger-menu").length) return;
-            if ($(event.target).closest(".burger-icon").length) return;
-            $('.burger-menu').removeClass('burger-menu_opened');
-            event.stopPropagation();
-        });
-    };
-
-    burgerMenuCloseOpen2() {
         document.getElementsByClassName('burger-icon')[0].onclick = () => {
             document.getElementsByClassName('burger-menu')[0].classList.toggle('burger-menu_opened');
-            document.getElementsByClassName('.content__aside')[0].classList.remove('content__aside_opened');
+            document.getElementsByClassName('content__aside')[0].classList.remove('content__aside_opened');
         };
 
-        document.onclick = () => {
-
-        };
-
-        $(document).click(function(event) {
-            if ($(event.target).closest(".burger-menu").length) return;
-            if ($(event.target).closest(".burger-icon").length) return;
-            $('.burger-menu').removeClass('burger-menu_opened');
-            event.stopPropagation();
+        document.addEventListener("click", function(event) {
+            let elements = document.getElementsByClassName('header__burger')[0].querySelectorAll('div,ul,li,a');
+            for (let i = 0; i < elements.length; i++) {
+                if (event.target==elements[i]) return;
+            };
+            document.getElementsByClassName('burger-menu')[0].classList.remove('burger-menu_opened');
         });
     };
 }

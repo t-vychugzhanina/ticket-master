@@ -16,9 +16,11 @@
 
 .category__preview{
     padding: 10px;
-    background: #F8F8F8;
-    border-radius: 10px;
-    width: 100%;
-    margin-bottom: 10px;
     box-sizing: border-box;
 }
+
+.category-event .event__foto{
+    align-self: center;
+}
+
+

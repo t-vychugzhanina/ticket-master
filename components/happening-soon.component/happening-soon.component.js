@@ -1,5 +1,5 @@
-import {InitService} from "../../init.service";
-import {AppService} from "../../app.service";
+import {InitComponentService} from "../../init-component.service";
+import {GetDataService} from "../../get-data.service";
 
 export class HappeningSoonComponent {
 
@@ -82,36 +82,25 @@ export class HappeningSoonComponent {
                 </article>
             </events-hs>`;
 
-        new InitService(this.template,this.selector);
-        new AppService(this.template,this.selector);
-        //this.getData();
+        this.initService = new InitComponentService();
+        this.initService.initComponent(this.template,this.selector);
+        this.initService.renderChildren(this.template,this.selector);
+        this.dataService = new GetDataService();
+        this.getData();
     };
 
     getData(){
-        Date.prototype.addDays = (function(days) {
-            let dat = new Date(this.valueOf());
-            dat.setDate(dat.getDate() + days);
-            return dat;
-        });
-
         let today = new Date();
-        today.setUTCMilliseconds(0);
-        let inWeek = today.addDays(1);
+        let inWeek = new Date();
+        inWeek.setDate(today.getDate() + 3);
         today = today.toISOString().substr(0, 19)+'Z';
         inWeek = inWeek.toISOString().substr(0, 19)+'Z';
 
-        $.ajax({
-            type:"GET",
-            url:"https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&startDateTime="+today+"&endDateTime="+inWeek+"&size=4",
-            async:true,
-            dataType: "json",
-            success: (json) => {
-                this.showEvents(json);
-            },
-            error: (xhr, status, err) => {
-                console.log(err);
-            }
-        });
+        this.dataService.httpGet("https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&startDateTime="+today+"&endDateTime="+inWeek+"&size=4&sort=relevance,desc")
+            .then(
+                response => this.showEvents(JSON.parse(response)),
+                error => console.log(`Rejected: ${error}`)
+            );
     };
 
     showEvents(json) {

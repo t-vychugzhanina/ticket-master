@@ -1,5 +1,6 @@
 import {SearchEventsComponent} from "../search-events.component/search-events.component";
-import {InitService} from "../../init.service";
+import {InitComponentService} from "../../init-component.service";
+import {GetDataService} from "../../get-data.service";
 
 export class SearchBarComponent {
 
@@ -12,21 +13,26 @@ export class SearchBarComponent {
                 <button class="search-bar__button setting" type="button">Search settings</button>
             </search-bar>`;
 
-        new InitService(this.template,this.selector);
+        this.initService = new InitComponentService();
+        this.initService.initComponent(this.template,this.selector);
+        this.dataService = new GetDataService();
         this.SearchBarCloseOpen();
-        //this.SearchEvents(page);
+        this.SearchEvents(page);
     };
 
     SearchBarCloseOpen() {
-        $('.setting').click(function(){
-            $('.content__aside').toggleClass('content__aside_opened');
-            $('.burger-menu').removeClass('burger-menu_opened');
-        });
-        $(document).click(function(event) {
-            if ($(event.target).closest(".content__aside").length) return;
-            if ($(event.target).closest(".setting").length) return;
-            $('.content__aside').removeClass('content__aside_opened');
-            event.stopPropagation();
+        document.getElementsByClassName('setting')[0].onclick = () => {
+            document.getElementsByClassName('content__aside')[0].classList.toggle('content__aside_opened');
+            document.getElementsByClassName('burger-menu')[0].classList.remove('burger-menu_opened');
+        };
+
+        document.addEventListener("click", function(event) {
+            let elements = document.getElementsByClassName('content__aside')[0].querySelectorAll('h3,input,select,span,button,div');
+            for (let i = 0; i < elements.length; i++) {
+                if (event.target==elements[i]) return;
+            };
+            if (event.target== document.getElementsByClassName('setting')[0]) return;
+            document.getElementsByClassName('content__aside')[0].classList.remove('content__aside_opened');
         });
     };
 
@@ -39,14 +45,11 @@ export class SearchBarComponent {
     };
 
     getData(keyword) {
-        $.ajax({
-            type: "GET",
-            url: "https://app.ticketmaster.com/discovery/v2/events.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0&keyword="+keyword,
-            async: true,
-            dataType: "json",
-            success: (json) => { this.showEvents(json);},
-            error: (xhr, status, err) => { console.log(err);}
-        });
+        this.dataService.httpGet("https://app.ticketmaster.com/discovery/v2/events.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0&keyword="+keyword)
+            .then(
+                response => this.showEvents(JSON.parse(response)),
+                error => console.log(`Rejected: ${error}`)
+            );
     };
 
     showEvents(json) {

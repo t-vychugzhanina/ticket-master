@@ -1,5 +1,4 @@
-import {AppService} from "../../app.service";
-import {InitService} from "../../init.service";
+import {InitComponentService} from "../../init-component.service";
 
 export class SearchEventsComponent {
 
@@ -15,7 +14,8 @@ export class SearchEventsComponent {
                 <button class="page_button next">next</button>
             </search-events>`;
 
-        new InitService(this.template,this.selector);
+        this.initService = new InitComponentService();
+        this.initService.initComponent(this.template,this.selector);
         this.renderChildren();
         this.Buttons();
     };
@@ -27,7 +27,7 @@ export class SearchEventsComponent {
             let newEvent = document.createElement('event');
             content.insertBefore(newEvent, content.children[3]);
         };
-        new AppService(this.template,this.selector);
+        this.initService.renderChildren(this.template,this.selector);
     };
 
     Buttons(){

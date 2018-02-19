@@ -1,5 +1,4 @@
-import {AppService} from "../../app.service";
-import {InitService} from "../../init.service";
+import {InitComponentService} from "../../init-component.service";
 
 export class EventGroupComponent {
     constructor() {
@@ -11,7 +10,8 @@ export class EventGroupComponent {
                 <events-categories class="categories"></events-categories>
             </event-group>`;
 
-        new InitService(this.template,this.selector);
-        new AppService(this.template,this.selector);
+        this.initService = new InitComponentService();
+        this.initService.initComponent(this.template,this.selector);
+        this.initService.renderChildren(this.template,this.selector);
     };
 }

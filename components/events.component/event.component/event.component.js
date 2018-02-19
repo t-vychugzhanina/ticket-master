@@ -1,4 +1,4 @@
-import {InitService} from "../../../init.service";
+import {InitComponentService} from "../../../init-component.service";
 
 export class EventComponent {
     constructor() {
@@ -23,6 +23,7 @@ export class EventComponent {
                 </a>
             </event>`;
 
-        new InitService(this.template,this.selector);
+        this.initService = new InitComponentService();
+        this.initService.initComponent(this.template,this.selector);
     };
 }

@@ -3,28 +3,29 @@ export class GetDataService {
     constructor() {
     };
 
-    getData(url) {
-        this.API = $.ajax({
-            type: "GET",
-            url: url,
-            async: true,
-            dataType: "json",
-            success: ((json) => this.data = json),
-            error: (xhr, status, err) => { console.log(err); }
-        });
-    };
+    httpGet(url) {
 
-    getJSData(url) {
-        let data = '';
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', url, true);
-        xhr.onload = () => {
-            data = JSON.parse(xhr.responseText);
-        };
-        xhr.onerror = () => {
-            console.log( 'error ' + this.status );
-        };
-        xhr.send();
-        return data;
+        return new Promise(function (resolve, reject) {
+
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+
+            xhr.onload = function () {
+                if (this.status === 200) {
+                    resolve(this.response);
+                } else {
+                    let error = new Error(this.statusText);
+                    error.code = this.status;
+                    reject(error);
+                }
+            };
+
+            xhr.onerror = function () {
+                reject(new Error("Network Error"));
+            };
+
+            xhr.send();
+        });
+
     };
 };

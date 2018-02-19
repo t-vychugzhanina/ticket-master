@@ -1,5 +1,4 @@
-import {InitService} from "../../init.service";
-import {AppService} from "../../app.service";
+import {InitComponentService} from "../../init-component.service";
 import {GetDataService} from "../../get-data.service";
 import {SearchEventsComponent} from "../search-events.component/search-events.component";
 
@@ -26,11 +25,31 @@ export class AddOptionsComponent{
                 </form>
             </add-options>`;
 
-        new InitService(this.template,this.selector);
-        new AppService(this.template,this.selector);
+        this.initService = new InitComponentService();
+        this.initService.initComponent(this.template,this.selector);
+        this.initService.renderChildren(this.template,this.selector);
+        this.dataService = new GetDataService();
+        this.getCategoriesData(this.dataService);
+        this.searchData(this.dataService);
         this.dateWork();
-        this.getCategoriesData();
-        //this.searchData();
+        this.anchorWork();
+
+    };
+
+    anchorWork() {
+        window.onload = this.anchorHeight;
+        window.onresize = this.anchorHeight;
+    };
+
+    anchorHeight() {
+        let headerHeight = $('.header').outerHeight();
+        $('a').on('click', function(e) {
+            let $anchor = $(this);
+            $('html, body').stop().animate({
+                scrollTop: $($anchor.attr('href')).offset().top - headerHeight
+            }, 900, 'easeInOutExpo');
+            event.preventDefault();
+            history.pushState({}, "", this.href);})
     };
 
     dateWork() {
@@ -38,25 +57,24 @@ export class AddOptionsComponent{
         webshims.setOptions('forms-ext', {types: 'date'});
         webshims.polyfill('forms forms-ext');
 
-        Date.prototype.addDays = (function(days) {
-            let dat = new Date(this.valueOf());
-            dat.setDate(dat.getDate() + days);
-            return dat;
-        });
-
         document.getElementById('datePicker').valueAsDate = new Date();
         let inWeek = new Date();
-        inWeek = inWeek.addDays(1);
+        inWeek.setDate(inWeek.getDate() + 1);
         document.getElementById('datePicker2').valueAsDate = inWeek;
     };
 
-    getCategoriesData() {
-        this.dataService = new GetDataService();
-        this.json = this.dataService.getJSData("https://app.ticketmaster.com/discovery/v2/classifications.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0");
-        console.log(this.json);
+    getCategoriesData(dataService) {
+        dataService.httpGet("https://app.ticketmaster.com/discovery/v2/classifications.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0")
+            .then(
+                response => this.showCategoriesData(JSON.parse(response)),
+                error => console.log(`Rejected: ${error}`)
+            );
+    };
+
+    showCategoriesData(json) {
         const category = document.getElementsByName('category')[0];
         const subCategory = document.getElementsByName('sub-category')[0];
-        let APIdata = this.json._embedded.classifications;
+        let APIdata = json._embedded.classifications;
         for (let i = 0; i < APIdata.length; i++) {
             try {
                 let segment = APIdata[i].segment.name;
@@ -64,7 +82,6 @@ export class AddOptionsComponent{
                 option.innerText = segment;
                 category.appendChild(option);
             } catch (err) {
-                console.log(err);
             };
         };
         category.onchange = function () {
@@ -88,39 +105,32 @@ export class AddOptionsComponent{
         };
     };
 
-    searchData(){
+    searchData(dataService){
         document.getElementsByClassName('location-form__submit')[0].onclick = () => {
             let city = document.getElementsByName('city')[0].value;
             let category = document.getElementsByName('category')[0].value;
             let subCategory = document.getElementsByName('sub-category')[0].value;
             let startDateTime = document.getElementsByName('startDateTime')[0].value;
             let endDateTime = document.getElementsByName('endDateTime')[0].value;
-            this.getSearchData(city,category,subCategory,startDateTime,endDateTime);
+            startDateTime = new Date(startDateTime.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
+            endDateTime = new Date(endDateTime.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
+            startDateTime = startDateTime.toISOString().substr(0, 19)+'Z';
+            endDateTime = endDateTime.toISOString().substr(0, 19)+'Z';
+            this.getSearchData(dataService,city,category,subCategory,startDateTime,endDateTime);
         };
     };
 
-    getSearchData(city,category,subCategory,startDateTime,endDateTime){
-        startDateTime = new Date(startDateTime.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
-        endDateTime = new Date(endDateTime.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
-        startDateTime = startDateTime.toISOString().substr(0, 19)+'Z';
-        endDateTime = endDateTime.toISOString().substr(0, 19)+'Z';
+    getSearchData(dataService,city,category,subCategory,startDateTime,endDateTime){
         let urlString = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0&startDateTime="+startDateTime+"&endDateTime="+endDateTime;
         if (category!='Select category') {urlString=urlString+"&classificationName="+category};
         if (subCategory!='Select sub category') {urlString=urlString+"&keyword="+subCategory};
         if (city!='') {urlString=urlString+"&city="+city};
 
-        $.ajax({
-            type: "GET",
-            url: urlString,
-            async: true,
-            dataType: "json",
-            success: (json) => {
-                this.showEvents(json);
-            },
-            error: (xhr, status, err) => {
-                console.log(err);
-            }
-        });
+        dataService.httpGet(urlString)
+            .then(
+                response => this.showEvents(JSON.parse(response)),
+                error => console.log(`Rejected: ${error}`)
+            );
     };
 
     showEvents(json) {
@@ -147,5 +157,6 @@ export class AddOptionsComponent{
         document.getElementsByClassName('content__events')[0].appendChild(QueryResults);
         new SearchEventsComponent(quantity);
     };
+
 
 };

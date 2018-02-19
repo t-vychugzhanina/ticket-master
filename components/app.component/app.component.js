@@ -1,5 +1,4 @@
-import {AppModule} from "../../app.module";
-import {AppService} from "../../app.service";
+import {InitComponentService} from "../../init-component.service";
 
 export class AppComponent {
 
@@ -21,7 +20,8 @@ export class AppComponent {
 
     init() {
         document.body.innerHTML = this.template;
-        new AppService(this.template,this.selector);
+        let initService = new InitComponentService;
+        initService.renderChildren(this.template,this.selector);
     };
 
 };

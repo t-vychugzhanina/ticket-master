@@ -1,5 +1,5 @@
-import {AppService} from "../../app.service";
-import {InitService} from "../../init.service";
+import {InitComponentService} from "../../init-component.service";
+import {GetDataService} from "../../get-data.service";
 
 export class CategoriesComponent {
 
@@ -7,126 +7,168 @@ export class CategoriesComponent {
         this.selector = 'events-categories';
         this.template = `<events-categories class="categories">
                  <section class="event category-event" id="Music">
-                        <h3 class="category"> Music </h3>
-                        <article class="event__preview category__preview">
-                                <a href="#">
+                    <h3 class="category"> Music </h3>
+                    <article class="event category__event">
+                        <a href="#" class="event-link">
+                            <div class="event__foto">
+                                <img class="foto__image" alt="" src="">
+                            </div>
+                            <div class="event__preview category__preview">
                                 <div class="event__title">
-                                    <h4 class="event__title_text">New music concert</h4>
+                                    <h4 class="event__title_text"></h4>
                                 </div>
                                 <div class="event__descrip">
-                                    <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
+                                    <p></p>
                                 </div>
                                 <div class="event__data">
-                                    <span>19 февраля 2017, 12:00.</span>
+                                    <span></span>
                                 </div>
-                                </a>
-                            </article>
-                        <article class="event__preview category__preview">
-                         <a href="#">
-                             <div class="event__title">
-                                 <h4>New music concert</h4>
-                             </div>
-                             <div class="event__descrip">
-                                 <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
-                             </div>
-                             <div class="event__data">
-                                 <span>19 февраля 2017, 12:00.</span>
-                             </div>
-                         </a>
-                     </article>
+                            </div>
+                        </a>
+                    </article>
+                    <article class="event category__event">
+                        <a href="#" class="event-link">
+                            <div class="event__foto">
+                                <img class="foto__image" alt="" src="">
+                            </div>
+                            <div class="event__preview category__preview">
+                                <div class="event__title">
+                                    <h4 class="event__title_text"></h4>
+                                </div>
+                                <div class="event__descrip">
+                                    <p></p>
+                                </div>
+                                <div class="event__data">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
                  </section>
                  <section class="event category-event" id="Sport">
-                        <h3 class="category"> Sport </h3>
-                        <article class="event__preview category__preview">
-                         <a href="#">
-                             <div class="event__title">
-                                 <h4>New music concert</h4>
-                             </div>
-                             <div class="event__descrip">
-                                 <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
-                             </div>
-                             <div class="event__data">
-                                 <span>19 февраля 2017, 12:00.</span>
-                             </div>
-                         </a>
-                     </article>
-                        <article class="event__preview category__preview">
-                         <a href="#">
-                             <div class="event__title">
-                                 <h4>New music concert</h4>
-                             </div>
-                             <div class="event__descrip">
-                                 <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
-                             </div>
-                             <div class="event__data">
-                                 <span>19 февраля 2017, 12:00.</span>
-                             </div>
-                         </a>
-                     </article>
-                    </section>
+                    <h3 class="category"> Sport </h3>
+                    <article class="event category__event">
+                        <a href="#" class="event-link">
+                            <div class="event__foto">
+                                <img class="foto__image" alt="" src="">
+                            </div>
+                            <div class="event__preview category__preview">
+                                <div class="event__title">
+                                    <h4 class="event__title_text"></h4>
+                                </div>
+                                <div class="event__descrip">
+                                    <p></p>
+                                </div>
+                                <div class="event__data">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+                    <article class="event category__event">
+                        <a href="#" class="event-link">
+                            <div class="event__foto">
+                                <img class="foto__image" alt="" src="">
+                            </div>
+                            <div class="event__preview category__preview">
+                                <div class="event__title">
+                                    <h4 class="event__title_text"></h4>
+                                </div>
+                                <div class="event__descrip">
+                                    <p></p>
+                                </div>
+                                <div class="event__data">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+                 </section>
                  <section class="event category-event" id="Art">
                     <h3 class="category"> Arts & Theater </h3>
-                     <article class="event__preview category__preview">
-                         <a href="#">
-                             <div class="event__title">
-                                 <h4>New music concert</h4>
-                             </div>
-                             <div class="event__descrip">
-                                 <p>В преддверии амбеки, курьёзы и скандалы.</p>
-                             </div>
-                             <div class="event__data">
-                                 <span>19 февраля 2017, 12:00.</span>
-                             </div>
-                         </a>
-                     </article>
-                     <article class="event__preview category__preview">
-                         <a href="#">
-                             <div class="event__title">
-                                 <h4>New music concert</h4>
-                             </div>
-                             <div class="event__descrip">
-                                 <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
-                                 <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
-                             </div>
-                             <div class="event__data">
-                                 <span>19 февраля 2017, 12:00.</span>
-                             </div>
-                         </a>
-                     </article>
-                </section>
+                    <article class="event category__event">
+                        <a href="#" class="event-link">
+                            <div class="event__foto">
+                                <img class="foto__image" alt="" src="">
+                            </div>
+                            <div class="event__preview category__preview">
+                                <div class="event__title">
+                                    <h4 class="event__title_text"></h4>
+                                </div>
+                                <div class="event__descrip">
+                                    <p></p>
+                                </div>
+                                <div class="event__data">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+                    <article class="event category__event">
+                        <a href="#" class="event-link">
+                            <div class="event__foto">
+                                <img class="foto__image" alt="" src="">
+                            </div>
+                            <div class="event__preview category__preview">
+                                <div class="event__title">
+                                    <h4 class="event__title_text"></h4>
+                                </div>
+                                <div class="event__descrip">
+                                    <p></p>
+                                </div>
+                                <div class="event__data">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+                 </section>
                  <section class="event category-event" id="Family">
                     <h3 class="category"> Family </h3>
-                     <article class="event__preview category__preview">
-                         <a href="#">
-                             <div class="event__title">
-                                 <h4>New music concert</h4>
-                             </div>
-                             <div class="event__descrip">
-                                 <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
-                             </div>
-                             <div class="event__data">
-                                 <span>19 февраля 2017, 12:00.</span>
-                             </div>
-                         </a>
-                     </article>
-                     <article class="event__preview category__preview">
-                         <a href="#">
-                             <div class="event__title">
-                                 <h4>New music concert</h4>
-                             </div>
-                             <div class="event__descrip">
-                                 <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
-                             </div>
-                             <div class="event__data">
-                                 <span>19 февраля 2017, 12:00.</span>
-                             </div>
-                         </a>
-                     </article>
+                    <article class="event category__event">
+                        <a href="#" class="event-link">
+                            <div class="event__foto">
+                                <img class="foto__image" alt="" src="">
+                            </div>
+                            <div class="event__preview category__preview">
+                                <div class="event__title">
+                                    <h4 class="event__title_text"></h4>
+                                </div>
+                                <div class="event__descrip">
+                                    <p></p>
+                                </div>
+                                <div class="event__data">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+                    <article class="event category__event">
+                        <a href="#" class="event-link">
+                            <div class="event__foto">
+                                <img class="foto__image" alt="" src="">
+                            </div>
+                            <div class="event__preview category__preview">
+                                <div class="event__title">
+                                    <h4 class="event__title_text"></h4>
+                                </div>
+                                <div class="event__descrip">
+                                    <p></p>
+                                </div>
+                                <div class="event__data">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
                 </section>
             </events-categories>`;
-        new InitService(this.template,this.selector);
-        new AppService(this.template,this.selector);
-        //this.getData();
+
+        this.initService = new InitComponentService();
+        this.initService.initComponent(this.template,this.selector);
+        this.initService.renderChildren(this.template,this.selector);
+        this.dataService = new GetDataService();
+        this.getData();
     };
 
     getData() {
@@ -137,28 +179,22 @@ export class CategoriesComponent {
     };
 
     getCategoryEvents(categorysearch) {
-        $.ajax({
-            type: "GET",
-            url: "https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&size=4&classificationName="+categorysearch,
-            async: true,
-            dataType: "json",
-            success: (json) => {
-                this.showEvents(json,categorysearch);
-            },
-            error: (xhr, status, err) => {
-                console.log(err);
-            }
-        });
+        this.dataService.httpGet("https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&size=4&classificationName="+categorysearch)
+            .then(
+                response => this.showEvents(JSON.parse(response),categorysearch),
+                error => console.log(`Rejected: ${error}`)
+            );
     };
 
     showEvents(json, categorysearch) {
         let categoryBlock = document.getElementById(categorysearch);
-        let categoryEvents = categoryBlock.getElementsByClassName('event__preview');
+        let categoryEvents = categoryBlock.getElementsByClassName('category__event');
         let events = json._embedded.events;
         for (let i = 0; i < categoryEvents.length; i++) {
             categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
             categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
             categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+            categoryEvents[i].getElementsByClassName('foto__image')[0].src=events[i].images[0].url;
         };
     };
 }

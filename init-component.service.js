@@ -1,9 +1,15 @@
 import {AppModule} from "./app.module";
 
-export class AppService {
+export class InitComponentService {
 
-    constructor(template,selector) {
-        this.renderChildren(template,selector);
+    constructor() {
+    };
+
+    initComponent(template,selector) {
+        let allTags = document.getElementsByTagName(selector);
+        for (let i = 0; i < allTags.length; i++) {
+            allTags[i].outerHTML = template;
+        };
     };
 
     renderChildren(template,selector) {
