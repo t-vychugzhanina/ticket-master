@@ -1,80 +1,160 @@
-import {AppModule} from "../../app.module";
+import {InitComponentService} from "../../init-component.service";
+import {GetDataService} from "../../get-data.service";
+import {SearchEventsComponent} from "../search-events.component/search-events.component";
 
 export class AddOptionsComponent{
 
-        constructor() {
-            this.selector = 'add-options';
-            this.template = `<add-options class="content__aside">
-            <form class="aside__location-form" method="get">
-                <h3 class="aside__title">Your location</h3>
-                    <input class="location-form__item" name="city" type="text" placeholder="Enter city">
-                <h3 class="aside__title">Shop for Events</h3>
-                    <select name="category" class="location-form__item">
-                        <option selected disabled>Select category</option>
-                        <option>Music</option>
-                        <option>Sport</option>
-                        <option>Arts & Theater</option>
-                        <option>Family</option>
-                        <option>VIP</option>
-                        <option>Family</option>
-                        <option>Deals</option>
+    constructor() {
+        this.selector = 'add-options';
+        this.template = `
+            <add-options class="content__aside">
+                <form onsubmit="return false" class="aside__location-form" method="get">
+                    <h3 class="aside__title">Shop for Events</h3>
+                    <input class="location-form__item" name="city" type="text" autocomplete="on" placeholder="Enter city">
+                    <select id="category" name="category" class="location-form__item">
+                        <option selected>Select category</option>
                     </select>
-                    <select name="sub-category" class="location-form__item">
-                        <option selected disabled>Select sub category</option>
-                        <option>Music</option>
-                        <option>Sport</option>
-                        <option>Arts & Theater</option>
-                        <option>Family</option>
-                        <option>VIP</option>
-                        <option>Family</option>
-                        <option>Deals</option>
+                    <select id="sub-category" name="sub-category" class="location-form__item">
+                        <option selected>Select sub category</option>
                     </select>
                     <span class="aside__text">From:</span>
-                    <input class="location-form__item input-date" name="date-start" id="datePicker" type="date" placeholder="Select start data">
+                    <input class="location-form__item input-date" name="startDateTime" id="datePicker" type="date" placeholder="Select start data">
                     <span class="aside__text">To:</span>
-                    <input class="location-form__item input-date" name="date-end" id="datePicker2" type="date" placeholder="Select end data">
+                    <input class="location-form__item input-date" name="endDateTime" id="datePicker2" type="date" placeholder="Select end data">
                     <button class="location-form__submit" type="submit">Apply</button>
                 </form>
-        </add-options>`;
-            this.init();
-        };
+            </add-options>`;
 
-        init() {
-            var all = document.getElementsByTagName(this.selector);
-            for (var r = 0; r < all.length; r++) {
-                all[r].outerHTML = this.template;
+        this.initService = new InitComponentService();
+        this.initService.initComponent(this.template,this.selector);
+        this.initService.renderChildren(this.template,this.selector);
+        this.dataService = new GetDataService();
+        this.getCategoriesData(this.dataService);
+        this.searchData(this.dataService);
+        this.dateWork();
+
+    };
+
+    getCategoriesData(dataService) {
+        dataService.httpGet("https://app.ticketmaster.com/discovery/v2/classifications.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0")
+            .then(
+                response => this.showCategoriesData(JSON.parse(response)),
+                error => console.log(`Rejected: ${error}`)
+            );
+    };
+
+    showCategoriesData(json) {
+        const category = document.getElementsByName('category')[0];
+        const subCategory = document.getElementsByName('sub-category')[0];
+        let APIdata = json._embedded.classifications;
+        for (let i = 0; i < APIdata.length; i++) {
+            try {
+                let segment = APIdata[i].segment.name;
+                let option = document.createElement('option');
+                option.innerText = segment;
+                category.appendChild(option);
+            } catch (err) {
             };
-            this.makeChildren();
-            this.DataWork();
         };
-
-        makeChildren(){
-            let tempTemplate = this.template;
-            let tempSelector = this.selector;
-            let module = new AppModule();
-            let tags = module.FILES;
-            tags.forEach(function (value, key, mapObj) {
-                if ((tempTemplate.indexOf('<'+key)!=-1)&(key!=tempSelector)) {
-                    (value)();
-                }
-            });
+        category.onchange = function () {
+            subCategory.style.display = "block";
+            subCategory.innerHTML = '<option selected>Select sub category</option>';
+            let selected = $( "#category option:selected" ).text();
+            for (let i = 0; i < APIdata.length; i++) {
+                try {
+                    if (selected == APIdata[i].segment.name) {
+                        let genres = APIdata[i].segment._embedded.genres;
+                        for (let j = 0; j < genres.length; j++) {
+                            let option = document.createElement('option');
+                            option.innerText = genres[j].name;
+                            subCategory.appendChild(option);
+                        };
+                    }
+                } catch (err) {
+                };
+            };
         };
+    };
 
-        DataWork() {
-            webshims.setOptions('waitReady', false);
-            webshims.setOptions('forms-ext', {types: 'date'});
-            webshims.polyfill('forms forms-ext');
+    searchData(dataService){
+        document.getElementsByClassName('location-form__submit')[0].onclick = () => {
+            const categoryButtons = document.getElementsByClassName('navigation__item');
+            for (let i = 0; i < categoryButtons.length; i++) {
+                categoryButtons[i].style.backgroundColor = 'transparent';
+                categoryButtons[i].style.color = 'white';
+            };
+            let city = document.getElementsByName('city')[0].value;
+            let category = document.getElementsByName('category')[0].value;
+            let subCategory = document.getElementsByName('sub-category')[0].value;
+            let startDateTime = document.getElementsByName('startDateTime')[0].value;
+            let endDateTime = document.getElementsByName('endDateTime')[0].value;
+            startDateTime = new Date(startDateTime.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
+            endDateTime = new Date(endDateTime.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
+            startDateTime = startDateTime.toISOString().substr(0, 19)+'Z';
+            endDateTime = endDateTime.toISOString().substr(0, 19)+'Z';
+            this.getSearchData(dataService,city,category,subCategory,startDateTime,endDateTime);
+        };
+    };
 
-            Date.prototype.addDays = (function(days) {
-                var dat = new Date(this.valueOf());
-                dat.setDate(dat.getDate() + days);
-                return dat;
-            });
+    getSearchData(dataService,city,category,subCategory,startDateTime,endDateTime){
+        let urlString = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0&startDateTime="+startDateTime+"&endDateTime="+endDateTime;
+        if (category!='Select category') {urlString=urlString+"&classificationName="+category};
+        if (subCategory!='Select sub category') {urlString=urlString+"&keyword="+subCategory};
+        if (city!='') {urlString=urlString+"&city="+city};
 
-            document.getElementById('datePicker').valueAsDate = new Date();
-            var inWeek = new Date();
-            inWeek = inWeek.addDays(1);
-            document.getElementById('datePicker2').valueAsDate = inWeek;
+        dataService.httpGet(urlString)
+            .then(
+                response => this.showEvents(JSON.parse(response)),
+                error => console.log(`Rejected: ${error}`)
+            );
+    };
+
+    showEvents(json) {
+        if (json.page.totalPages==0) {
+            document.getElementsByClassName('events__title')[0].innerHTML = 'Can\'t find query results! Please, try again!';
         }
+        else {
+            this.createQueryResults(json.page.totalPages);
+            let categoryBlock = document.getElementsByClassName('search-events')[0];
+            let categoryEvents = categoryBlock.getElementsByClassName('event');
+            let events = json._embedded.events;
+            for (let i = 0; i < categoryEvents.length; i++) {
+                categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
+                categoryEvents[i].getElementsByClassName('date')[0].innerText = events[i].dates.start.localDate;
+                categoryEvents[i].getElementsByClassName('event__venues')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+                categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
+                let month = events[i].dates.start.localDate.substr(5, 2);
+                let date = events[i].dates.start.localDate.substr(8, 2);
+                let mS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+                categoryEvents[i].getElementsByClassName('day')[0].innerText = date;
+                categoryEvents[i].getElementsByClassName('month')[0].innerText = mS[month-1];
+                if (events[i].info!=undefined) {
+                    categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText=events[i].info;
+                    categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].innerText=events[i].info;
+                } else {
+                    categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText='';
+                    categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].style.display = "none";
+                };
+            };
+        };
+    };
+
+    createQueryResults(quantity) {
+        document.getElementsByClassName('content__events')[0].innerHTML = '';
+        let QueryResults = document.createElement('search-events');
+        document.getElementsByClassName('content__events')[0].appendChild(QueryResults);
+        new SearchEventsComponent(quantity);
+    };
+
+    dateWork() {
+        webshims.setOptions('waitReady', false);
+        webshims.setOptions('forms-ext', {types: 'date'});
+        webshims.polyfill('forms forms-ext');
+
+        document.getElementById('datePicker').valueAsDate = new Date();
+        let inWeek = new Date();
+        inWeek.setDate(inWeek.getDate() + 7);
+        document.getElementById('datePicker2').valueAsDate = inWeek;
+    };
 
 };

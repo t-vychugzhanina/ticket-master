@@ -1,105 +1,142 @@
-import {AppModule} from "../../app.module";
+import {InitComponentService} from "../../init-component.service";
+import {GetDataService} from "../../get-data.service";
 
 export class JustAnnouncedComponent {
-
     constructor() {
         this.selector = 'events-ja';
         this.template = `<events-ja class="events__just-announced">
                 <h2 class="events__title">Just Announced</h2>
                 <article class="event">
-                    <a href="#" class="event-link">
-                        <div class="event__foto">
-                                <img class="foto__image" alt="Elton John" src="https://s1.ticketm.net/tm/en-us/dam/a/12f/9ddad6da-104d-4b7a-bedb-698a9087012f_614581_CUSTOM.jpg">
-                            </div>
-                            <div class="event__preview">
-                                <div class="event__title">
-                                    <h4>New music concert</h4>
-                                </div>
-                                <div class="event__descrip">
-                                    <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
-                                </div>
-                                <div class="event__data">
-                                    <span>19 февраля 2017, 12:00.</span>
-                            </div>
+                    <div class="event__foto">
+                        <img class="foto__image" alt="" src="">
+                    </div>
+                    <div class="event__preview">
+                        <div class="event__title">
+                            <h4></h4>
                         </div>
-                    </a>
+                        <div class="event__venues">
+                            <span></span>
+                        </div>
+                        <div class="event__descrip">
+                            <p></p>
+                        </div>
+                        <div class="event__data">
+                            <span class="date"></span>
+                        </div>
+                    </div>
+                    <div class="event__descrip-mini">
+                        <p></p>
+                    </div>
                 </article>
                 <article class="event">
-                    <a href="#" class="event-link">
-                        <div class="event__foto">
-                            <img class="foto__image" alt="Elton John" src="https://s1.ticketm.net/tm/en-us/dam/a/12f/9ddad6da-104d-4b7a-bedb-698a9087012f_614581_CUSTOM.jpg">
+                    <div class="event__foto">
+                        <img class="foto__image" alt="" src="">
+                    </div>
+                    <div class="event__preview">
+                        <div class="event__title">
+                            <h4></h4>
                         </div>
-                        <div class="event__preview">
-                            <div class="event__title">
-                                <h4>New music concert</h4>
-                            </div>
-                            <div class="event__descrip">
-                                <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
-                            </div>
-                            <div class="event__data">
-                                <span>19 февраля 2017, 12:00.</span>
-                            </div>
+                        <div class="event__venues">
+                            <span></span>
                         </div>
-                    </a>
+                        <div class="event__descrip">
+                            <p></p>
+                        </div>
+                        <div class="event__data">
+                            <span class="date"></span>
+                        </div>
+                    </div>
+                    <div class="event__descrip-mini">
+                        <p></p>
+                    </div>
                 </article>
                 <article class="event">
-                    <a href="#" class="event-link">
-                        <div class="event__foto">
-                            <img class="foto__image" alt="Elton John" src="https://s1.ticketm.net/tm/en-us/dam/a/12f/9ddad6da-104d-4b7a-bedb-698a9087012f_614581_CUSTOM.jpg">
+                    <div class="event__foto">
+                        <img class="foto__image" alt="" src="">
+                    </div>
+                    <div class="event__preview">
+                        <div class="event__title">
+                            <h4></h4>
                         </div>
-                        <div class="event__preview">
-                            <div class="event__title">
-                                <h4>New music concert</h4>
-                            </div>
-                            <div class="event__descrip">
-                                <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
-                            </div>
-                            <div class="event__data">
-                                <span>19 февраля 2017, 12:00.</span>
-                            </div>
+                        <div class="event__venues">
+                            <span></span>
                         </div>
-                    </a>
+                        <div class="event__descrip">
+                            <p></p>
+                        </div>
+                        <div class="event__data">
+                            <span class="date"></span>
+                        </div>
+                    </div>
+                    <div class="event__descrip-mini">
+                        <p></p>
+                    </div>
                 </article>
                 <article class="event">
-                    <a href="#" class="event-link">
-                        <div class="event__foto">
-                            <img class="foto__image" alt="Elton John" src="https://s1.ticketm.net/tm/en-us/dam/a/12f/9ddad6da-104d-4b7a-bedb-698a9087012f_614581_CUSTOM.jpg">
+                    <div class="event__foto">
+                        <img class="foto__image" alt="" src="">
+                    </div>
+                    <div class="event__preview">
+                        <div class="event__title">
+                            <h4></h4>
                         </div>
-                        <div class="event__preview">
-                            <div class="event__title">
-                                <h4>New music concert</h4>
-                            </div>
-                            <div class="event__descrip">
-                                <p>В преддверии плей-офф вспоминаем самые яркие события регулярного чемпионата-2016/17 — невероятные камбеки, курьёзы и скандалы.</p>
-                            </div>
-                            <div class="event__data">
-                                <span>19 февраля 2017, 12:00.</span>
-                            </div>
+                        <div class="event__venues">
+                            <span></span>
                         </div>
-                    </a>
+                        <div class="event__descrip">
+                            <p></p>
+                        </div>
+                        <div class="event__data">
+                            <span class="date"></span>
+                        </div>
+                    </div>
+                    <div class="event__descrip-mini">
+                        <p></p>
+                    </div>
                 </article>
             </events-ja>`;
-        this.init();
+
+        this.initService = new InitComponentService();
+        this.initService.initComponent(this.template,this.selector);
+        this.initService.renderChildren(this.template,this.selector);
+        this.dataService = new GetDataService();
+        this.getData();
     };
 
+    getData(){
+        let today = new Date();
+        let inWeek = new Date();
+        inWeek.setDate(today.getDate() + 10);
+        this.today = today.toISOString().substr(0, 19)+'Z';
+        this.inWeek = inWeek.toISOString().substr(0, 19)+'Z';
+        this.getEvents(0);
+    };
 
-    init() {
-        var all = document.getElementsByTagName(this.selector);
-        for (var r = 0; r < all.length; r++) {
-            all[r].outerHTML = this.template;
+    getEvents(page) {
+        this.dataService.httpGet("https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&size=4&sort=relevance,desc&onsaleStartDateTime=" + this.today + "&onsaleEndDateTime=" + this.inWeek + "&page=" + page)
+            .then(
+                response => this.showEvents(JSON.parse(response)),
+                error => console.log(`Rejected: ${error}`)
+            );
+    };
+
+    showEvents(json) {
+        let categoryBlock = document.getElementsByClassName('events__just-announced')[0];
+        let categoryEvents = categoryBlock.getElementsByClassName('event');
+        let events = json._embedded.events;
+        for (let i = 0; i < categoryEvents.length; i++) {
+            categoryEvents[i].getElementsByClassName('event__title')[0].innerText=events[i].name;
+            categoryEvents[i].getElementsByClassName('date')[0].innerText=events[i].dates.start.localDate;
+            categoryEvents[i].getElementsByClassName('event__venues')[0].innerText=events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
+            categoryEvents[i].getElementsByClassName('foto__image')[0].src=events[i].images[0].url;
+            if (events[i].info!=undefined) {
+                categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText=events[i].info;
+                categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].innerText=events[i].info;
+            } else {
+                categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText='';
+                categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].style.display = "none";
+            };
         };
-        this.makeChildren();
     };
 
-    makeChildren(){
-        let tempTemplate = this.template;
-        let tempSelector = this.selector;
-        let module = new AppModule();
-        let tags = module.FILES;
-        tags.forEach(function (value, key, mapObj) {
-            if ((tempTemplate.indexOf('<'+key)!=-1)&(key!=tempSelector)) {
-                (value)();
-            }
-        });
-    };
 }
