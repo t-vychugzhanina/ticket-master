@@ -18,7 +18,6 @@ export class SearchEventsComponent {
         this.initService.initComponent(this.template,this.selector);
         this.renderChildren();
         this.openDescription();
-        this.Buttons();
     };
 
     renderChildren(){
@@ -29,6 +28,11 @@ export class SearchEventsComponent {
             content.insertBefore(newEvent, content.children[3]);
         };
         this.initService.renderChildren(this.template,this.selector);
+        if (this.quantity<10) {
+            for (let i=0; i<document.getElementsByClassName('page_button').length; i++) {
+                document.getElementsByClassName('page_button')[i].style.display = "none";
+            };
+        };
     };
 
     openDescription() {
@@ -38,15 +42,5 @@ export class SearchEventsComponent {
                 events[i].getElementsByClassName('event__descrip-mini')[0].classList.toggle('descrip-mini_opened');
             }
         };
-        console.log(events);
     }
-
-    Buttons(){
-        const nextButtons = document.getElementsByClassName('next');
-        for (let i = 0; i < nextButtons.length; i++) {
-            nextButtons[i].onclick = function () {
-
-            };
-        };
-    };
 }

@@ -147,6 +147,14 @@
     .event__descrip {
         display: none;
     }
+
+    .day{
+        font-size: 4rem;
+    }
+
+    .month{
+        font-size: 3rem;
+    }
 }
 
 

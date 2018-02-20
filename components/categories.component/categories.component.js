@@ -22,16 +22,16 @@ export class CategoriesComponent {
                 };
                 categoryButtons[i].style.backgroundColor = '#fffbf9';
                 categoryButtons[i].style.color = '#58125b';
-                this.getCategoryEvents(categoryButtons[i].text);
+                this.categorysearch = categoryButtons[i].text;
+                this.getCategoryEvents(0);
             }
         };
     };
 
-    getCategoryEvents(categorysearch) {
-        console.log();
-        this.dataService.httpGet("https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&classificationName="+categorysearch)
+    getCategoryEvents(page) {
+        this.dataService.httpGet("https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&classificationName="+this.categorysearch+"&page="+page)
             .then(
-                response => this.showEvents(JSON.parse(response),categorysearch),
+                response => this.showEvents(JSON.parse(response),this.categorysearch),
                 error => console.log(`Rejected: ${error}`)
             );
     };
@@ -58,6 +58,26 @@ export class CategoriesComponent {
             } else {
                 categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText='';
                 categoryEvents[i].getElementsByClassName('info')[0].style.display = "none";
+            };
+        };
+        this.changePage(json.page.number, json.page.totalPages);
+    };
+
+    changePage(page,all) {
+        const nextButtons = document.getElementsByClassName('next');
+        const prevButtons = document.getElementsByClassName('previous');
+        for (let i = 0; i < nextButtons.length; i++) {
+            nextButtons[i].onclick = () => {
+                if (page == all) {page = 0;}
+                else { page=page+1;};
+                this.getCategoryEvents(page);
+            };
+        };
+        for (let i = 0; i < prevButtons.length; i++) {
+            prevButtons[i].onclick = () => {
+                if (page == 0) { page = 0;}
+                else {page=page-1;};
+                this.getCategoryEvents(page);
             };
         };
     };

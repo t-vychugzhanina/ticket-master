@@ -67,3 +67,9 @@ option{
     width: 100%;
     font-size: 1.7rem;
 }
+
+@media screen and (max-width: 600px) {
+    .content__aside {
+        z-index: 99;
+    }
+}

@@ -45,7 +45,7 @@ export class SearchBarComponent {
                 categoryButtons[i].style.backgroundColor = 'transparent';
                 categoryButtons[i].style.color = 'white';
             };
-            this.getData(document.getElementsByName('search')[0].value);
+            this.getData(document.getElementsByName('search')[0].value, 0);
             this.createQueryResults();
         };
 
@@ -56,10 +56,8 @@ export class SearchBarComponent {
         };
     };
 
-
-
-    getData(keyword) {
-        this.dataService.httpGet("https://app.ticketmaster.com/discovery/v2/events.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0&keyword="+keyword)
+    getData(keyword, page) {
+        this.dataService.httpGet("https://app.ticketmaster.com/discovery/v2/events.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0&keyword="+keyword+"&page="+page)
             .then(
                 response => this.showEvents(JSON.parse(response)),
                 error => console.log(`Rejected: ${error}`)
@@ -90,8 +88,28 @@ export class SearchBarComponent {
                     categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].innerText=events[i].info;
                 } else {
                     categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText='';
-                    categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].style.display = "none";
+                    categoryEvents[i].getElementsByClassName('info')[0].style.display = "none";
                 };
+            };
+        };
+        this.changePage(json.page.number, json.page.totalPages);
+    };
+
+    changePage(page,all) {
+        const nextButtons = document.getElementsByClassName('next');
+        const prevButtons = document.getElementsByClassName('previous');
+        for (let i = 0; i < nextButtons.length; i++) {
+            nextButtons[i].onclick = () => {
+                if (page == all) {page = 0;}
+                else { page=page+1;};
+                this.getData(document.getElementsByName('search')[0].value,page);
+            };
+        };
+        for (let i = 0; i < prevButtons.length; i++) {
+            prevButtons[i].onclick = () => {
+                if (page == 0) { page = 0;}
+                else {page=page-1;};
+                this.getData(document.getElementsByName('search')[0].value,page);
             };
         };
     };

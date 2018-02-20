@@ -120,7 +120,6 @@ class SearchEventsComponent {
         this.initService.initComponent(this.template, this.selector);
         this.renderChildren();
         this.openDescription();
-        this.Buttons();
     }
 
     renderChildren() {
@@ -133,6 +132,11 @@ class SearchEventsComponent {
             content.insertBefore(newEvent, content.children[3]);
         };
         this.initService.renderChildren(this.template, this.selector);
+        if (this.quantity < 10) {
+            for (let i = 0; i < document.getElementsByClassName('page_button').length; i++) {
+                document.getElementsByClassName('page_button')[i].style.display = "none";
+            };
+        };
     }
 
     openDescription() {
@@ -141,14 +145,6 @@ class SearchEventsComponent {
             events[i].getElementsByClassName('info')[0].onclick = () => {
                 events[i].getElementsByClassName('event__descrip-mini')[0].classList.toggle('descrip-mini_opened');
             };
-        };
-        console.log(events);
-    }
-
-    Buttons() {
-        const nextButtons = document.getElementsByClassName('next');
-        for (let i = 0; i < nextButtons.length; i++) {
-            nextButtons[i].onclick = function () {};
         };
     }
 }
@@ -451,37 +447,38 @@ class AddOptionsComponent {
 
     searchData(dataService) {
         document.getElementsByClassName('location-form__submit')[0].onclick = () => {
+            document.getElementsByClassName('content__aside')[0].classList.toggle('content__aside_opened');
             const categoryButtons = document.getElementsByClassName('navigation__item');
             for (let i = 0; i < categoryButtons.length; i++) {
                 categoryButtons[i].style.backgroundColor = 'transparent';
                 categoryButtons[i].style.color = 'white';
             };
-            let city = document.getElementsByName('city')[0].value;
-            let category = document.getElementsByName('category')[0].value;
-            let subCategory = document.getElementsByName('sub-category')[0].value;
-            let startDateTime = document.getElementsByName('startDateTime')[0].value;
-            let endDateTime = document.getElementsByName('endDateTime')[0].value;
-            startDateTime = new Date(startDateTime.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
-            endDateTime = new Date(endDateTime.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
-            startDateTime = startDateTime.toISOString().substr(0, 19) + 'Z';
-            endDateTime = endDateTime.toISOString().substr(0, 19) + 'Z';
-            this.getSearchData(dataService, city, category, subCategory, startDateTime, endDateTime);
+            this.city = document.getElementsByName('city')[0].value;
+            this.category = document.getElementsByName('category')[0].value;
+            this.subCategory = document.getElementsByName('sub-category')[0].value;
+            this.startDateTime = document.getElementsByName('startDateTime')[0].value;
+            this.endDateTime = document.getElementsByName('endDateTime')[0].value;
+            this.startDateTime = new Date(this.startDateTime.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
+            this.endDateTime = new Date(this.endDateTime.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
+            this.startDateTime = this.startDateTime.toISOString().substr(0, 19) + 'Z';
+            this.endDateTime = this.endDateTime.toISOString().substr(0, 19) + 'Z';
+            this.getSearchData(0);
         };
     }
 
-    getSearchData(dataService, city, category, subCategory, startDateTime, endDateTime) {
-        let urlString = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0&startDateTime=" + startDateTime + "&endDateTime=" + endDateTime;
-        if (category != 'Select category') {
-            urlString = urlString + "&classificationName=" + category;
+    getSearchData(page) {
+        let urlString = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0&page=" + page + "&startDateTime=" + this.startDateTime + "&endDateTime=" + this.endDateTime;
+        if (this.category != 'Select category') {
+            urlString = urlString + "&classificationName=" + this.category;
         };
-        if (subCategory != 'Select sub category') {
-            urlString = urlString + "&keyword=" + subCategory;
+        if (this.subCategory != 'Select sub category') {
+            urlString = urlString + "&keyword=" + this.subCategory;
         };
-        if (city != '') {
-            urlString = urlString + "&city=" + city;
+        if (this.city != '') {
+            urlString = urlString + "&city=" + this.city;
         };
 
-        dataService.httpGet(urlString).then(response => this.showEvents(JSON.parse(response)), error => console.log(`Rejected: ${error}`));
+        this.dataService.httpGet(urlString).then(response => this.showEvents(JSON.parse(response)), error => console.log(`Rejected: ${error}`));
     }
 
     showEvents(json) {
@@ -507,10 +504,11 @@ class AddOptionsComponent {
                     categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].innerText = events[i].info;
                 } else {
                     categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = '';
-                    categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].style.display = "none";
+                    categoryEvents[i].getElementsByClassName('info')[0].style.display = "none";
                 };
             };
         };
+        this.changePage(json.page.number, json.page.totalPages);
     }
 
     createQueryResults(quantity) {
@@ -518,6 +516,31 @@ class AddOptionsComponent {
         let QueryResults = document.createElement('search-events');
         document.getElementsByClassName('content__events')[0].appendChild(QueryResults);
         new __WEBPACK_IMPORTED_MODULE_2__search_events_component_search_events_component__["a" /* SearchEventsComponent */](quantity);
+    }
+
+    changePage(page, all) {
+        const nextButtons = document.getElementsByClassName('next');
+        const prevButtons = document.getElementsByClassName('previous');
+        for (let i = 0; i < nextButtons.length; i++) {
+            nextButtons[i].onclick = () => {
+                if (page == all) {
+                    page = 0;
+                } else {
+                    page = page + 1;
+                };
+                this.getSearchData(page);
+            };
+        };
+        for (let i = 0; i < prevButtons.length; i++) {
+            prevButtons[i].onclick = () => {
+                if (page == 0) {
+                    page = 0;
+                } else {
+                    page = page - 1;
+                };
+                this.getSearchData(page);
+            };
+        };
     }
 
     dateWork() {
@@ -901,14 +924,14 @@ class CategoriesComponent {
                 };
                 categoryButtons[i].style.backgroundColor = '#fffbf9';
                 categoryButtons[i].style.color = '#58125b';
-                this.getCategoryEvents(categoryButtons[i].text);
+                this.categorysearch = categoryButtons[i].text;
+                this.getCategoryEvents(0);
             };
         };
     }
 
-    getCategoryEvents(categorysearch) {
-        console.log();
-        this.dataService.httpGet("https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&classificationName=" + categorysearch).then(response => this.showEvents(JSON.parse(response), categorysearch), error => console.log(`Rejected: ${error}`));
+    getCategoryEvents(page) {
+        this.dataService.httpGet("https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&classificationName=" + this.categorysearch + "&page=" + page).then(response => this.showEvents(JSON.parse(response), this.categorysearch), error => console.log(`Rejected: ${error}`));
     }
 
     showEvents(json, categorysearch) {
@@ -933,6 +956,32 @@ class CategoriesComponent {
             } else {
                 categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = '';
                 categoryEvents[i].getElementsByClassName('info')[0].style.display = "none";
+            };
+        };
+        this.changePage(json.page.number, json.page.totalPages);
+    }
+
+    changePage(page, all) {
+        const nextButtons = document.getElementsByClassName('next');
+        const prevButtons = document.getElementsByClassName('previous');
+        for (let i = 0; i < nextButtons.length; i++) {
+            nextButtons[i].onclick = () => {
+                if (page == all) {
+                    page = 0;
+                } else {
+                    page = page + 1;
+                };
+                this.getCategoryEvents(page);
+            };
+        };
+        for (let i = 0; i < prevButtons.length; i++) {
+            prevButtons[i].onclick = () => {
+                if (page == 0) {
+                    page = 0;
+                } else {
+                    page = page - 1;
+                };
+                this.getCategoryEvents(page);
             };
         };
     }
@@ -1108,7 +1157,7 @@ class SearchBarComponent {
                 categoryButtons[i].style.backgroundColor = 'transparent';
                 categoryButtons[i].style.color = 'white';
             };
-            this.getData(document.getElementsByName('search')[0].value);
+            this.getData(document.getElementsByName('search')[0].value, 0);
             this.createQueryResults();
         };
 
@@ -1119,8 +1168,8 @@ class SearchBarComponent {
         };
     }
 
-    getData(keyword) {
-        this.dataService.httpGet("https://app.ticketmaster.com/discovery/v2/events.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0&keyword=" + keyword).then(response => this.showEvents(JSON.parse(response)), error => console.log(`Rejected: ${error}`));
+    getData(keyword, page) {
+        this.dataService.httpGet("https://app.ticketmaster.com/discovery/v2/events.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0&keyword=" + keyword + "&page=" + page).then(response => this.showEvents(JSON.parse(response)), error => console.log(`Rejected: ${error}`));
     }
 
     showEvents(json) {
@@ -1146,8 +1195,34 @@ class SearchBarComponent {
                     categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].innerText = events[i].info;
                 } else {
                     categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = '';
-                    categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].style.display = "none";
+                    categoryEvents[i].getElementsByClassName('info')[0].style.display = "none";
                 };
+            };
+        };
+        this.changePage(json.page.number, json.page.totalPages);
+    }
+
+    changePage(page, all) {
+        const nextButtons = document.getElementsByClassName('next');
+        const prevButtons = document.getElementsByClassName('previous');
+        for (let i = 0; i < nextButtons.length; i++) {
+            nextButtons[i].onclick = () => {
+                if (page == all) {
+                    page = 0;
+                } else {
+                    page = page + 1;
+                };
+                this.getData(document.getElementsByName('search')[0].value, page);
+            };
+        };
+        for (let i = 0; i < prevButtons.length; i++) {
+            prevButtons[i].onclick = () => {
+                if (page == 0) {
+                    page = 0;
+                } else {
+                    page = page - 1;
+                };
+                this.getData(document.getElementsByName('search')[0].value, page);
             };
         };
     }

@@ -148,3 +148,9 @@ a{
     }
 
 }
+
+@media screen and (max-width: 360px) {
+    .main-container {
+        padding-top: 130px;
+    }
+}

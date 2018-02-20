@@ -78,31 +78,32 @@ export class AddOptionsComponent{
 
     searchData(dataService){
         document.getElementsByClassName('location-form__submit')[0].onclick = () => {
+            document.getElementsByClassName('content__aside')[0].classList.toggle('content__aside_opened');
             const categoryButtons = document.getElementsByClassName('navigation__item');
             for (let i = 0; i < categoryButtons.length; i++) {
                 categoryButtons[i].style.backgroundColor = 'transparent';
                 categoryButtons[i].style.color = 'white';
             };
-            let city = document.getElementsByName('city')[0].value;
-            let category = document.getElementsByName('category')[0].value;
-            let subCategory = document.getElementsByName('sub-category')[0].value;
-            let startDateTime = document.getElementsByName('startDateTime')[0].value;
-            let endDateTime = document.getElementsByName('endDateTime')[0].value;
-            startDateTime = new Date(startDateTime.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
-            endDateTime = new Date(endDateTime.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
-            startDateTime = startDateTime.toISOString().substr(0, 19)+'Z';
-            endDateTime = endDateTime.toISOString().substr(0, 19)+'Z';
-            this.getSearchData(dataService,city,category,subCategory,startDateTime,endDateTime);
+            this.city = document.getElementsByName('city')[0].value;
+            this.category = document.getElementsByName('category')[0].value;
+            this.subCategory = document.getElementsByName('sub-category')[0].value;
+            this.startDateTime = document.getElementsByName('startDateTime')[0].value;
+            this.endDateTime = document.getElementsByName('endDateTime')[0].value;
+            this.startDateTime = new Date(this.startDateTime.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
+            this.endDateTime = new Date(this.endDateTime.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
+            this.startDateTime = this.startDateTime.toISOString().substr(0, 19)+'Z';
+            this.endDateTime = this.endDateTime.toISOString().substr(0, 19)+'Z';
+            this.getSearchData(0);
         };
     };
 
-    getSearchData(dataService,city,category,subCategory,startDateTime,endDateTime){
-        let urlString = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0&startDateTime="+startDateTime+"&endDateTime="+endDateTime;
-        if (category!='Select category') {urlString=urlString+"&classificationName="+category};
-        if (subCategory!='Select sub category') {urlString=urlString+"&keyword="+subCategory};
-        if (city!='') {urlString=urlString+"&city="+city};
+    getSearchData(page){
+        let urlString = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0&page="+page+"&startDateTime="+this.startDateTime+"&endDateTime="+this.endDateTime;
+        if (this.category!='Select category') {urlString=urlString+"&classificationName="+this.category};
+        if (this.subCategory!='Select sub category') {urlString=urlString+"&keyword="+this.subCategory};
+        if (this.city!='') {urlString=urlString+"&city="+this.city};
 
-        dataService.httpGet(urlString)
+        this.dataService.httpGet(urlString)
             .then(
                 response => this.showEvents(JSON.parse(response)),
                 error => console.log(`Rejected: ${error}`)
@@ -133,10 +134,11 @@ export class AddOptionsComponent{
                     categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].innerText=events[i].info;
                 } else {
                     categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText='';
-                    categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].style.display = "none";
+                    categoryEvents[i].getElementsByClassName('info')[0].style.display = "none";
                 };
             };
         };
+        this.changePage(json.page.number, json.page.totalPages);
     };
 
     createQueryResults(quantity) {
@@ -144,6 +146,25 @@ export class AddOptionsComponent{
         let QueryResults = document.createElement('search-events');
         document.getElementsByClassName('content__events')[0].appendChild(QueryResults);
         new SearchEventsComponent(quantity);
+    };
+
+    changePage(page,all) {
+        const nextButtons = document.getElementsByClassName('next');
+        const prevButtons = document.getElementsByClassName('previous');
+        for (let i = 0; i < nextButtons.length; i++) {
+            nextButtons[i].onclick = () => {
+                if (page == all) {page = 0;}
+                else { page=page+1;};
+                this.getSearchData(page);
+            };
+        };
+        for (let i = 0; i < prevButtons.length; i++) {
+            prevButtons[i].onclick = () => {
+                if (page == 0) { page = 0;}
+                else {page=page-1;};
+                this.getSearchData(page);
+            };
+        };
     };
 
     dateWork() {
