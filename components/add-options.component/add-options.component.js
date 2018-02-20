@@ -32,35 +32,7 @@ export class AddOptionsComponent{
         this.getCategoriesData(this.dataService);
         this.searchData(this.dataService);
         this.dateWork();
-        this.anchorWork();
 
-    };
-
-    anchorWork() {
-        window.onload = this.anchorHeight;
-        window.onresize = this.anchorHeight;
-    };
-
-    anchorHeight() {
-        let headerHeight = $('.header').outerHeight();
-        $('a').on('click', function(e) {
-            let $anchor = $(this);
-            $('html, body').stop().animate({
-                scrollTop: $($anchor.attr('href')).offset().top - headerHeight
-            }, 900, 'easeInOutExpo');
-            event.preventDefault();
-            history.pushState({}, "", this.href);})
-    };
-
-    dateWork() {
-        webshims.setOptions('waitReady', false);
-        webshims.setOptions('forms-ext', {types: 'date'});
-        webshims.polyfill('forms forms-ext');
-
-        document.getElementById('datePicker').valueAsDate = new Date();
-        let inWeek = new Date();
-        inWeek.setDate(inWeek.getDate() + 1);
-        document.getElementById('datePicker2').valueAsDate = inWeek;
     };
 
     getCategoriesData(dataService) {
@@ -106,6 +78,11 @@ export class AddOptionsComponent{
 
     searchData(dataService){
         document.getElementsByClassName('location-form__submit')[0].onclick = () => {
+            const categoryButtons = document.getElementsByClassName('navigation__item');
+            for (let i = 0; i < categoryButtons.length; i++) {
+                categoryButtons[i].style.backgroundColor = 'transparent';
+                categoryButtons[i].style.color = 'white';
+            };
             let city = document.getElementsByName('city')[0].value;
             let category = document.getElementsByName('category')[0].value;
             let subCategory = document.getElementsByName('sub-category')[0].value;
@@ -143,18 +120,20 @@ export class AddOptionsComponent{
             let events = json._embedded.events;
             for (let i = 0; i < categoryEvents.length; i++) {
                 categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
-                categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
+                categoryEvents[i].getElementsByClassName('date')[0].innerText = events[i].dates.start.localDate;
                 categoryEvents[i].getElementsByClassName('event__venues')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
                 categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
                 let month = events[i].dates.start.localDate.substr(5, 2);
                 let date = events[i].dates.start.localDate.substr(8, 2);
                 let mS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
-                categoryEvents[i].getElementsByClassName('date')[0].innerText = date;
+                categoryEvents[i].getElementsByClassName('day')[0].innerText = date;
                 categoryEvents[i].getElementsByClassName('month')[0].innerText = mS[month-1];
                 if (events[i].info!=undefined) {
                     categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText=events[i].info;
+                    categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].innerText=events[i].info;
                 } else {
                     categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText='';
+                    categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].style.display = "none";
                 };
             };
         };
@@ -167,5 +146,15 @@ export class AddOptionsComponent{
         new SearchEventsComponent(quantity);
     };
 
+    dateWork() {
+        webshims.setOptions('waitReady', false);
+        webshims.setOptions('forms-ext', {types: 'date'});
+        webshims.polyfill('forms forms-ext');
+
+        document.getElementById('datePicker').valueAsDate = new Date();
+        let inWeek = new Date();
+        inWeek.setDate(inWeek.getDate() + 7);
+        document.getElementById('datePicker2').valueAsDate = inWeek;
+    };
 
 };

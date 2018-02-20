@@ -6,7 +6,7 @@ export class AppComponent {
         this.selector = 'app';
         this.template = `
             <app>
-                <headline></headline>
+             <headline></headline>
                 <div class="content">
                     <div class="main-container">
                         <add-options></add-options>
@@ -19,8 +19,8 @@ export class AppComponent {
     };
 
     init() {
-        document.body.innerHTML = this.template;
         let initService = new InitComponentService;
+        initService.initComponent(this.template,this.selector);
         initService.renderChildren(this.template,this.selector);
     };
 

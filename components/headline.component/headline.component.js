@@ -1,4 +1,6 @@
 import {InitComponentService} from "../../init-component.service";
+import {SearchEventsComponent} from "../search-events.component/search-events.component";
+import {AppComponent} from "../app.component/app.component";
 
 export class HeadlineComponent {
     constructor() {
@@ -16,10 +18,10 @@ export class HeadlineComponent {
                     <burger-menu></burger-menu>
                 </div>
                 <nav class="header__navigation">
-                    <a href="#Music" class="navigation__item">Music</a>
-                    <a href="#Sport" class="navigation__item">Sport</a>
-                    <a href="#Art" class="navigation__item">Arts & Theater</a>
-                    <a href="#Family" class="navigation__item">Family</a>
+                    <a href="#" class="navigation__item">Music</a>
+                    <a href="#" class="navigation__item">Sport</a>
+                    <a href="#" class="navigation__item">Arts & Theater</a>
+                    <a href="#" class="navigation__item">Family</a>
                 </nav>
             </div>
         </headline>`;
@@ -27,6 +29,14 @@ export class HeadlineComponent {
         this.initService = new InitComponentService();
         this.initService.initComponent(this.template,this.selector);
         this.initService.renderChildren(this.template,this.selector);
+        this.startPage();
     };
+
+    startPage(){
+        document.getElementsByClassName('header__logo')[0].onclick = () => {
+            new AppComponent();
+        };
+    };
+
 }
 

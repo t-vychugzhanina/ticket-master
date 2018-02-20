@@ -9,7 +9,6 @@ export class HappeningSoonComponent {
             <events-hs class="events__happening-soon">
                 <h2 class="events__title">Happening Soon</h2>
                 <article class="event hs-event">
-                    <a href="#" class="event-link">
                         <div class="event__foto">
                             <img class="foto__image" alt="" src="">
                         </div>
@@ -24,13 +23,14 @@ export class HappeningSoonComponent {
                                 <p></p>
                             </div>
                             <div class="event__data">
-                                <span></span>
+                                <span class="date"></span>
                             </div>
                         </div>
-                    </a>
+                        <div class="event__descrip-mini">
+                        <p></p>
+                        </div>
                 </article>
                 <article class="event hs-event">
-                    <a href="#" class="event-link">
                         <div class="event__foto">
                             <img class="foto__image" alt="" src="">
                         </div>
@@ -45,13 +45,14 @@ export class HappeningSoonComponent {
                                 <p></p>
                             </div>
                             <div class="event__data">
-                                <span></span>
+                                <span class="date"></span>
                             </div>
                         </div>
-                    </a>
+                        <div class="event__descrip-mini">
+                        <p></p>
+                        </div>
                 </article>
                 <article class="event hs-event">
-                    <a href="#" class="event-link">
                         <div class="event__foto">
                             <img class="foto__image" alt="" src="">
                         </div>
@@ -66,13 +67,14 @@ export class HappeningSoonComponent {
                                 <p></p>
                             </div>
                             <div class="event__data">
-                                <span></span>
+                                <span class="date"></span>
                             </div>
                         </div>
-                    </a>
+                        <div class="event__descrip-mini">
+                        <p></p>
+                        </div>
                 </article>
                 <article class="event hs-event">
-                    <a href="#" class="event-link">
                         <div class="event__foto">
                             <img class="foto__image" alt="" src="">
                         </div>
@@ -87,13 +89,14 @@ export class HappeningSoonComponent {
                                 <p></p>
                             </div>
                             <div class="event__data">
-                                <span></span>
+                                <span class="date"></span>
                             </div>
                         </div>
-                    </a>
+                        <div class="event__descrip-mini">
+                        <p></p>
+                        </div>
                 </article>
                 <article class="event hs-event">
-                    <a href="#" class="event-link">
                         <div class="event__foto">
                             <img class="foto__image" alt="" src="">
                         </div>
@@ -108,13 +111,14 @@ export class HappeningSoonComponent {
                                 <p></p>
                             </div>
                             <div class="event__data">
-                                <span></span>
+                                <span class="date"></span>
                             </div>
                         </div>
-                    </a>
+                        <div class="event__descrip-mini">
+                        <p></p>
+                        </div>
                 </article>
                 <article class="event hs-event">
-                    <a href="#" class="event-link">
                         <div class="event__foto">
                             <img class="foto__image" alt="" src="">
                         </div>
@@ -129,10 +133,12 @@ export class HappeningSoonComponent {
                                 <p></p>
                             </div>
                             <div class="event__data">
-                                <span></span>
+                                <span class="date"></span>
                             </div>
                         </div>
-                    </a>
+                        <div class="event__descrip-mini">
+                        <p></p>
+                        </div>
                 </article>
             </events-hs>`;
 
@@ -163,9 +169,14 @@ export class HappeningSoonComponent {
         let events = json._embedded.events;
         for (let i = 0; i < categoryEvents.length; i++) {
             categoryEvents[i].getElementsByClassName('event__title')[0].innerText=events[i].name;
-            categoryEvents[i].getElementsByClassName('event__data')[0].innerText=events[i].dates.start.localDate;
+            categoryEvents[i].getElementsByClassName('date')[0].innerText=events[i].dates.start.localDate;
             categoryEvents[i].getElementsByClassName('event__venues')[0].innerText=events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
             categoryEvents[i].getElementsByClassName('foto__image')[0].src=events[i].images[0].url;
+            if (events[i].info!=undefined) {
+                categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].innerText=events[i].info;
+            } else {
+                categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].style.display = "none";
+            };
         };
     };
 }

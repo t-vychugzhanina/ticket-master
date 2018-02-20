@@ -11,10 +11,6 @@
     background: #F8F8F8;
     margin-bottom: 10px;
     padding: 10px;
-    display: block;
-}
-
-.event-link{
     display: flex;
     flex-wrap: wrap;
 }
@@ -24,8 +20,12 @@
     margin-right: 1%;
     flex: 0 0 auto;
     display: flex;
-    Justify-content: center;
     align-items: center;
+}
+
+.foto__container{
+    position:relative;
+    width: 100%;
 }
 
 .event__preview {
@@ -53,8 +53,17 @@
     margin-bottom: 1rem;
 }
 
+.event__descrip-mini {
+    padding: 1rem;
+    font-size: 1.5rem;
+}
+
 .event__data{
     flex: 0 0 auto;
+    position: relative;
+}
+
+.date{
     font-size: 1.5rem;
 }
 
@@ -84,7 +93,7 @@
     width: 49%;
 }
 
-.hs-event .event-link{
+.hs-event {
     height: 100%;
     flex-direction: column;
 }
@@ -93,27 +102,65 @@
     background: rgba(238, 238, 238, 0.83);
     border-radius: 10px;
     position: absolute;
-    font-size: 3.2em;
-    opacity: 0.9;
+    opacity: 0.8;
     color: white;
-    align-self: center;
+    right: 0;
+    padding: 0.2rem;
 }
 
-.date{
-    font-size: 6rem;
+.day{
+    opacity: 1;
+    font-size: 5.8rem;
 }
 
 .month{
-    font-size: 4rem;
+    opacity: 1;
+    font-size: 3.6rem;
 }
 
-@media screen and (max-width: 600px) {
-    .event-link{
-        align-items: center;
+.event__descrip-mini {
+    display: none;
+}
+
+.descrip-mini_opened{
+    display: block;
+}
+
+.info {
+    display: none;
+    color: transparent;
+    background: url(../../img/i.png) no-repeat;
+    background-size: contain;
+    padding: 0.7rem 1rem;
+    text-indent: -9999px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 10;
+}
+
+@media screen and (max-width: 900px) {
+    .info {
+        display: block;
     }
 
-    .hs-event .event-link{
+    .event__descrip {
+        display: none;
+    }
+}
+
+
+@media screen and (max-width: 600px) {
+    .hs-event{
         flex-direction: row;
+    }
+
+    .day{
+        font-size: 3rem;
+    }
+
+    .month{
+        font-size: 2rem;
     }
 
 }

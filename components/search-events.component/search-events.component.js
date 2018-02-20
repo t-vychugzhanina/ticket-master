@@ -17,6 +17,7 @@ export class SearchEventsComponent {
         this.initService = new InitComponentService();
         this.initService.initComponent(this.template,this.selector);
         this.renderChildren();
+        this.openDescription();
         this.Buttons();
     };
 
@@ -30,10 +31,19 @@ export class SearchEventsComponent {
         this.initService.renderChildren(this.template,this.selector);
     };
 
+    openDescription() {
+        let events = document.getElementsByClassName('event');
+        for (let i=0; i<events.length; i++) {
+            events[i].getElementsByClassName('info')[0].onclick = () => {
+                events[i].getElementsByClassName('event__descrip-mini')[0].classList.toggle('descrip-mini_opened');
+            }
+        };
+        console.log(events);
+    }
+
     Buttons(){
         const nextButtons = document.getElementsByClassName('next');
         for (let i = 0; i < nextButtons.length; i++) {
-            console.log(nextButtons[i]);
             nextButtons[i].onclick = function () {
 
             };

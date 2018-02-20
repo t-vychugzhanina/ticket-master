@@ -8,11 +8,13 @@ import {SearchEventsComponent} from "./components/search-events.component/search
 import {EventComponent} from "./components/events.component/event.component/event.component";
 import {BurgerMenuComponent} from "./components/burger-menu.component/burger-menu.component";
 import {SearchBarComponent} from "./components/search-bar.component/search-bar.component";
+import {AppComponent} from "./components/app.component/app.component";
 
 export class AppModule {
 
     constructor() {
         this.FILES = new Map();
+        this.FILES.set('app', () => new AppComponent());
         this.FILES.set('headline', () => new HeadlineComponent());
         this.FILES.set('add-options', () => new AddOptionsComponent());
         this.FILES.set('event-group', () => new EventGroupComponent());

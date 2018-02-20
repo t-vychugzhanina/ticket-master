@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -68,7 +68,7 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_module__ = __webpack_require__(5);
 
 
 class InitComponentService {
@@ -119,6 +119,7 @@ class SearchEventsComponent {
         this.initService = new __WEBPACK_IMPORTED_MODULE_0__init_component_service__["a" /* InitComponentService */]();
         this.initService.initComponent(this.template, this.selector);
         this.renderChildren();
+        this.openDescription();
         this.Buttons();
     }
 
@@ -134,10 +135,19 @@ class SearchEventsComponent {
         this.initService.renderChildren(this.template, this.selector);
     }
 
+    openDescription() {
+        let events = document.getElementsByClassName('event');
+        for (let i = 0; i < events.length; i++) {
+            events[i].getElementsByClassName('info')[0].onclick = () => {
+                events[i].getElementsByClassName('event__descrip-mini')[0].classList.toggle('descrip-mini_opened');
+            };
+        };
+        console.log(events);
+    }
+
     Buttons() {
         const nextButtons = document.getElementsByClassName('next');
         for (let i = 0; i < nextButtons.length; i++) {
-            console.log(nextButtons[i]);
             nextButtons[i].onclick = function () {};
         };
     }
@@ -150,11 +160,37 @@ class SearchEventsComponent {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_app_component_app_component__ = __webpack_require__(3);
+class GetDataService {
 
+    constructor() {}
 
-let App = new __WEBPACK_IMPORTED_MODULE_0__components_app_component_app_component__["a" /* AppComponent */]();
+    httpGet(url) {
+
+        return new Promise(function (resolve, reject) {
+
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+
+            xhr.onload = function () {
+                if (this.status === 200) {
+                    resolve(this.response);
+                } else {
+                    let error = new Error(this.statusText);
+                    error.code = this.status;
+                    reject(error);
+                }
+            };
+
+            xhr.onerror = function () {
+                reject(new Error("Network Error"));
+            };
+
+            xhr.send();
+        });
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = GetDataService;
+;
 
 /***/ }),
 /* 3 */
@@ -170,7 +206,7 @@ class AppComponent {
         this.selector = 'app';
         this.template = `
             <app>
-                <headline></headline>
+             <headline></headline>
                 <div class="content">
                     <div class="main-container">
                         <add-options></add-options>
@@ -183,8 +219,8 @@ class AppComponent {
     }
 
     init() {
-        document.body.innerHTML = this.template;
         let initService = new __WEBPACK_IMPORTED_MODULE_0__init_component_service__["a" /* InitComponentService */]();
+        initService.initComponent(this.template, this.selector);
         initService.renderChildren(this.template, this.selector);
     }
 }
@@ -196,9 +232,27 @@ class AppComponent {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_headline_component_headline_component__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_event_group_component_event_group_component__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_add_options_component_add_options_component__ = __webpack_require__(7);
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_app_component_app_component__ = __webpack_require__(3);
+
+
+$(window).on('load', function () {
+    let $preloader = $('#p_prldr'),
+        $svg_anm = $preloader.find('.svg_anm');
+    $svg_anm.fadeOut();
+    $preloader.delay(1200).fadeOut('slow');
+});
+
+let App = new __WEBPACK_IMPORTED_MODULE_0__components_app_component_app_component__["a" /* AppComponent */]();
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_headline_component_headline_component__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_event_group_component_event_group_component__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_add_options_component_add_options_component__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_just_announced_component_just_announced_component__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_happening_soon_component_happening_soon_component__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_categories_component_categories_component__ = __webpack_require__(11);
@@ -206,6 +260,8 @@ class AppComponent {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_events_component_event_component_event_component__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_burger_menu_component_burger_menu_component__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_search_bar_component_search_bar_component__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_app_component_app_component__ = __webpack_require__(3);
+
 
 
 
@@ -221,6 +277,7 @@ class AppModule {
 
     constructor() {
         this.FILES = new Map();
+        this.FILES.set('app', () => new __WEBPACK_IMPORTED_MODULE_10__components_app_component_app_component__["a" /* AppComponent */]());
         this.FILES.set('headline', () => new __WEBPACK_IMPORTED_MODULE_0__components_headline_component_headline_component__["a" /* HeadlineComponent */]());
         this.FILES.set('add-options', () => new __WEBPACK_IMPORTED_MODULE_2__components_add_options_component_add_options_component__["a" /* AddOptionsComponent */]());
         this.FILES.set('event-group', () => new __WEBPACK_IMPORTED_MODULE_1__components_event_group_component_event_group_component__["a" /* EventGroupComponent */]());
@@ -237,11 +294,15 @@ class AppModule {
 ;
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__init_component_service__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__search_events_component_search_events_component__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_component_app_component__ = __webpack_require__(3);
+
+
 
 
 class HeadlineComponent {
@@ -260,10 +321,10 @@ class HeadlineComponent {
                     <burger-menu></burger-menu>
                 </div>
                 <nav class="header__navigation">
-                    <a href="#Music" class="navigation__item">Music</a>
-                    <a href="#Sport" class="navigation__item">Sport</a>
-                    <a href="#Art" class="navigation__item">Arts & Theater</a>
-                    <a href="#Family" class="navigation__item">Family</a>
+                    <a href="#" class="navigation__item">Music</a>
+                    <a href="#" class="navigation__item">Sport</a>
+                    <a href="#" class="navigation__item">Arts & Theater</a>
+                    <a href="#" class="navigation__item">Family</a>
                 </nav>
             </div>
         </headline>`;
@@ -271,13 +332,20 @@ class HeadlineComponent {
         this.initService = new __WEBPACK_IMPORTED_MODULE_0__init_component_service__["a" /* InitComponentService */]();
         this.initService.initComponent(this.template, this.selector);
         this.initService.renderChildren(this.template, this.selector);
+        this.startPage();
+    }
+
+    startPage() {
+        document.getElementsByClassName('header__logo')[0].onclick = () => {
+            new __WEBPACK_IMPORTED_MODULE_2__app_component_app_component__["a" /* AppComponent */]();
+        };
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = HeadlineComponent;
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -303,12 +371,12 @@ class EventGroupComponent {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__init_component_service__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__get_data_service__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__get_data_service__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__search_events_component_search_events_component__ = __webpack_require__(1);
 
 
@@ -344,35 +412,6 @@ class AddOptionsComponent {
         this.getCategoriesData(this.dataService);
         this.searchData(this.dataService);
         this.dateWork();
-        this.anchorWork();
-    }
-
-    anchorWork() {
-        window.onload = this.anchorHeight;
-        window.onresize = this.anchorHeight;
-    }
-
-    anchorHeight() {
-        let headerHeight = $('.header').outerHeight();
-        $('a').on('click', function (e) {
-            let $anchor = $(this);
-            $('html, body').stop().animate({
-                scrollTop: $($anchor.attr('href')).offset().top - headerHeight
-            }, 900, 'easeInOutExpo');
-            event.preventDefault();
-            history.pushState({}, "", this.href);
-        });
-    }
-
-    dateWork() {
-        webshims.setOptions('waitReady', false);
-        webshims.setOptions('forms-ext', { types: 'date' });
-        webshims.polyfill('forms forms-ext');
-
-        document.getElementById('datePicker').valueAsDate = new Date();
-        let inWeek = new Date();
-        inWeek.setDate(inWeek.getDate() + 1);
-        document.getElementById('datePicker2').valueAsDate = inWeek;
     }
 
     getCategoriesData(dataService) {
@@ -412,6 +451,11 @@ class AddOptionsComponent {
 
     searchData(dataService) {
         document.getElementsByClassName('location-form__submit')[0].onclick = () => {
+            const categoryButtons = document.getElementsByClassName('navigation__item');
+            for (let i = 0; i < categoryButtons.length; i++) {
+                categoryButtons[i].style.backgroundColor = 'transparent';
+                categoryButtons[i].style.color = 'white';
+            };
             let city = document.getElementsByName('city')[0].value;
             let category = document.getElementsByName('category')[0].value;
             let subCategory = document.getElementsByName('sub-category')[0].value;
@@ -450,18 +494,20 @@ class AddOptionsComponent {
             let events = json._embedded.events;
             for (let i = 0; i < categoryEvents.length; i++) {
                 categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
-                categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
+                categoryEvents[i].getElementsByClassName('date')[0].innerText = events[i].dates.start.localDate;
                 categoryEvents[i].getElementsByClassName('event__venues')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
                 categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
                 let month = events[i].dates.start.localDate.substr(5, 2);
                 let date = events[i].dates.start.localDate.substr(8, 2);
                 let mS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
-                categoryEvents[i].getElementsByClassName('date')[0].innerText = date;
+                categoryEvents[i].getElementsByClassName('day')[0].innerText = date;
                 categoryEvents[i].getElementsByClassName('month')[0].innerText = mS[month - 1];
                 if (events[i].info != undefined) {
                     categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i].info;
+                    categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].innerText = events[i].info;
                 } else {
                     categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = '';
+                    categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].style.display = "none";
                 };
             };
         };
@@ -473,45 +519,19 @@ class AddOptionsComponent {
         document.getElementsByClassName('content__events')[0].appendChild(QueryResults);
         new __WEBPACK_IMPORTED_MODULE_2__search_events_component_search_events_component__["a" /* SearchEventsComponent */](quantity);
     }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = AddOptionsComponent;
-;
 
-/***/ }),
-/* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+    dateWork() {
+        webshims.setOptions('waitReady', false);
+        webshims.setOptions('forms-ext', { types: 'date' });
+        webshims.polyfill('forms forms-ext');
 
-"use strict";
-class GetDataService {
-
-    constructor() {}
-
-    httpGet(url) {
-
-        return new Promise(function (resolve, reject) {
-
-            let xhr = new XMLHttpRequest();
-            xhr.open('GET', url, true);
-
-            xhr.onload = function () {
-                if (this.status === 200) {
-                    resolve(this.response);
-                } else {
-                    let error = new Error(this.statusText);
-                    error.code = this.status;
-                    reject(error);
-                }
-            };
-
-            xhr.onerror = function () {
-                reject(new Error("Network Error"));
-            };
-
-            xhr.send();
-        });
+        document.getElementById('datePicker').valueAsDate = new Date();
+        let inWeek = new Date();
+        inWeek.setDate(inWeek.getDate() + 7);
+        document.getElementById('datePicker2').valueAsDate = inWeek;
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["a"] = GetDataService;
+/* harmony export (immutable) */ __webpack_exports__["a"] = AddOptionsComponent;
 ;
 
 /***/ }),
@@ -520,7 +540,7 @@ class GetDataService {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__init_component_service__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__get_data_service__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__get_data_service__ = __webpack_require__(2);
 
 
 
@@ -530,88 +550,92 @@ class JustAnnouncedComponent {
         this.template = `<events-ja class="events__just-announced">
                 <h2 class="events__title">Just Announced</h2>
                 <article class="event">
-                    <a href="#" class="event-link">
-                        <div class="event__foto">
-                            <img class="foto__image" alt="" src="">
+                    <div class="event__foto">
+                        <img class="foto__image" alt="" src="">
+                    </div>
+                    <div class="event__preview">
+                        <div class="event__title">
+                            <h4></h4>
                         </div>
-                        <div class="event__preview">
-                            <div class="event__title">
-                                <h4></h4>
-                            </div>
-                            <div class="event__venues">
-                                <span></span>
-                            </div>
-                            <div class="event__descrip">
-                                <p></p>
-                            </div>
-                            <div class="event__data">
-                                <span></span>
-                            </div>
+                        <div class="event__venues">
+                            <span></span>
                         </div>
-                    </a>
+                        <div class="event__descrip">
+                            <p></p>
+                        </div>
+                        <div class="event__data">
+                            <span class="date"></span>
+                        </div>
+                    </div>
+                    <div class="event__descrip-mini">
+                        <p></p>
+                    </div>
                 </article>
                 <article class="event">
-                    <a href="#" class="event-link">
-                        <div class="event__foto">
-                            <img class="foto__image" alt="" src="">
+                    <div class="event__foto">
+                        <img class="foto__image" alt="" src="">
+                    </div>
+                    <div class="event__preview">
+                        <div class="event__title">
+                            <h4></h4>
                         </div>
-                        <div class="event__preview">
-                            <div class="event__title">
-                                <h4></h4>
-                            </div>
-                            <div class="event__venues">
-                                <span></span>
-                            </div>
-                            <div class="event__descrip">
-                                <p></p>
-                            </div>
-                            <div class="event__data">
-                                <span></span>
-                            </div>
+                        <div class="event__venues">
+                            <span></span>
                         </div>
-                    </a>
+                        <div class="event__descrip">
+                            <p></p>
+                        </div>
+                        <div class="event__data">
+                            <span class="date"></span>
+                        </div>
+                    </div>
+                    <div class="event__descrip-mini">
+                        <p></p>
+                    </div>
                 </article>
                 <article class="event">
-                    <a href="#" class="event-link">
-                        <div class="event__foto">
-                            <img class="foto__image" alt="" src="">
+                    <div class="event__foto">
+                        <img class="foto__image" alt="" src="">
+                    </div>
+                    <div class="event__preview">
+                        <div class="event__title">
+                            <h4></h4>
                         </div>
-                        <div class="event__preview">
-                            <div class="event__title">
-                                <h4></h4>
-                            </div>
-                            <div class="event__venues">
-                                <span></span>
-                            </div>
-                            <div class="event__descrip">
-                                <p></p>
-                            </div>
-                            <div class="event__data">
-                                <span></span>
-                            </div>
+                        <div class="event__venues">
+                            <span></span>
                         </div>
-                    </a>
+                        <div class="event__descrip">
+                            <p></p>
+                        </div>
+                        <div class="event__data">
+                            <span class="date"></span>
+                        </div>
+                    </div>
+                    <div class="event__descrip-mini">
+                        <p></p>
+                    </div>
                 </article>
                 <article class="event">
-                    <a href="#" class="event-link">
-                        <div class="event__foto">
-                            <img class="foto__image" alt="" src="">
+                    <div class="event__foto">
+                        <img class="foto__image" alt="" src="">
+                    </div>
+                    <div class="event__preview">
+                        <div class="event__title">
+                            <h4></h4>
                         </div>
-                        <div class="event__preview">
-                            <div class="event__title">
-                                <h4></h4>
-                            </div>
-                            <div class="event__venues">
-                                <span></span>
-                            </div>
-                            <div class="event__descrip">
-                                <p></p>
-                            </div>
-                            <div class="event__data">
-                                <span></span>
-                            </div>
+                        <div class="event__venues">
+                            <span></span>
                         </div>
-                    </a>
+                        <div class="event__descrip">
+                            <p></p>
+                        </div>
+                        <div class="event__data">
+                            <span class="date"></span>
+                        </div>
+                    </div>
+                    <div class="event__descrip-mini">
+                        <p></p>
+                    </div>
                 </article>
             </events-ja>`;
 
@@ -641,13 +665,15 @@ class JustAnnouncedComponent {
         let events = json._embedded.events;
         for (let i = 0; i < categoryEvents.length; i++) {
             categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
-            categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
+            categoryEvents[i].getElementsByClassName('date')[0].innerText = events[i].dates.start.localDate;
             categoryEvents[i].getElementsByClassName('event__venues')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
             categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
             if (events[i].info != undefined) {
                 categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i].info;
+                categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].innerText = events[i].info;
             } else {
                 categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = '';
+                categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].style.display = "none";
             };
         };
     }
@@ -661,7 +687,7 @@ class JustAnnouncedComponent {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__init_component_service__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__get_data_service__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__get_data_service__ = __webpack_require__(2);
 
 
 
@@ -673,7 +699,6 @@ class HappeningSoonComponent {
             <events-hs class="events__happening-soon">
                 <h2 class="events__title">Happening Soon</h2>
                 <article class="event hs-event">
-                    <a href="#" class="event-link">
                         <div class="event__foto">
                             <img class="foto__image" alt="" src="">
                         </div>
@@ -688,13 +713,14 @@ class HappeningSoonComponent {
                                 <p></p>
                             </div>
                             <div class="event__data">
-                                <span></span>
+                                <span class="date"></span>
                             </div>
                         </div>
-                    </a>
+                        <div class="event__descrip-mini">
+                        <p></p>
+                        </div>
                 </article>
                 <article class="event hs-event">
-                    <a href="#" class="event-link">
                         <div class="event__foto">
                             <img class="foto__image" alt="" src="">
                         </div>
@@ -709,13 +735,14 @@ class HappeningSoonComponent {
                                 <p></p>
                             </div>
                             <div class="event__data">
-                                <span></span>
+                                <span class="date"></span>
                             </div>
                         </div>
-                    </a>
+                        <div class="event__descrip-mini">
+                        <p></p>
+                        </div>
                 </article>
                 <article class="event hs-event">
-                    <a href="#" class="event-link">
                         <div class="event__foto">
                             <img class="foto__image" alt="" src="">
                         </div>
@@ -730,13 +757,14 @@ class HappeningSoonComponent {
                                 <p></p>
                             </div>
                             <div class="event__data">
-                                <span></span>
+                                <span class="date"></span>
                             </div>
                         </div>
-                    </a>
+                        <div class="event__descrip-mini">
+                        <p></p>
+                        </div>
                 </article>
                 <article class="event hs-event">
-                    <a href="#" class="event-link">
                         <div class="event__foto">
                             <img class="foto__image" alt="" src="">
                         </div>
@@ -751,13 +779,14 @@ class HappeningSoonComponent {
                                 <p></p>
                             </div>
                             <div class="event__data">
-                                <span></span>
+                                <span class="date"></span>
                             </div>
                         </div>
-                    </a>
+                        <div class="event__descrip-mini">
+                        <p></p>
+                        </div>
                 </article>
                 <article class="event hs-event">
-                    <a href="#" class="event-link">
                         <div class="event__foto">
                             <img class="foto__image" alt="" src="">
                         </div>
@@ -772,13 +801,14 @@ class HappeningSoonComponent {
                                 <p></p>
                             </div>
                             <div class="event__data">
-                                <span></span>
+                                <span class="date"></span>
                             </div>
                         </div>
-                    </a>
+                        <div class="event__descrip-mini">
+                        <p></p>
+                        </div>
                 </article>
                 <article class="event hs-event">
-                    <a href="#" class="event-link">
                         <div class="event__foto">
                             <img class="foto__image" alt="" src="">
                         </div>
@@ -793,10 +823,12 @@ class HappeningSoonComponent {
                                 <p></p>
                             </div>
                             <div class="event__data">
-                                <span></span>
+                                <span class="date"></span>
                             </div>
                         </div>
-                    </a>
+                        <div class="event__descrip-mini">
+                        <p></p>
+                        </div>
                 </article>
             </events-hs>`;
 
@@ -823,9 +855,14 @@ class HappeningSoonComponent {
         let events = json._embedded.events;
         for (let i = 0; i < categoryEvents.length; i++) {
             categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
-            categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
+            categoryEvents[i].getElementsByClassName('date')[0].innerText = events[i].dates.start.localDate;
             categoryEvents[i].getElementsByClassName('event__venues')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
             categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
+            if (events[i].info != undefined) {
+                categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].innerText = events[i].info;
+            } else {
+                categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].style.display = "none";
+            };
         };
     }
 }
@@ -838,7 +875,9 @@ class HappeningSoonComponent {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__init_component_service__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__get_data_service__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__get_data_service__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__search_events_component_search_events_component__ = __webpack_require__(1);
+
 
 
 
@@ -846,217 +885,63 @@ class CategoriesComponent {
 
     constructor() {
         this.selector = 'events-categories';
-        this.template = `<events-categories class="categories">
-                 <section class="event category-event" id="Music">
-                    <h3 class="category"> Music </h3>
-                    <article class="event category__event">
-                        <a href="#" class="event-link">
-                            <div class="event__foto">
-                                <img class="foto__image" alt="" src="">
-                            </div>
-                            <div class="event__preview category__preview">
-                                <div class="event__title">
-                                <h4></h4>
-                                </div>
-                                <div class="event__venues">
-                                    <span></span>
-                                </div>
-                                <div class="event__descrip">
-                                    <p></p>
-                                </div>
-                                <div class="event__data">
-                                    <span></span>
-                                </div>
-                            </div>
-                        </a>
-                    </article>
-                    <article class="event category__event">
-                        <a href="#" class="event-link">
-                            <div class="event__foto">
-                                <img class="foto__image" alt="" src="">
-                            </div>
-                            <div class="event__preview category__preview">
-                                <div class="event__title">
-                                <h4></h4>
-                                </div>
-                                <div class="event__venues">
-                                    <span></span>
-                                </div>
-                                <div class="event__descrip">
-                                    <p></p>
-                                </div>
-                                <div class="event__data">
-                                    <span></span>
-                                </div>
-                            </div>
-                        </a>
-                    </article>
-                 </section>
-                 <section class="event category-event" id="Sport">
-                    <h3 class="category"> Sport </h3>
-                    <article class="event category__event">
-                        <a href="#" class="event-link">
-                            <div class="event__foto">
-                                <img class="foto__image" alt="" src="">
-                            </div>
-                            <div class="event__preview category__preview">
-                                <div class="event__title">
-                                <h4></h4>
-                                </div>
-                                <div class="event__venues">
-                                    <span></span>
-                                </div>
-                                <div class="event__descrip">
-                                    <p></p>
-                                </div>
-                                <div class="event__data">
-                                    <span></span>
-                                </div>
-                            </div>
-                        </a>
-                    </article>
-                    <article class="event category__event">
-                        <a href="#" class="event-link">
-                            <div class="event__foto">
-                                <img class="foto__image" alt="" src="">
-                            </div>
-                            <div class="event__preview category__preview">
-                                <div class="event__title">
-                                <h4></h4>
-                                </div>
-                                <div class="event__venues">
-                                    <span></span>
-                                </div>
-                                <div class="event__descrip">
-                                    <p></p>
-                                </div>
-                                <div class="event__data">
-                                    <span></span>
-                                </div>
-                            </div>
-                        </a>
-                    </article>
-                 </section>
-                 <section class="event category-event" id="Art">
-                    <h3 class="category"> Arts & Theater </h3>
-                    <article class="event category__event">
-                        <a href="#" class="event-link">
-                            <div class="event__foto">
-                                <img class="foto__image" alt="" src="">
-                            </div>
-                            <div class="event__preview category__preview">
-                                <div class="event__title">
-                                <h4></h4>
-                                </div>
-                                <div class="event__venues">
-                                    <span></span>
-                                </div>
-                                <div class="event__descrip">
-                                    <p></p>
-                                </div>
-                                <div class="event__data">
-                                    <span></span>
-                                </div>
-                            </div>
-                        </a>
-                    </article>
-                    <article class="event category__event">
-                        <a href="#" class="event-link">
-                            <div class="event__foto">
-                                <img class="foto__image" alt="" src="">
-                            </div>
-                            <div class="event__preview category__preview">
-                                <div class="event__title">
-                                <h4></h4>
-                                </div>
-                                <div class="event__venues">
-                                    <span></span>
-                                </div>
-                                <div class="event__descrip">
-                                    <p></p>
-                                </div>
-                                <div class="event__data">
-                                    <span></span>
-                                </div>
-                            </div>
-                        </a>
-                    </article>
-                 </section>
-                 <section class="event category-event" id="Family">
-                    <h3 class="category"> Family </h3>
-                    <article class="event category__event">
-                        <a href="#" class="event-link">
-                            <div class="event__foto">
-                                <img class="foto__image" alt="" src="">
-                            </div>
-                            <div class="event__preview category__preview">
-                                <div class="event__title">
-                                <h4></h4>
-                                </div>
-                                <div class="event__venues">
-                                    <span></span>
-                                </div>
-                                <div class="event__descrip">
-                                    <p></p>
-                                </div>
-                                <div class="event__data">
-                                    <span></span>
-                                </div>
-                            </div>
-                        </a>
-                    </article>
-                    <article class="event category__event">
-                        <a href="#" class="event-link">
-                            <div class="event__foto">
-                                <img class="foto__image" alt="" src="">
-                            </div>
-                            <div class="event__preview category__preview">
-                                <div class="event__title">
-                                <h4></h4>
-                                </div>
-                                <div class="event__venues">
-                                    <span></span>
-                                </div>
-                                <div class="event__descrip">
-                                    <p></p>
-                                </div>
-                                <div class="event__data">
-                                    <span></span>
-                                </div>
-                            </div>
-                        </a>
-                    </article>
-                </section>
-            </events-categories>`;
-
         this.initService = new __WEBPACK_IMPORTED_MODULE_0__init_component_service__["a" /* InitComponentService */]();
         this.initService.initComponent(this.template, this.selector);
-        this.initService.renderChildren(this.template, this.selector);
         this.dataService = new __WEBPACK_IMPORTED_MODULE_1__get_data_service__["a" /* GetDataService */]();
         this.getData();
     }
 
     getData() {
-        let categoryList = ['Music', 'Sport', 'Art', 'Family'];
-        categoryList.forEach((category, num, categorylist) => {
-            this.getCategoryEvents(category);
-        });
+        const categoryButtons = document.getElementsByClassName('navigation__item');
+        for (let i = 0; i < categoryButtons.length; i++) {
+            categoryButtons[i].onclick = () => {
+                for (let j = 0; j < categoryButtons.length; j++) {
+                    categoryButtons[j].style.backgroundColor = 'transparent';
+                    categoryButtons[j].style.color = 'white';
+                };
+                categoryButtons[i].style.backgroundColor = '#fffbf9';
+                categoryButtons[i].style.color = '#58125b';
+                this.getCategoryEvents(categoryButtons[i].text);
+            };
+        };
     }
 
     getCategoryEvents(categorysearch) {
-        this.dataService.httpGet("https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&size=4&classificationName=" + categorysearch).then(response => this.showEvents(JSON.parse(response), categorysearch), error => console.log(`Rejected: ${error}`));
+        console.log();
+        this.dataService.httpGet("https://app.ticketmaster.com/discovery/v2/events.json?apikey=L0PyfJDj2ZZyu2MliXSsP4ITRgBfWceP&classificationName=" + categorysearch).then(response => this.showEvents(JSON.parse(response), categorysearch), error => console.log(`Rejected: ${error}`));
     }
 
     showEvents(json, categorysearch) {
-        let categoryBlock = document.getElementById(categorysearch);
-        let categoryEvents = categoryBlock.getElementsByClassName('category__event');
+        this.createQueryResults(json.page.totalPages);
+        document.getElementsByClassName('events__title')[0].innerHTML = categorysearch;
+        let categoryBlock = document.getElementsByClassName('search-events')[0];
+        let categoryEvents = categoryBlock.getElementsByClassName('event');
         let events = json._embedded.events;
         for (let i = 0; i < categoryEvents.length; i++) {
             categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
-            categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
+            categoryEvents[i].getElementsByClassName('date')[0].innerText = events[i].dates.start.localDate;
             categoryEvents[i].getElementsByClassName('event__venues')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
             categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
+            let month = events[i].dates.start.localDate.substr(5, 2);
+            let date = events[i].dates.start.localDate.substr(8, 2);
+            let mS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+            categoryEvents[i].getElementsByClassName('day')[0].innerText = date;
+            categoryEvents[i].getElementsByClassName('month')[0].innerText = mS[month - 1];
+            if (events[i].info != undefined) {
+                categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i].info;
+                categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].innerText = events[i].info;
+            } else {
+                categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = '';
+                categoryEvents[i].getElementsByClassName('info')[0].style.display = "none";
+            };
         };
+    }
+
+    createQueryResults(quantity) {
+        document.getElementsByClassName('content__events')[0].innerHTML = '';
+        let QueryResults = document.createElement('search-events');
+        document.getElementsByClassName('content__events')[0].appendChild(QueryResults);
+        new __WEBPACK_IMPORTED_MODULE_2__search_events_component_search_events_component__["a" /* SearchEventsComponent */](quantity);
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = CategoriesComponent;
@@ -1075,15 +960,18 @@ class EventComponent {
         this.selector = 'event';
         this.template = `
             <event class="event">
-                <a href="#" class="event-link">
                     <div class="event__foto">
-                        <span class="foto__data"><span class="date"></span><span class="month"></span></span>
-                        <img class="foto__image" alt="" src="">
+                        <div class="foto__container">
+                            <span class="foto__data"><span class="day"></span><br><span class="month"></span></span>
+                            <img class="foto__image" alt="" src="">
+                        </div>
                     </div>
                     <div class="event__preview">
-                        <div class="event__title">
-                            <h4></h4>
-                        </div>
+                        <a href="#">
+                            <div class="event__title">
+                                <h4></h4> 
+                            </div>
+                        </a>
                         <div class="event__venues">
                             <span></span>
                         </div>
@@ -1091,10 +979,13 @@ class EventComponent {
                             <p></p>
                         </div>
                         <div class="event__data">
-                            <span></span>
+                            <span class="date"></span>
+                            <span class="info">info</span>
                         </div>
                     </div>
-                </a>
+                    <div class="event__descrip-mini">
+                        <p></p>
+                    </div>
             </event>`;
 
         this.initService = new __WEBPACK_IMPORTED_MODULE_0__init_component_service__["a" /* InitComponentService */]();
@@ -1169,7 +1060,7 @@ class BurgerMenuComponent {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__search_events_component_search_events_component__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__init_component_service__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__get_data_service__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__get_data_service__ = __webpack_require__(2);
 
 
 
@@ -1211,15 +1102,20 @@ class SearchBarComponent {
     SearchEvents() {
         const searchButton = document.getElementsByClassName('search-bar__button submit')[0];
         const enterButton = document.getElementsByClassName('search-bar__input-text')[0];
+        searchButton.onclick = () => {
+            const categoryButtons = document.getElementsByClassName('navigation__item');
+            for (let i = 0; i < categoryButtons.length; i++) {
+                categoryButtons[i].style.backgroundColor = 'transparent';
+                categoryButtons[i].style.color = 'white';
+            };
+            this.getData(document.getElementsByName('search')[0].value);
+            this.createQueryResults();
+        };
+
         enterButton.onkeydown = event => {
             if (event.keyCode == 13) {
-                this.createQueryResults();
-                this.getData(document.getElementsByName('search')[0].value);
+                searchButton.onclick();
             }
-        };
-        searchButton.onclick = () => {
-            this.createQueryResults();
-            this.getData(document.getElementsByName('search')[0].value);
         };
     }
 
@@ -1237,18 +1133,20 @@ class SearchBarComponent {
             let events = json._embedded.events;
             for (let i = 0; i < categoryEvents.length; i++) {
                 categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
-                categoryEvents[i].getElementsByClassName('event__data')[0].innerText = events[i].dates.start.localDate;
+                categoryEvents[i].getElementsByClassName('date')[0].innerText = events[i].dates.start.localDate;
                 categoryEvents[i].getElementsByClassName('event__venues')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
                 categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
                 let month = events[i].dates.start.localDate.substr(5, 2);
                 let date = events[i].dates.start.localDate.substr(8, 2);
                 let mS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
-                categoryEvents[i].getElementsByClassName('date')[0].innerText = date;
+                categoryEvents[i].getElementsByClassName('day')[0].innerText = date;
                 categoryEvents[i].getElementsByClassName('month')[0].innerText = mS[month - 1];
                 if (events[i].info != undefined) {
                     categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = events[i].info;
+                    categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].innerText = events[i].info;
                 } else {
                     categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText = '';
+                    categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].style.display = "none";
                 };
             };
         };
