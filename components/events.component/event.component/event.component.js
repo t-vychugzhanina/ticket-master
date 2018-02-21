@@ -23,19 +23,26 @@ export class EventComponent {
                         <div class="event__descrip">
                             <p></p>
                         </div>
+                        <span class="info">Read more...</span>
                         <div class="event__data">
                             <span class="date"></span>
-                            <span class="info">info</span>
                         </div>
-                    </div>
-                    <div class="event__descrip-mini">
-                        <p></p>
                     </div>
             </event>`;
 
         this.initService = new InitComponentService();
         this.initService.initComponent(this.template,this.selector);
+        this.openDescription();
     };
 
+    openDescription() {
+        Array.from(document.getElementsByClassName('event')).forEach( (event) => {
+            event.getElementsByClassName('info')[0].onclick = () => {
+                event.getElementsByClassName('info')[0].style.display = 'none';
+                event.getElementsByClassName('event__foto')[0].style.width = '100%';
+                event.getElementsByClassName('event__descrip')[0].style.display = 'block';
+            };
+        });
+    }
 
 }

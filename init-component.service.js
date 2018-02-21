@@ -6,19 +6,23 @@ export class InitComponentService {
     };
 
     initComponent(template,selector) {
-        let allTags = document.getElementsByTagName(selector);
-        for (let i = 0; i < allTags.length; i++) {
-            allTags[i].outerHTML = template;
-        };
+        this.insertComponent(template,selector);
+        this.renderChildren(template,selector);
+    };
+
+    insertComponent(template,selector) {
+        Array.from(document.getElementsByTagName(selector)).forEach( (tag,i) => {
+            tag.outerHTML = template;
+        });
     };
 
     renderChildren(template,selector) {
         const module = new AppModule();
         module.FILES.forEach( (value, key, mapObj) => {
-            if ((template.indexOf('<'+key)!=-1)&(key!=selector)) {
-                value();
-            };
-        });
+             if ((template.indexOf('<'+key)!=-1)&(key!=selector)) {
+                 value();
+             };
+         });
     };
 
 };

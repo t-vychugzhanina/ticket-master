@@ -28,7 +28,6 @@ export class HeadlineComponent {
 
         this.initService = new InitComponentService();
         this.initService.initComponent(this.template,this.selector);
-        this.initService.renderChildren(this.template,this.selector);
         this.startPage();
     };
 

@@ -1,6 +1,6 @@
 import {InitComponentService} from "../../init-component.service";
 import {GetDataService} from "../../get-data.service";
-import {SearchEventsComponent} from "../search-events.component/search-events.component";
+import {ShowEventsService} from "../../show-events.service";
 
 export class AddOptionsComponent{
 
@@ -27,18 +27,18 @@ export class AddOptionsComponent{
 
         this.initService = new InitComponentService();
         this.initService.initComponent(this.template,this.selector);
-        this.initService.renderChildren(this.template,this.selector);
         this.dataService = new GetDataService();
-        this.getCategoriesData(this.dataService);
-        this.searchData(this.dataService);
+        this.showEventsService = new ShowEventsService();
+        this.getCategoriesData();
+        this.searchData();
         this.dateWork();
 
     };
 
-    getCategoriesData(dataService) {
-        dataService.httpGet("https://app.ticketmaster.com/discovery/v2/classifications.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0")
+    getCategoriesData() {
+        this.dataService.httpGet(null,"https://app.ticketmaster.com/discovery/v2/classifications.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0")
             .then(
-                response => this.showCategoriesData(JSON.parse(response)),
+                response => this.showCategoriesData(response),
                 error => console.log(`Rejected: ${error}`)
             );
     };
@@ -47,43 +47,39 @@ export class AddOptionsComponent{
         const category = document.getElementsByName('category')[0];
         const subCategory = document.getElementsByName('sub-category')[0];
         let APIdata = json._embedded.classifications;
-        for (let i = 0; i < APIdata.length; i++) {
-            try {
-                let segment = APIdata[i].segment.name;
+        APIdata.forEach((classification) => {
+            if (classification.segment!=undefined) {
                 let option = document.createElement('option');
-                option.innerText = segment;
+                option.innerText = classification.segment.name;
                 category.appendChild(option);
-            } catch (err) {
             };
-        };
+        });
         category.onchange = function () {
             subCategory.style.display = "block";
             subCategory.innerHTML = '<option selected>Select sub category</option>';
             let selected = $( "#category option:selected" ).text();
-            for (let i = 0; i < APIdata.length; i++) {
-                try {
-                    if (selected == APIdata[i].segment.name) {
-                        let genres = APIdata[i].segment._embedded.genres;
-                        for (let j = 0; j < genres.length; j++) {
+            APIdata.forEach((classification) => {
+                if (classification.segment!=undefined) {
+                    if (selected == classification.segment.name) {
+                        let genres = classification.segment._embedded.genres;
+                        genres.forEach((genre) => {
                             let option = document.createElement('option');
-                            option.innerText = genres[j].name;
+                            option.innerText = genre.name;
                             subCategory.appendChild(option);
-                        };
+                        });
                     }
-                } catch (err) {
                 };
-            };
+            });
         };
     };
 
     searchData(dataService){
         document.getElementsByClassName('location-form__submit')[0].onclick = () => {
             document.getElementsByClassName('content__aside')[0].classList.toggle('content__aside_opened');
-            const categoryButtons = document.getElementsByClassName('navigation__item');
-            for (let i = 0; i < categoryButtons.length; i++) {
-                categoryButtons[i].style.backgroundColor = 'transparent';
-                categoryButtons[i].style.color = 'white';
-            };
+            Array.from(document.getElementsByClassName('navigation__item')).forEach( (Button,i) => {
+                Button.style.backgroundColor = 'transparent';
+                Button.style.color = 'white';
+            });
             this.city = document.getElementsByName('city')[0].value;
             this.category = document.getElementsByName('category')[0].value;
             this.subCategory = document.getElementsByName('sub-category')[0].value;
@@ -93,78 +89,26 @@ export class AddOptionsComponent{
             this.endDateTime = new Date(this.endDateTime.replace(/(\d+)-(\d+)-(\d+)/, '$2/$3/$1'));
             this.startDateTime = this.startDateTime.toISOString().substr(0, 19)+'Z';
             this.endDateTime = this.endDateTime.toISOString().substr(0, 19)+'Z';
-            this.getSearchData(0);
+            this.getData(0);
         };
     };
 
-    getSearchData(page){
-        let urlString = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0&page="+page+"&startDateTime="+this.startDateTime+"&endDateTime="+this.endDateTime;
+    getData(page){
+        let urlString = "&size=10&page="+page+"&startDateTime="+this.startDateTime+"&endDateTime="+this.endDateTime;
         if (this.category!='Select category') {urlString=urlString+"&classificationName="+this.category};
         if (this.subCategory!='Select sub category') {urlString=urlString+"&keyword="+this.subCategory};
         if (this.city!='') {urlString=urlString+"&city="+this.city};
 
         this.dataService.httpGet(urlString)
             .then(
-                response => this.showEvents(JSON.parse(response)),
+                response => this.showEvents(response),
                 error => console.log(`Rejected: ${error}`)
             );
     };
 
     showEvents(json) {
-        if (json.page.totalPages==0) {
-            document.getElementsByClassName('events__title')[0].innerHTML = 'Can\'t find query results! Please, try again!';
-        }
-        else {
-            this.createQueryResults(json.page.totalPages);
-            let categoryBlock = document.getElementsByClassName('search-events')[0];
-            let categoryEvents = categoryBlock.getElementsByClassName('event');
-            let events = json._embedded.events;
-            for (let i = 0; i < categoryEvents.length; i++) {
-                categoryEvents[i].getElementsByClassName('event__title')[0].innerText = events[i].name;
-                categoryEvents[i].getElementsByClassName('date')[0].innerText = events[i].dates.start.localDate;
-                categoryEvents[i].getElementsByClassName('event__venues')[0].innerText = events[i]._embedded.venues[0].name + " in " + events[i]._embedded.venues[0].city.name;
-                categoryEvents[i].getElementsByClassName('foto__image')[0].src = events[i].images[0].url;
-                let month = events[i].dates.start.localDate.substr(5, 2);
-                let date = events[i].dates.start.localDate.substr(8, 2);
-                let mS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
-                categoryEvents[i].getElementsByClassName('day')[0].innerText = date;
-                categoryEvents[i].getElementsByClassName('month')[0].innerText = mS[month-1];
-                if (events[i].info!=undefined) {
-                    categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText=events[i].info;
-                    categoryEvents[i].getElementsByClassName('event__descrip-mini')[0].innerText=events[i].info;
-                } else {
-                    categoryEvents[i].getElementsByClassName('event__descrip')[0].innerText='';
-                    categoryEvents[i].getElementsByClassName('info')[0].style.display = "none";
-                };
-            };
-        };
-        this.changePage(json.page.number, json.page.totalPages);
-    };
-
-    createQueryResults(quantity) {
-        document.getElementsByClassName('content__events')[0].innerHTML = '';
-        let QueryResults = document.createElement('search-events');
-        document.getElementsByClassName('content__events')[0].appendChild(QueryResults);
-        new SearchEventsComponent(quantity);
-    };
-
-    changePage(page,all) {
-        const nextButtons = document.getElementsByClassName('next');
-        const prevButtons = document.getElementsByClassName('previous');
-        for (let i = 0; i < nextButtons.length; i++) {
-            nextButtons[i].onclick = () => {
-                if (page == all) {page = 0;}
-                else { page=page+1;};
-                this.getSearchData(page);
-            };
-        };
-        for (let i = 0; i < prevButtons.length; i++) {
-            prevButtons[i].onclick = () => {
-                if (page == 0) { page = 0;}
-                else {page=page-1;};
-                this.getSearchData(page);
-            };
-        };
+        this.showEventsService.showEvents(json,'search-events');
+        this.showEventsService.changePage(json.page.number, json.page.totalPages,this);
     };
 
     dateWork() {

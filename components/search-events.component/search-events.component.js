@@ -17,30 +17,32 @@ export class SearchEventsComponent {
         this.initService = new InitComponentService();
         this.initService.initComponent(this.template,this.selector);
         this.renderChildren();
-        this.openDescription();
+        //this.openDescription();
     };
 
     renderChildren(){
         const content =  document.getElementsByTagName(this.selector)[0];
         if (this.quantity>10) {this.quantity=10;};
-        for (let i = 0; i < this.quantity; i++) {
+        for (let i = 1; i < this.quantity; i++) {
             let newEvent = document.createElement('event');
             content.insertBefore(newEvent, content.children[3]);
         };
         this.initService.renderChildren(this.template,this.selector);
         if (this.quantity<10) {
-            for (let i=0; i<document.getElementsByClassName('page_button').length; i++) {
-                document.getElementsByClassName('page_button')[i].style.display = "none";
-            };
+            Array.from(document.getElementsByClassName('page_button')).forEach( (button) => {
+                button.style.display = "none";
+            });
         };
     };
 
     openDescription() {
-        let events = document.getElementsByClassName('event');
-        for (let i=0; i<events.length; i++) {
-            events[i].getElementsByClassName('info')[0].onclick = () => {
-                events[i].getElementsByClassName('event__descrip-mini')[0].classList.toggle('descrip-mini_opened');
-            }
-        };
+        Array.from(document.getElementsByClassName('event')).forEach( (event) => {
+            event.getElementsByClassName('info')[0].onclick = () => {
+                event.getElementsByClassName('info')[0].style.display = 'none';
+                event.getElementsByClassName('event__foto')[0].style.width = '100%';
+                event.getElementsByClassName('event__descrip')[0].style.display = 'block';
+            };
+        });
     }
+
 }

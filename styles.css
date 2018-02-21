@@ -40,7 +40,7 @@ a{
 }
 
 
-#p_prldr{
+#page_prldr{
     position: fixed;
     left: 0;
     top: 0;
@@ -50,26 +50,16 @@ a{
     z-index: 100;
 }
 
-.contpre{
-    width: 250px;
-    height: 100px;
-    position: absolute;
+.svg_anm {
     left: 50%;top: 48%;
-    margin-left:-125px;
-    margin-top:-75px;
-    color:#fff;
-    font-size:40px;
-    letter-spacing:-2px;
-    text-align:center;
-    line-height:35px;}
-
-#p_prldr .svg_anm {
+    margin-left:-50px;
+    margin-top:-50px;
     position: absolute;
-    width: 41px;
-    height: 41px;
+    width: 100px;
+    height: 100px;
     background: url(./img/pufff.svg) center center no-repeat;
-    background-size:41px;
-    margin: -16px 0 0 -16px;}
+    background-size:70px;
+}
 
 .footer{
     position: fixed;

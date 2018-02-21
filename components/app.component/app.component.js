@@ -9,19 +9,16 @@ export class AppComponent {
              <headline></headline>
                 <div class="content">
                     <div class="main-container">
+                        <!--<div id="content_prldr"><span class="svg_anm"></span></div>-->
                         <add-options></add-options>
                         <event-group></event-group>
                     </div>
                 </div> 
             </app>`;
 
-        this.init();
+       this.initService = new InitComponentService;
+       this.initService.initComponent(this.template,this.selector);
     };
 
-    init() {
-        let initService = new InitComponentService;
-        initService.initComponent(this.template,this.selector);
-        initService.renderChildren(this.template,this.selector);
-    };
 
 };
