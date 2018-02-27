@@ -57,7 +57,7 @@
     font-weight: 600;
 }
 
-.event__descrip, .event__venues {
+.event__descrip, .event__venues, .event__classifications {
     font-size: 1.7rem;
     flex: 1 0 auto;
     margin-bottom: 1rem;
@@ -120,8 +120,8 @@
     font-size: 3.6rem;
 }
 
-.descrip_opened{
-    display: block;
+.event__classifications{
+    display: none;
 }
 
 .info{

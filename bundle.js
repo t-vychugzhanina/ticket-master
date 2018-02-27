@@ -210,6 +210,9 @@ class ShowEventsService {
         } else {
             categoryEvent.getElementsByClassName('info')[0].style.display = "none";
         };
+        if (event.classifications !== undefined) {
+            categoryEvent.getElementsByClassName('event__classifications')[0].innerText = event.classifications[0].genre.name + " / " + event.classifications[0].subGenre.name;
+        };
     }
 
     noPages() {
@@ -222,8 +225,8 @@ class ShowEventsService {
 
     createQueryResults(quantity) {
         document.getElementsByClassName('content__events')[0].innerHTML = '';
-        const QueryResults = document.createElement('search-events');
-        document.getElementsByClassName('content__events')[0].appendChild(QueryResults);
+        const queryResults = document.createElement('search-events');
+        document.getElementsByClassName('content__events')[0].appendChild(queryResults);
         new __WEBPACK_IMPORTED_MODULE_0__event_group_component_search_events_component_search_events_component__["a" /* SearchEventsComponent */](quantity);
     }
 
@@ -534,7 +537,7 @@ class AddOptionsComponent {
     }
 
     showSubCategoriesData(category, APIdata) {
-        const subCategory = document.getElementsByName('keyword')[0];
+        const subCategory = document.getElementsByName('keyword')[1];
         category.onchange = function () {
             subCategory.style.display = "block";
             subCategory.innerHTML = '<option selected>Select sub category</option>';
@@ -802,6 +805,9 @@ class EventComponent {
                             <p></p>
                         </div>
                         <span class="info">Read more...</span>
+                        <div class="event__classifications">
+                            <p></p>
+                        </div>
                         <div class="event__data">
                             <span class="date"></span><span> at </span><span class="time"></span>
                         </div>
@@ -824,11 +830,23 @@ class EventComponent {
     }
 
     openDescription() {
-        Array.from(document.getElementsByClassName('event')).forEach(event => {
+        Array.from(document.getElementsByClassName('event')).forEach((event, i, arr) => {
             event.getElementsByClassName('info')[0].onclick = () => {
                 event.getElementsByClassName('info')[0].style.display = 'none';
                 event.getElementsByClassName('event__foto')[0].style.width = '100%';
                 event.getElementsByClassName('event__descrip')[0].style.display = 'block';
+                event.getElementsByClassName('event__classifications')[0].style.display = 'block';
+                for (let j = 0; j < arr.length; j++) {
+                    if (i !== j) {
+                        arr[j].style.display = 'none';
+                        Array.from(document.getElementsByClassName('page_button')).forEach(button => {
+                            button.style.display = 'none';
+                        });
+                        Array.from(document.getElementsByClassName('events__title')).forEach(title => {
+                            title.style.display = 'none';
+                        });
+                    }
+                }
             };
             event.getElementsByClassName('event__foto')[0].onclick = event.getElementsByClassName('info')[0].onclick;
             event.getElementsByClassName('event__title')[0].onclick = event.getElementsByClassName('info')[0].onclick;

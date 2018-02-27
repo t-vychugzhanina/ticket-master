@@ -57,7 +57,7 @@ export class AddOptionsComponent{
     };
 
     showSubCategoriesData(category,APIdata) {
-        const subCategory = document.getElementsByName('keyword')[0];
+        const subCategory = document.getElementsByName('keyword')[1];
         category.onchange = function () {
             subCategory.style.display = "block";
             subCategory.innerHTML = '<option selected>Select sub category</option>';

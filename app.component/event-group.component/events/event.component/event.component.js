@@ -22,6 +22,9 @@ export class EventComponent {
                             <p></p>
                         </div>
                         <span class="info">Read more...</span>
+                        <div class="event__classifications">
+                            <p></p>
+                        </div>
                         <div class="event__data">
                             <span class="date"></span><span> at </span><span class="time"></span>
                         </div>
@@ -44,14 +47,26 @@ export class EventComponent {
     };
 
     openDescription() {
-        Array.from(document.getElementsByClassName('event')).forEach( (event) => {
+        Array.from(document.getElementsByClassName('event')).forEach( (event, i, arr) => {
             event.getElementsByClassName('info')[0].onclick = () => {
                 event.getElementsByClassName('info')[0].style.display = 'none';
                 event.getElementsByClassName('event__foto')[0].style.width = '100%';
                 event.getElementsByClassName('event__descrip')[0].style.display = 'block';
+                event.getElementsByClassName('event__classifications')[0].style.display = 'block';
+                for (let j = 0; j < arr.length; j++ ) {
+                    if (i !== j) {
+                        arr[j].style.display = 'none';
+                        Array.from(document.getElementsByClassName('page_button')).forEach( (button) => {
+                            button.style.display = 'none';
+                        });
+                        Array.from(document.getElementsByClassName('events__title')).forEach( (title) => {
+                            title.style.display = 'none';
+                        });
+                    }
+                }
             };
-            event.getElementsByClassName('event__foto')[0].onclick = event.getElementsByClassName('info')[0].onclick;
-            event.getElementsByClassName('event__title')[0].onclick = event.getElementsByClassName('info')[0].onclick;
+        event.getElementsByClassName('event__foto')[0].onclick = event.getElementsByClassName('info')[0].onclick;
+        event.getElementsByClassName('event__title')[0].onclick = event.getElementsByClassName('info')[0].onclick;
         });
     }
 

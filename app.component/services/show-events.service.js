@@ -53,6 +53,9 @@ export class ShowEventsService {
         } else {
             categoryEvent.getElementsByClassName('info')[0].style.display = "none";
         };
+        if (event.classifications !== undefined) {
+            categoryEvent.getElementsByClassName('event__classifications')[0].innerText = event.classifications[0].genre.name + " / " + event.classifications[0].subGenre.name;
+        };
     };
 
     noPages() {
@@ -65,8 +68,8 @@ export class ShowEventsService {
 
     createQueryResults(quantity) {
         document.getElementsByClassName('content__events')[0].innerHTML = '';
-        const QueryResults = document.createElement('search-events');
-        document.getElementsByClassName('content__events')[0].appendChild(QueryResults);
+        const queryResults = document.createElement('search-events');
+        document.getElementsByClassName('content__events')[0].appendChild(queryResults);
         new SearchEventsComponent(quantity);
     };
 
