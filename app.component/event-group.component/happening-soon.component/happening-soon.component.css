@@ -1,0 +1,45 @@
+.hs-event .event__foto, .hs-event .event__preview {
+    width: 100%;
+    margin: 0;
+}
+
+.hs-event .event__foto .foto__image{
+    margin: 0 auto 10px;
+    display: block;
+}
+
+.hs-event .event__descrip {
+    display: none;
+}
+
+@media screen and (max-width: 950px) {
+    .hs-event {
+        width: 49%;
+    }
+
+}
+
+@media screen and (max-width: 600px) {
+    .hs-event, .category-event {
+        width: 100%;
+        flex-direction: row;
+        margin-right: 0;
+    }
+
+    .hs-event .event__foto {
+        width: 39%;
+        margin-right: 1%;
+    }
+
+    .hs-event .event__preview {
+        width: 60%;
+    }
+
+    hs.event .event__link{
+        flex-direction: row;
+    }
+    .event-link{
+        align-items: center;
+        flex-direction: row;
+    }
+}
