@@ -647,8 +647,8 @@ class JustAnnouncedComponent {
         const source = "events.json?";
         const params = new FormData();
         params.append('size', '4');
-        params.append('startDateTime', today);
-        params.append('endDateTime', inWeek);
+        params.append('onsaleStartDateTime', today);
+        params.append('onsaleEndDateTime', inWeek);
 
         this.dataService.httpGet(params, source).then(response => this.showEventsService.showEvents(response, this.selector), error => console.log(`Rejected: ${error}`));
     }
