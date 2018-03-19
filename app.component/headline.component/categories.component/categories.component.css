@@ -1,0 +1,26 @@
+.category{
+    color:white;
+    border-bottom: #1c0721 1px solid;
+    font-size: 2.3rem;
+    padding: 5px;
+    margin: 0;
+    width: 100%;
+    text-align: center;
+    font-weight: 700;
+}
+
+.category-event {
+    padding: 0;
+    background: transparent;
+}
+
+.category__preview{
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.category-event .event__foto{
+    align-self: center;
+}
+
+

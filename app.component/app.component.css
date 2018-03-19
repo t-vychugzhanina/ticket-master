@@ -1,0 +1,15 @@
+.main-container {
+    width: 100%;
+    min-width: 280px;
+    padding-top: 50px;
+}
+
+#content_prldr{
+    position: fixed;
+    left: 0;
+    top: 0;
+    right:0;
+    bottom:0;
+    background: rgba(60, 0, 54, 0.98);
+    z-index: 100;
+}
